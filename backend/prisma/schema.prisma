@@ -1,0 +1,135 @@
+datasource db {
+    provider = "postgresql"
+}
+
+enum Role {
+    USER
+    ADMIN
+}
+
+enum QuestionType {
+    SINGLE_CHOICE
+    MULTIPLE_CHOICE
+    FREE_TEXT
+}
+
+enum Difficulty {
+    JUNIOR
+    MID
+    SENIOR
+}
+
+enum QuizSessionStatus {
+    IN_PROGRESS
+    COMPLETED
+    ABANDONED
+}
+
+model User {
+    id    String  @id @default(cuid())
+    email String  @unique
+    name  String?
+    role  Role    @default(USER)
+
+    sessions QuizSession[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Category {
+    id   String @id @default(cuid())
+    name String @unique
+    slug String @unique
+
+    questions Question[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Question {
+    id String @id @default(cuid())
+
+    categoryId String
+    category   Category @relation(fields: [categoryId], references: [id])
+
+    text        String
+    explanation String?
+
+    type       QuestionType
+    difficulty Difficulty
+
+    aiGenerated Boolean @default(false)
+
+    answerOptions AnswerOption[]
+    responses     QuizResponse[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([categoryId])
+    @@index([difficulty])
+    @@index([type])
+}
+
+model AnswerOption {
+    id String @id @default(cuid())
+
+    questionId String
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+    text      String
+    isCorrect Boolean
+
+    responses QuizResponseAnswer[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model QuizResponse {
+    id String @id @default(cuid())
+
+    sessionId String
+    session   QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    questionId String
+    question   Question @relation(fields: [questionId], references: [id])
+
+    answers    QuizResponseAnswer[]
+    textAnswer String?
+
+    isCorrect Boolean?
+    score     Float?
+    feedback  String?
+
+    answeredAt DateTime @default(now())
+
+    @@index([sessionId])
+    @@index([questionId])
+}
+
+model QuizResponseAnswer {
+    responseId String
+    response   QuizResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+
+    answerOptionId String
+    answerOption   AnswerOption @relation(fields: [answerOptionId], references: [id], onDelete: Cascade)
+
+    @@id([responseId, answerOptionId])
+}
+
+model QuizSession {
+    id String @id @default(cuid())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    status QuizSessionStatus @default(IN_PROGRESS)
+
+    responses QuizResponse[]
+
+    startedAt   DateTime  @default(now())
+    completedAt DateTime?
+}

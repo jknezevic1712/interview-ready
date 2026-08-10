@@ -1,6 +1,6 @@
 generator client {
     provider = "prisma-client"
-    output   = "../generated/prisma"
+    output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -111,6 +111,7 @@ model QuizResponse {
 
     answeredAt DateTime @default(now())
 
+    @@unique([sessionId, questionId])
     @@index([sessionId])
     @@index([questionId])
 }

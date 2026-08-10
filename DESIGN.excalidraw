@@ -478,7 +478,7 @@
       "type": "text",
       "x": 771.8658340082583,
       "y": 31.68563080341488,
-      "width": 208.13392185111678,
+      "width": 156.02398681640625,
       "height": 118.25807418586263,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -495,20 +495,20 @@
       "index": "aB",
       "roundness": null,
       "seed": 1823256669,
-      "version": 251,
-      "versionNonce": 1623762643,
+      "version": 256,
+      "versionNonce": 1725719453,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1786360957013,
+      "updated": 1786361542357,
       "link": null,
       "locked": false,
-      "text": "id: string | GUID\nemail: string\nname: string\nrole: USER | ADMIN\ncreatedAt: string\nupdatedAt: string | null",
+      "text": "id: string | GUID\nemail: string\nname: string\nrole: USER | ADMIN\ncreatedAt: string\nupdatedAt: string",
       "fontSize": 15.767743224781682,
       "fontFamily": 8,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "id: string | GUID\nemail: string\nname: string\nrole: USER | ADMIN\ncreatedAt: string\nupdatedAt: string | null",
+      "originalText": "id: string | GUID\nemail: string\nname: string\nrole: USER | ADMIN\ncreatedAt: string\nupdatedAt: string",
       "autoResize": true,
       "lineHeight": 1.25
     },
@@ -979,8 +979,8 @@
       "index": "aS",
       "roundness": null,
       "seed": 877579773,
-      "version": 798,
-      "versionNonce": 1564259635,
+      "version": 802,
+      "versionNonce": 742074003,
       "isDeleted": false,
       "boundElements": [
         {
@@ -992,16 +992,16 @@
           "type": "arrow"
         }
       ],
-      "updated": 1786360863351,
+      "updated": 1786361549738,
       "link": null,
       "locked": false,
-      "text": "id: string | GUID\ntext: string\nexplanation: string | null\ncategory: Category\ntype: SINGLE_CHOICE |\nMULTIPLE_CHOICE | FREE_TEXT\ndifficulty\ncategoryId\nexplanation\ncreatedAt: string\nupdatedAt: string | null",
+      "text": "id: string | GUID\ntext: string\nexplanation: string | null\ncategory: Category\ntype: SINGLE_CHOICE |\nMULTIPLE_CHOICE | FREE_TEXT\ndifficulty\ncategoryId\nexplanation\ncreatedAt: string\nupdatedAt: string",
       "fontSize": 16.2588912719868,
       "fontFamily": 8,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "id: string | GUID\ntext: string\nexplanation: string | null\ncategory: Category\ntype: SINGLE_CHOICE | MULTIPLE_CHOICE | FREE_TEXT\ndifficulty\ncategoryId\nexplanation\ncreatedAt: string\nupdatedAt: string | null",
+      "originalText": "id: string | GUID\ntext: string\nexplanation: string | null\ncategory: Category\ntype: SINGLE_CHOICE | MULTIPLE_CHOICE | FREE_TEXT\ndifficulty\ncategoryId\nexplanation\ncreatedAt: string\nupdatedAt: string",
       "autoResize": false,
       "lineHeight": 1.25
     },
@@ -1474,10 +1474,10 @@
     {
       "id": "0Ix_b9Y2riL7syuaZvQKH",
       "type": "arrow",
-      "x": 1966.402038252307,
-      "y": 773.2646268389489,
-      "width": 165.39389655330183,
-      "height": 38.125263993254066,
+      "x": 1906.6759849060359,
+      "y": 766.9523638801941,
+      "width": 225.11994989957293,
+      "height": 46.076435653254634,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1493,11 +1493,11 @@
         "type": 2
       },
       "seed": 495045523,
-      "version": 2152,
-      "versionNonce": 954146909,
+      "version": 2156,
+      "versionNonce": 903758077,
       "isDeleted": false,
       "boundElements": [],
-      "updated": 1786360892897,
+      "updated": 1786361557732,
       "link": null,
       "locked": false,
       "points": [
@@ -1506,8 +1506,8 @@
           0
         ],
         [
-          165.39389655330183,
-          38.125263993254066
+          225.11994989957293,
+          46.076435653254634
         ]
       ],
       "lastCommittedPoint": null,
@@ -1804,7 +1804,7 @@
       "type": "text",
       "x": 1752.6971735839409,
       "y": 722.2764144787907,
-      "width": 204.74433337556806,
+      "width": 145.01828002929688,
       "height": 96.98197117005728,
       "angle": 0,
       "strokeColor": "#1e1e1e",
@@ -1821,8 +1821,8 @@
       "index": "b03",
       "roundness": null,
       "seed": 843125299,
-      "version": 177,
-      "versionNonce": 548363699,
+      "version": 182,
+      "versionNonce": 1118428317,
       "isDeleted": false,
       "boundElements": [
         {
@@ -1830,26 +1830,26 @@
           "type": "arrow"
         }
       ],
-      "updated": 1786360908044,
+      "updated": 1786361557732,
       "link": null,
       "locked": false,
-      "text": "id: string | GUID\nname: string\nslug: string\ncreatedAt: string\nupdatedAt: string | null",
+      "text": "id: string | GUID\nname: string\nslug: string\ncreatedAt: string\nupdatedAt: string",
       "fontSize": 15.517115387209165,
       "fontFamily": 8,
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "id: string | GUID\nname: string\nslug: string\ncreatedAt: string\nupdatedAt: string | null",
+      "originalText": "id: string | GUID\nname: string\nslug: string\ncreatedAt: string\nupdatedAt: string",
       "autoResize": true,
       "lineHeight": 1.25
     },
     {
       "id": "PPhGUvriBnDsht_1MxKRR",
       "type": "arrow",
-      "x": 1483.2000732421875,
-      "y": 775.5226302057351,
-      "width": 238.33056136244295,
-      "height": 14.244078690815627,
+      "x": 1483.2000732421877,
+      "y": 775.536615957538,
+      "width": 238.33056136244272,
+      "height": 14.250491939453582,
       "angle": 0,
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
@@ -1865,11 +1865,11 @@
         "type": 2
       },
       "seed": 617331837,
-      "version": 248,
-      "versionNonce": 1092328733,
+      "version": 252,
+      "versionNonce": 1172233267,
       "isDeleted": false,
       "boundElements": null,
-      "updated": 1786360903007,
+      "updated": 1786361549738,
       "link": null,
       "locked": false,
       "points": [
@@ -1878,8 +1878,8 @@
           0
         ],
         [
-          238.33056136244295,
-          -14.244078690815627
+          238.33056136244272,
+          -14.250491939453582
         ]
       ],
       "lastCommittedPoint": null,

@@ -14,7 +14,8 @@ export class PrismaService
       connectionString: env.DATABASE_URL,
     });
 
-    super({ adapter });
+    // TODO don't deploy log
+    super({ adapter, log: ['query', 'info', 'warn', 'error'] });
   }
 
   async onModuleInit() {

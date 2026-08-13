@@ -31,7 +31,7 @@ enum QuizSessionStatus {
 }
 
 model User {
-    id    String  @id @default(cuid())
+    id    String  @id @default(cuid(2))
     email String  @unique
     name  String?
     role  Role    @default(USER)
@@ -43,7 +43,7 @@ model User {
 }
 
 model Category {
-    id   String @id @default(cuid())
+    id   String @id @default(cuid(2))
     name String @unique
     slug String @unique
 
@@ -54,7 +54,7 @@ model Category {
 }
 
 model Question {
-    id String @id @default(cuid())
+    id String @id @default(cuid(2))
 
     categoryId String
     category   Category @relation(fields: [categoryId], references: [id])
@@ -79,7 +79,7 @@ model Question {
 }
 
 model AnswerOption {
-    id String @id @default(cuid())
+    id String @id @default(cuid(2))
 
     questionId String
     question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
@@ -94,7 +94,7 @@ model AnswerOption {
 }
 
 model QuizResponse {
-    id String @id @default(cuid())
+    id String @id @default(cuid(2))
 
     sessionId String
     session   QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
@@ -127,7 +127,7 @@ model QuizResponseAnswer {
 }
 
 model QuizSession {
-    id String @id @default(cuid())
+    id String @id @default(cuid(2))
 
     userId String
     user   User   @relation(fields: [userId], references: [id])

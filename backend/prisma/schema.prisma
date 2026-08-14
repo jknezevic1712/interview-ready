@@ -1,6 +1,6 @@
 generator client {
     provider = "prisma-client"
-    output   = "../src/generated/prisma"
+    output   = "../src/types/prisma"
 }
 
 datasource db {
@@ -31,10 +31,10 @@ enum QuizSessionStatus {
 }
 
 model User {
-    id    String  @id @default(cuid(2))
-    email String  @unique
-    name  String?
-    role  Role    @default(USER)
+    id    String @id @default(cuid(2))
+    email String @unique
+    name  String
+    role  Role   @default(USER)
 
     sessions QuizSession[]
 

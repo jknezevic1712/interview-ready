@@ -28,8 +28,14 @@ export class QuizSessionController {
 		return this.quizSessionService.createQuizSession(userId);
 	}
 
-	@Patch('quizSession')
-	updateQuizSession(@Body() quizSession: QuizSession): Promise<QuizSession> {
-		return this.quizSessionService.updateQuizSession(quizSession);
+	@Patch('quizSession/:quizSessionId')
+	updateQuizSessionStatus(
+		@Param('quizSessionId', ParseCuid2Pipe) quizSessionId: string,
+		@Body() quizSessionStatus: QuizSession['status'],
+	): Promise<QuizSession> {
+		return this.quizSessionService.updateQuizSessionStatus(
+			quizSessionId,
+			quizSessionStatus,
+		);
 	}
 }

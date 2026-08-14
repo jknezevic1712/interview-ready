@@ -22,13 +22,19 @@ export class QuizSessionService {
 		return this.quizRepository.createQuizSession(userId);
 	}
 
-	updateQuizSession(quizSession: QuizSession): Promise<QuizSession> {
-		if (quizSession.status !== QuizSessionStatus.IN_PROGRESS) {
+	updateQuizSessionStatus(
+		quizSessionId: string,
+		quizSessionStatus: QuizSession['status'],
+	): Promise<QuizSession> {
+		if (quizSessionStatus !== QuizSessionStatus.IN_PROGRESS) {
 			throw new ForbiddenException(
 				'Updating quiz session not in progress prohibited',
 			);
 		}
 
-		return this.quizRepository.updateQuizSession(quizSession);
+		return this.quizRepository.updateQuizSessionStatus(
+			quizSessionId,
+			quizSessionStatus,
+		);
 	}
 }

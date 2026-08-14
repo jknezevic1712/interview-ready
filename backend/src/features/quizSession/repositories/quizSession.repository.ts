@@ -51,20 +51,25 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		return newQuizSession;
 	}
 
-	async updateQuizSession(quizSession: QuizSession): Promise<QuizSession> {
+	async updateQuizSessionStatus(
+		quizSessionId: string,
+		quizSessionStatus: QuizSession['status'],
+	): Promise<QuizSession> {
 		try {
 			return await this.db.quizSession.update({
 				where: {
-					id: quizSession.id,
+					id: quizSessionId,
 				},
-				data: quizSession,
+				data: {
+					status: quizSessionStatus,
+				},
 			});
 		} catch (error) {
 			if (
 				error instanceof PrismaClientKnownRequestError &&
 				error.code === PrismaErrorCodes.RecordNotFound
 			) {
-				throw new QuizSessionNotFoundException(quizSession.id);
+				throw new QuizSessionNotFoundException(quizSessionId);
 			}
 
 			throw error;

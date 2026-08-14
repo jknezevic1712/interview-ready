@@ -1,4 +1,4 @@
-import { Category } from 'src/generated/prisma/client';
+import { Category } from 'src/types/prisma/client';
 import type { ICategoriesRepository } from './contracts/categories.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CATEGORIES_REPOSITORY } from './tokens/categories.tokens';

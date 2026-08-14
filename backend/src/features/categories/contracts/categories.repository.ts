@@ -1,4 +1,4 @@
-import { Category } from 'src/generated/prisma/client';
+import { Category } from 'src/types/prisma/client';
 
 export interface ICategoriesRepository {
   getAll(): Promise<Category[]>;

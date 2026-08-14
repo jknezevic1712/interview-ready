@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Category } from 'src/generated/prisma/client';
+import { Category } from 'src/types/prisma/client';
 import { CategoriesService } from './categories.service';
 import { ParseCuid2Pipe } from 'src/utilities/pipes/parseCuid2.pipe';
 

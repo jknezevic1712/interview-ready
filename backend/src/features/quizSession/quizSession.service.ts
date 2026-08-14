@@ -1,7 +1,7 @@
 import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
 import type { IQuizSessionRepository } from './contracts/quizSession.repository';
-import { QuizSession, QuizSessionStatus } from 'src/types/prisma/client';
+import { QuizSession, QuizSessionStatus } from 'src/types/client';
 
 @Injectable()
 export class QuizSessionService {

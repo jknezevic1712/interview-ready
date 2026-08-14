@@ -1,4 +1,4 @@
-import { QuizSession } from 'src/types/prisma/client';
+import { QuizSession } from 'src/types/client';
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSession[]>;

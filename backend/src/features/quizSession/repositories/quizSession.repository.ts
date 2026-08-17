@@ -6,9 +6,6 @@ import {
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizSession } from 'src/common/types/client';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
-import { PrismaErrorCodes } from 'src/common/enums/prismaErrorCodes.enum';
-import { QuizSessionNotFoundException } from 'src/common/exceptions/quizSessionNotFound.exception';
 import { GetQuizSessionDto } from 'src/common/DTO/quizSession/getQuizSession.dto';
 import { quizSessionWithUserSelect } from '../quizSession.selects';
 
@@ -56,29 +53,18 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		return newQuizSession;
 	}
 
-	async updateQuizSessionStatus(
+	updateQuizSessionStatus(
 		quizSessionId: string,
 		quizSessionStatus: QuizSession['status'],
 	): Promise<GetQuizSessionDto> {
-		try {
-			return await this.db.quizSession.update({
-				where: {
-					id: quizSessionId,
-				},
-				data: {
-					status: quizSessionStatus,
-				},
-				select: quizSessionWithUserSelect,
-			});
-		} catch (error) {
-			if (
-				error instanceof PrismaClientKnownRequestError &&
-				error.code === PrismaErrorCodes.RecordNotFound
-			) {
-				throw new QuizSessionNotFoundException(quizSessionId);
-			}
-
-			throw error;
-		}
+		return this.db.quizSession.update({
+			where: {
+				id: quizSessionId,
+			},
+			data: {
+				status: quizSessionStatus,
+			},
+			select: quizSessionWithUserSelect,
+		});
 	}
 }

@@ -1,4 +1,9 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import {
+	BadRequestException,
+	ConflictException,
+	Inject,
+	Injectable,
+} from '@nestjs/common';
 import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
 import type { IQuizSessionRepository } from './contracts/quizSession.repository';
 import { QuizSession, QuizSessionStatus } from 'src/common/types/client';
@@ -30,8 +35,9 @@ export class QuizSessionService {
 		const targetQuizSession =
 			await this.quizRepository.getQuizSession(quizSessionId);
 
-		if (targetQuizSession.status === quizSessionStatus) {
-			throw new ConflictException('Quiz session already has this status');
+		// ? Validate the quiz session is in progress status
+		if (targetQuizSession.status !== QuizSessionStatus.IN_PROGRESS) {
+			throw new ConflictException('Quiz session is not in progress');
 		}
 
 		const allowedStatuses: QuizSessionStatus[] = [
@@ -39,8 +45,11 @@ export class QuizSessionService {
 			QuizSessionStatus.ABANDONED,
 		];
 
+		// ? Validate that the new quiz session status is allowed
 		if (!allowedStatuses.includes(quizSessionStatus)) {
-			throw new ConflictException('Quiz session is not in progress');
+			throw new BadRequestException(
+				'Quiz session can only be completed or abandoned',
+			);
 		}
 
 		return this.quizRepository.updateQuizSessionStatus(

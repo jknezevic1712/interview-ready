@@ -1,5 +1,5 @@
 import { Body, Get, Injectable, Param, Patch, Post } from '@nestjs/common';
-import type { QuizSession } from 'src/types/client';
+import type { QuizSession } from 'src/common/types/client';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuizSessionService } from './quizSession.service';
 

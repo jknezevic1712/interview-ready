@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QuizSession } from 'src/types/client';
+import { QuizSession } from 'src/common/types/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
 import { PrismaErrorCodes } from 'src/common/enums/prismaErrorCodes.enum';
 import { QuizSessionNotFoundException } from 'src/common/exceptions/quizSessionNotFound.exception';

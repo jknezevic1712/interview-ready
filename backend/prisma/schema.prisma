@@ -1,6 +1,9 @@
 generator client {
-    provider = "prisma-client"
-    output   = "../src/types"
+    provider               = "prisma-client"
+    output                 = "../src/common/types"
+    moduleFormat           = "cjs"
+    generatedFileExtension = "ts"
+    importFileExtension    = ""
 }
 
 datasource db {

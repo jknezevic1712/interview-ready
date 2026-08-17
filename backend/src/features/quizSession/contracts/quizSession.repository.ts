@@ -1,4 +1,4 @@
-import { QuizSession } from 'src/types/client';
+import { QuizSession } from 'src/common/types/client';
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSession[]>;

@@ -1,4 +1,4 @@
-import { Category } from 'src/types/client';
+import { Category } from 'src/common/types/client';
 
 export interface ICategoriesRepository {
 	getAll(): Promise<Category[]>;

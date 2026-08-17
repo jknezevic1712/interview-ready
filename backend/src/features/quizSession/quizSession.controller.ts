@@ -2,6 +2,7 @@ import { Body, Get, Injectable, Param, Patch, Post } from '@nestjs/common';
 import type { QuizSession } from 'src/common/types/client';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuizSessionService } from './quizSession.service';
+import { UpdateQuizSessionStatusDto } from 'src/common/DTO/quizSession/patchQuizSessionStatus.dto';
 
 @Injectable()
 export class QuizSessionController {
@@ -31,11 +32,11 @@ export class QuizSessionController {
 	@Patch('quizSession/:quizSessionId')
 	updateQuizSessionStatus(
 		@Param('quizSessionId', ParseCuid2Pipe) quizSessionId: string,
-		@Body() quizSessionStatus: QuizSession['status'],
+		@Body() body: UpdateQuizSessionStatusDto,
 	): Promise<QuizSession> {
 		return this.quizSessionService.updateQuizSessionStatus(
 			quizSessionId,
-			quizSessionStatus,
+			body.quizSessionStatus,
 		);
 	}
 }

@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { CategoriesModule } from './features/categories/categories.module';
-import { CategoriesController } from './features/categories/categories.controller';
 
 @Module({
 	imports: [PrismaModule, CategoriesModule],
@@ -13,6 +12,6 @@ import { CategoriesController } from './features/categories/categories.controlle
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(LoggerMiddleware).forRoutes(CategoriesController);
+		consumer.apply(LoggerMiddleware).forRoutes('*');
 	}
 }

@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
+	QuizSessionPayload,
+	quizSessionSelect,
 	QuizSessionWithUser,
 	quizSessionWithUserSelect,
 } from '../utilities/quizSession.selects';
@@ -20,16 +22,16 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		});
 	}
 
-	async getQuizSession(quizSessionId: string): Promise<QuizSessionWithUser> {
+	async getQuizSession(sessionId: string): Promise<QuizSessionPayload> {
 		const quizSession = await this.db.quizSession.findUnique({
 			where: {
-				id: quizSessionId,
+				id: sessionId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 
 		if (!quizSession) {
-			throw new NotFoundException(`Quiz session ${quizSessionId} not found`);
+			throw new NotFoundException(`Quiz session ${sessionId} not found`);
 		}
 
 		return quizSession;

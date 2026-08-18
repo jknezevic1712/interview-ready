@@ -8,7 +8,10 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { QuizSessionStatus } from 'src/common/types/client';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { toGetQuizSessionDto } from '../mappers/quizSession.mapper';
+import {
+	quizSessionPayloadToGetQuizSessionDto,
+	quizSessionWithUserToGetQuizSessionDto,
+} from '../mappers/quizSession.mapper';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 
 @Injectable()
@@ -20,17 +23,17 @@ export class QuizSessionService {
 
 	async getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
 		const quizSessions = await this.quizRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionDto);
+		return quizSessions.map(quizSessionWithUserToGetQuizSessionDto);
 	}
 
 	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
 		const session = await this.quizRepository.getQuizSession(quizSessionId);
-		return toGetQuizSessionDto(session);
+		return quizSessionPayloadToGetQuizSessionDto(session);
 	}
 
 	async createQuizSession(userId: string): Promise<GetQuizSessionDto> {
 		const session = await this.quizRepository.createQuizSession(userId);
-		return toGetQuizSessionDto(session);
+		return quizSessionWithUserToGetQuizSessionDto(session);
 	}
 
 	async updateQuizSessionStatus(
@@ -55,6 +58,6 @@ export class QuizSessionService {
 			quizSessionId,
 			quizSessionStatus,
 		);
-		return toGetQuizSessionDto(updatedSession);
+		return quizSessionWithUserToGetQuizSessionDto(updatedSession);
 	}
 }

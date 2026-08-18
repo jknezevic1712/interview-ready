@@ -15,7 +15,6 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 				userId,
 			},
 			select: quizSessionWithUserSelect,
-			orderBy: { startedAt: 'desc' },
 		});
 	}
 

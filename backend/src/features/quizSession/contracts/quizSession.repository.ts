@@ -1,4 +1,4 @@
-import { GetQuizSessionDto } from 'src/common/DTO/quizSession/getQuizSession.dto';
+import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { QuizSession } from 'src/common/types/client';
 
 export interface IQuizSessionRepository {

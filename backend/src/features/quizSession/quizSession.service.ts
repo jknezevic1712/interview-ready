@@ -7,7 +7,7 @@ import {
 import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
 import type { IQuizSessionRepository } from './contracts/quizSession.repository';
 import { QuizSession, QuizSessionStatus } from 'src/common/types/client';
-import { GetQuizSessionDto } from 'src/common/DTO/quizSession/getQuizSession.dto';
+import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 
 @Injectable()
 export class QuizSessionService {

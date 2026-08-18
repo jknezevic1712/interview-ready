@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuizSessionService } from './quizSession.service';
-import { UpdateQuizSessionStatusDto } from 'src/common/DTO/quizSession/patchQuizSessionStatus.dto';
-import { GetQuizSessionDto } from 'src/common/DTO/quizSession/getQuizSession.dto';
+import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
+import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 
 @Controller('quiz-session')
 export class QuizSessionController {

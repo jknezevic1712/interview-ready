@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizSession } from 'src/common/types/client';
-import { GetQuizSessionDto } from 'src/common/DTO/quizSession/getQuizSession.dto';
+import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { quizSessionWithUserSelect } from '../quizSession.selects';
 
 @Injectable()

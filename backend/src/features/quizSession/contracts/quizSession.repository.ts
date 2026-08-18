@@ -1,12 +1,12 @@
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { QuizSession } from 'src/common/types/client';
+import { QuizSessionStatus } from 'src/common/types/enums';
+import { QuizSessionWithUser } from '../quizSession.selects';
 
 export interface IQuizSessionRepository {
-	getQuizSessions(userId: string): Promise<GetQuizSessionDto[]>;
-	getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto>;
-	createQuizSession(userId: string): Promise<GetQuizSessionDto>;
+	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]>;
+	getQuizSession(quizSessionId: string): Promise<QuizSessionWithUser>;
+	createQuizSession(userId: string): Promise<QuizSessionWithUser>;
 	updateQuizSessionStatus(
 		quizSessionId: string,
-		quizSessionStatus: QuizSession['status'],
-	): Promise<GetQuizSessionDto>;
+		quizSessionStatus: QuizSessionStatus,
+	): Promise<QuizSessionWithUser>;
 }

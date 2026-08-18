@@ -1,15 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QuizSession } from 'src/common/types/client';
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { quizSessionWithUserSelect } from '../quizSession.selects';
+import {
+	QuizSessionWithUser,
+	quizSessionWithUserSelect,
+} from '../quizSession.selects';
+import { QuizSessionStatus } from 'src/common/types/enums';
 
 @Injectable()
 export class QuizSessionRepository implements IQuizSessionRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
+	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]> {
 		return this.db.quizSession.findMany({
 			where: {
 				userId,
@@ -18,7 +20,7 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		});
 	}
 
-	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
+	async getQuizSession(quizSessionId: string): Promise<QuizSessionWithUser> {
 		const quizSession = await this.db.quizSession.findUnique({
 			where: {
 				id: quizSessionId,
@@ -33,7 +35,7 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		return quizSession;
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionDto> {
+	async createQuizSession(userId: string): Promise<QuizSessionWithUser> {
 		const newQuizSession = await this.db.quizSession.create({
 			data: {
 				userId,
@@ -46,8 +48,8 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 
 	updateQuizSessionStatus(
 		quizSessionId: string,
-		quizSessionStatus: QuizSession['status'],
-	): Promise<GetQuizSessionDto> {
+		quizSessionStatus: QuizSessionStatus,
+	): Promise<QuizSessionWithUser> {
 		return this.db.quizSession.update({
 			where: {
 				id: quizSessionId,

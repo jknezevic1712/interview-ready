@@ -6,8 +6,10 @@ import {
 } from '@nestjs/common';
 import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
 import type { IQuizSessionRepository } from './contracts/quizSession.repository';
-import { QuizSession, QuizSessionStatus } from 'src/common/types/client';
+import { QuizSessionStatus } from 'src/common/types/client';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { toGetQuizSessionDto } from './mappers/quizSession.mapper';
+import { COMPLETION_STATUSES } from './constants/completionStatuses';
 
 @Injectable()
 export class QuizSessionService {
@@ -16,45 +18,43 @@ export class QuizSessionService {
 		private readonly quizRepository: IQuizSessionRepository,
 	) {}
 
-	getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
-		return this.quizRepository.getQuizSessions(userId);
+	async getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
+		const quizSessions = await this.quizRepository.getQuizSessions(userId);
+		return quizSessions.map(toGetQuizSessionDto);
 	}
 
-	getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
-		return this.quizRepository.getQuizSession(quizSessionId);
+	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
+		const session = await this.quizRepository.getQuizSession(quizSessionId);
+		return toGetQuizSessionDto(session);
 	}
 
-	createQuizSession(userId: string): Promise<GetQuizSessionDto> {
-		return this.quizRepository.createQuizSession(userId);
+	async createQuizSession(userId: string): Promise<GetQuizSessionDto> {
+		const session = await this.quizRepository.createQuizSession(userId);
+		return toGetQuizSessionDto(session);
 	}
 
 	async updateQuizSessionStatus(
 		quizSessionId: string,
-		quizSessionStatus: QuizSession['status'],
+		quizSessionStatus: QuizSessionStatus,
 	): Promise<GetQuizSessionDto> {
-		const targetQuizSession =
-			await this.quizRepository.getQuizSession(quizSessionId);
+		const quizSession = await this.quizRepository.getQuizSession(quizSessionId);
 
 		// ? Validate the quiz session is in progress status
-		if (targetQuizSession.status !== QuizSessionStatus.IN_PROGRESS) {
+		if (quizSession.status !== QuizSessionStatus.IN_PROGRESS) {
 			throw new ConflictException('Quiz session is not in progress');
 		}
 
-		const allowedStatuses: QuizSessionStatus[] = [
-			QuizSessionStatus.COMPLETED,
-			QuizSessionStatus.ABANDONED,
-		];
-
 		// ? Validate that the new quiz session status is allowed
-		if (!allowedStatuses.includes(quizSessionStatus)) {
+		if (!COMPLETION_STATUSES.includes(quizSessionStatus)) {
 			throw new BadRequestException(
 				'Quiz session can only be completed or abandoned',
 			);
 		}
 
-		return this.quizRepository.updateQuizSessionStatus(
+		const updatedSession = await this.quizRepository.updateQuizSessionStatus(
 			quizSessionId,
 			quizSessionStatus,
 		);
+		return toGetQuizSessionDto(updatedSession);
 	}
 }

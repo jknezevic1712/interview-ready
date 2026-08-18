@@ -12,13 +12,12 @@ import { QuizSessionService } from './quizSession.service';
 import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 
-@Controller('quiz-session')
+@Controller('quiz-sessions')
 export class QuizSessionController {
 	constructor(private readonly quizSessionService: QuizSessionService) {}
 
 	@Get()
 	// TODO: @CurrentUser() user: User -> add this decorator later on after auth is implemented to extract user from request
-	// Reason is security
 	getQuizSessions(
 		@Query('userId', ParseCuid2Pipe) userId: string,
 	): Promise<GetQuizSessionDto[]> {

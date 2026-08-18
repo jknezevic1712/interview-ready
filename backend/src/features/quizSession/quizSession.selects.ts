@@ -12,3 +12,7 @@ export const quizSessionWithUserSelect = {
 		},
 	},
 } satisfies Prisma.QuizSessionSelect;
+
+export type QuizSessionWithUser = Prisma.QuizSessionGetPayload<{
+	select: typeof quizSessionWithUserSelect;
+}>;

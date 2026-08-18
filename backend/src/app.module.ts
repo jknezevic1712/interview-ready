@@ -4,15 +4,15 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { CategoriesModule } from './features/categories/categories.module';
-import { CategoriesController } from './features/categories/categories.controller';
+import { QuizSessionModule } from './features/quizSession/quizSession.module';
 
 @Module({
-  imports: [PrismaModule, CategoriesModule],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [PrismaModule, CategoriesModule, QuizSessionModule],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes(CategoriesController);
-  }
+	configure(consumer: MiddlewareConsumer) {
+		consumer.apply(LoggerMiddleware).forRoutes('*');
+	}
 }

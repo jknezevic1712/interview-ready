@@ -1,26 +1,26 @@
-import { Category } from 'src/types/prisma/client';
+import { Category } from 'src/common/types/client';
 import type { ICategoriesRepository } from './contracts/categories.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CATEGORIES_REPOSITORY } from './tokens/categories.tokens';
+import { CATEGORIES_REPOSITORY } from './tokens/categories.token';
 
 @Injectable()
 export class CategoriesService {
-  constructor(
-    @Inject(CATEGORIES_REPOSITORY)
-    private readonly categoriesRepository: ICategoriesRepository,
-  ) {}
+	constructor(
+		@Inject(CATEGORIES_REPOSITORY)
+		private readonly categoriesRepository: ICategoriesRepository,
+	) {}
 
-  getAll(): Promise<Category[]> {
-    return this.categoriesRepository.getAll();
-  }
+	getAll(): Promise<Category[]> {
+		return this.categoriesRepository.getAll();
+	}
 
-  async getById(id: string): Promise<Category | null> {
-    const fetchedCategory = await this.categoriesRepository.getById(id);
+	async getById(id: string): Promise<Category | null> {
+		const fetchedCategory = await this.categoriesRepository.getById(id);
 
-    if (fetchedCategory === null) {
-      throw new NotFoundException(`Category ${id} was not found`);
-    }
+		if (fetchedCategory === null) {
+			throw new NotFoundException(`Category ${id} was not found`);
+		}
 
-    return fetchedCategory;
-  }
+		return fetchedCategory;
+	}
 }

@@ -1,8 +1,4 @@
-import {
-	BadRequestException,
-	Injectable,
-	NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuizSession } from 'src/common/types/client';
@@ -45,10 +41,6 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 			},
 			select: quizSessionWithUserSelect,
 		});
-
-		if (!newQuizSession) {
-			throw new BadRequestException('Failed to create new quiz session');
-		}
 
 		return newQuizSession;
 	}

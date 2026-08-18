@@ -8,7 +8,7 @@ import {
 	Query,
 } from '@nestjs/common';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
-import { QuizSessionService } from './quizSession.service';
+import { QuizSessionService } from '../services/quizSession.service';
 import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 

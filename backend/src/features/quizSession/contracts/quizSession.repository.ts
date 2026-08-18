@@ -1,5 +1,5 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
-import { QuizSessionWithUser } from '../quizSession.selects';
+import { QuizSessionWithUser } from '../utilities/quizSession.selects';
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]>;

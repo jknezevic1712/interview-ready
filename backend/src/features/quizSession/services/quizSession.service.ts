@@ -4,12 +4,12 @@ import {
 	Inject,
 	Injectable,
 } from '@nestjs/common';
-import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
-import type { IQuizSessionRepository } from './contracts/quizSession.repository';
+import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
+import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { QuizSessionStatus } from 'src/common/types/client';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { toGetQuizSessionDto } from './mappers/quizSession.mapper';
-import { COMPLETION_STATUSES } from './constants/completionStatuses';
+import { toGetQuizSessionDto } from '../mappers/quizSession.mapper';
+import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 
 @Injectable()
 export class QuizSessionService {

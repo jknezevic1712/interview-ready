@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import {
 	QuizSessionWithUser,
 	quizSessionWithUserSelect,
-} from '../quizSession.selects';
+} from '../utilities/quizSession.selects';
 import { QuizSessionStatus } from 'src/common/types/enums';
 
 @Injectable()

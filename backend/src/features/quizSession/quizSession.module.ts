@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { QuizSessionController } from './quizSession.controller';
-import { QuizSessionService } from './quizSession.service';
+import { QuizSessionController } from './controllers/quizSession.controller';
+import { QuizSessionService } from './services/quizSession.service';
 import { QUIZ_SESSION_REPOSITORY } from './tokens/quizSession.token';
 import { QuizSessionRepository } from './repositories/quizSession.repository';
 

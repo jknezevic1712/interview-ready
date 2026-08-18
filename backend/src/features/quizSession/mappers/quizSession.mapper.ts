@@ -1,5 +1,5 @@
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { QuizSessionWithUser } from '../quizSession.selects';
+import { QuizSessionWithUser } from '../utilities/quizSession.selects';
 
 export function toGetQuizSessionDto(
 	session: QuizSessionWithUser,

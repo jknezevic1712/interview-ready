@@ -4,8 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import {
 	QuizSessionPayload,
 	quizSessionSelect,
-	QuizSessionWithUser,
-	quizSessionWithUserSelect,
 } from '../utilities/quizSession.selects';
 import { QuizSessionStatus } from 'src/common/types/enums';
 
@@ -13,12 +11,12 @@ import { QuizSessionStatus } from 'src/common/types/enums';
 export class QuizSessionRepository implements IQuizSessionRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]> {
+	getQuizSessions(userId: string): Promise<QuizSessionPayload[]> {
 		return this.db.quizSession.findMany({
 			where: {
 				userId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 	}
 
@@ -37,12 +35,12 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		return quizSession;
 	}
 
-	async createQuizSession(userId: string): Promise<QuizSessionWithUser> {
+	async createQuizSession(userId: string): Promise<QuizSessionPayload> {
 		const newQuizSession = await this.db.quizSession.create({
 			data: {
 				userId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 
 		return newQuizSession;
@@ -51,7 +49,7 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 	updateQuizSessionStatus(
 		quizSessionId: string,
 		quizSessionStatus: QuizSessionStatus,
-	): Promise<QuizSessionWithUser> {
+	): Promise<QuizSessionPayload> {
 		return this.db.quizSession.update({
 			where: {
 				id: quizSessionId,
@@ -59,7 +57,7 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 			data: {
 				status: quizSessionStatus,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 	}
 }

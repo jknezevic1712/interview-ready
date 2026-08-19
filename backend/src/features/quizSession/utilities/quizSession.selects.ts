@@ -1,22 +1,5 @@
 import { Prisma } from 'src/common/types/client';
 
-export const quizSessionWithUserSelect = {
-	id: true,
-	status: true,
-	startedAt: true,
-	completedAt: true,
-	user: {
-		select: {
-			id: true,
-			name: true,
-		},
-	},
-} satisfies Prisma.QuizSessionSelect;
-
-export type QuizSessionWithUser = Prisma.QuizSessionGetPayload<{
-	select: typeof quizSessionWithUserSelect;
-}>;
-
 export const quizSessionSelect = {
 	id: true,
 	status: true,

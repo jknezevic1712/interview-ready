@@ -1,9 +1,4 @@
-import {
-	AnswerOption,
-	Category,
-	Question,
-	QuizResponse,
-} from 'src/common/types/client';
+import { AnswerOption, Category, Question } from 'src/common/types/client';
 
 export class GetQuestionDto {
 	id!: Question['id'];
@@ -17,8 +12,9 @@ export class GetQuestionDto {
 		name: Category['name'];
 		slug: Category['slug'];
 	};
-	answerOptions!: AnswerOption[];
-	responses!: QuizResponse[];
-	createdAt!: Question['createdAt'];
-	updatedAt!: Question['updatedAt'];
+	answerOptions!: {
+		id: AnswerOption['id'];
+		text: AnswerOption['text'];
+		isCorrect: AnswerOption['isCorrect'];
+	}[];
 }

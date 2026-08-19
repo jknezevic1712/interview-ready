@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { QuizSession, User } from 'src/common/types/client';
 
 export class GetQuizSessionLiteDto {
@@ -9,5 +10,6 @@ export class GetQuizSessionLiteDto {
 		id: User['id'];
 		name: User['name'];
 	};
+	@ApiProperty({ type: 'null', nullable: true })
 	responses!: null;
 }

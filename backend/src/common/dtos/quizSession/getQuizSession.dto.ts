@@ -2,6 +2,7 @@ import {
 	AnswerOption,
 	Category,
 	Question,
+	QuizResponseAnswer,
 	QuizSession,
 	User,
 } from 'src/common/types/client';
@@ -42,6 +43,6 @@ export class GetQuizSessionDto {
 				text: AnswerOption['text'];
 			}[];
 		};
-		answersIds: AnswerOption['id'][];
+		answersIds: QuizResponseAnswer['answerOptionId'][];
 	}[];
 }

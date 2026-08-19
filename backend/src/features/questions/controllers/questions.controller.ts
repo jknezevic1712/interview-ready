@@ -1,9 +1,11 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	HttpCode,
 	HttpStatus,
+	Patch,
 	Post,
 	Query,
 } from '@nestjs/common';
@@ -37,7 +39,7 @@ export class QuestionsController {
 		await this.questionsService.linkQuestion(sessionId, questionId);
 	}
 
-	@Post('unlink')
+	@Delete('unlink')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async unlinkQuestion(
 		@Query('sessionId', ParseCuid2Pipe) sessionId: string,
@@ -46,7 +48,7 @@ export class QuestionsController {
 		await this.questionsService.unlinkQuestion(sessionId, questionId);
 	}
 
-	@Post('archive')
+	@Patch('archive')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async archiveQuestion(
 		@Query('questionId', ParseCuid2Pipe) questionId: string,

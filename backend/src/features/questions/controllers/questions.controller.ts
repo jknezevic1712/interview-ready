@@ -59,6 +59,6 @@ export class QuestionsController {
 	async archiveQuestion(
 		@Query('questionId', ParseCuid2Pipe) questionId: string,
 	): Promise<void> {
-		return await this.questionsService.archiveQuestion(questionId);
+		await this.questionsService.archiveQuestion(questionId);
 	}
 }

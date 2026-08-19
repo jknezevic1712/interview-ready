@@ -6,10 +6,10 @@ import {
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;
-	getQuizSession(quizSessionId: string): Promise<QuizSessionPayload>;
+	getQuizSession(sessionId: string): Promise<QuizSessionPayload>;
 	createQuizSession(userId: string): Promise<QuizSessionLitePayload>;
 	updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
 	): Promise<QuizSessionPayload>;
 }

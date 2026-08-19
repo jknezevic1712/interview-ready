@@ -25,11 +25,11 @@ export class QuizSessionController {
 		return this.quizSessionService.getQuizSessions(userId);
 	}
 
-	@Get(':quizSessionId')
+	@Get(':sessionId')
 	getQuizSession(
-		@Param('quizSessionId', ParseCuid2Pipe) quizSessionId: string,
+		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
 	): Promise<GetQuizSessionDto> {
-		return this.quizSessionService.getQuizSession(quizSessionId);
+		return this.quizSessionService.getQuizSession(sessionId);
 	}
 
 	@Post(':userId')
@@ -39,13 +39,13 @@ export class QuizSessionController {
 		return this.quizSessionService.createQuizSession(userId);
 	}
 
-	@Patch(':quizSessionId')
+	@Patch(':sessionId')
 	updateQuizSessionStatus(
-		@Param('quizSessionId', ParseCuid2Pipe) quizSessionId: string,
+		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
 		@Body() body: UpdateQuizSessionStatusDto,
 	): Promise<GetQuizSessionDto> {
 		return this.quizSessionService.updateQuizSessionStatus(
-			quizSessionId,
+			sessionId,
 			body.quizSessionStatus,
 		);
 	}

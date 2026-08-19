@@ -27,8 +27,8 @@ export class QuizSessionService {
 		return quizSessions.map(toGetQuizSessionLiteDto);
 	}
 
-	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
-		const session = await this.quizRepository.getQuizSession(quizSessionId);
+	async getQuizSession(sessionId: string): Promise<GetQuizSessionDto> {
+		const session = await this.quizRepository.getQuizSession(sessionId);
 		return toGetQuizSessionDto(session);
 	}
 
@@ -38,10 +38,10 @@ export class QuizSessionService {
 	}
 
 	async updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
 	): Promise<GetQuizSessionDto> {
-		const quizSession = await this.quizRepository.getQuizSession(quizSessionId);
+		const quizSession = await this.quizRepository.getQuizSession(sessionId);
 
 		// ? Validate the quiz session is in progress status
 		if (quizSession.status !== QuizSessionStatus.IN_PROGRESS) {
@@ -49,15 +49,15 @@ export class QuizSessionService {
 		}
 
 		// ? Validate that the new quiz session status is allowed
-		if (!COMPLETION_STATUSES.includes(quizSessionStatus)) {
+		if (!COMPLETION_STATUSES.includes(sessionStatus)) {
 			throw new BadRequestException(
 				'Quiz session can only be completed or abandoned',
 			);
 		}
 
 		const updatedSession = await this.quizRepository.updateQuizSessionStatus(
-			quizSessionId,
-			quizSessionStatus,
+			sessionId,
+			sessionStatus,
 		);
 		return toGetQuizSessionDto(updatedSession);
 	}

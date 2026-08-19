@@ -47,15 +47,15 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 	}
 
 	updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
 	): Promise<QuizSessionPayload> {
 		return this.db.quizSession.update({
 			where: {
-				id: quizSessionId,
+				id: sessionId,
 			},
 			data: {
-				status: quizSessionStatus,
+				status: sessionStatus,
 			},
 			select: quizSessionSelect,
 		});

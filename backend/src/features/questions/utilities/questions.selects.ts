@@ -25,10 +25,3 @@ export const questionsSelect = {
 export type QuestionsPayload = Prisma.QuestionGetPayload<{
 	select: typeof questionsSelect;
 }>;
-
-export const questionLinkSelect = {
-	questionId: true,
-} satisfies Prisma.QuizSessionQuestionSelect;
-export type QuestionLinkPayload = Prisma.QuizSessionQuestionGetPayload<{
-	select: typeof questionLinkSelect;
-}>;

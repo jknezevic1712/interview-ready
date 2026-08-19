@@ -1,9 +1,5 @@
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import {
-	QuestionLinkPayload,
-	QuestionsPayload,
-} from '../utilities/questions.selects';
-import { QuestionLinkDto } from 'src/common/dtos/questions/questionLink.dto';
+import { QuestionsPayload } from '../utilities/questions.selects';
 
 export const toGetQuestionDto = (
 	questionsPayload: QuestionsPayload[],
@@ -26,12 +22,4 @@ export const toGetQuestionDto = (
 			isCorrect: answerOption.isCorrect,
 		})),
 	}));
-};
-
-export const toQuestionLinkDto = (
-	questionLinkPayload: QuestionLinkPayload,
-): QuestionLinkDto => {
-	return {
-		questionId: questionLinkPayload.questionId,
-	};
 };

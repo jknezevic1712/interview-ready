@@ -46,7 +46,7 @@ export class QuizSessionController {
 	): Promise<GetQuizSessionDto> {
 		return this.quizSessionService.updateQuizSessionStatus(
 			sessionId,
-			body.quizSessionStatus,
+			body.sessionStatus,
 		);
 	}
 }

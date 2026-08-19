@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { QuestionPayload, questionSelect } from '../utilities/question.selects';
 import { CreateQuestionInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
+import { extractQuestionData } from '../utilities/question.data';
 
 @Injectable()
 export class QuestionsRepository implements IQuestionsRepository {
@@ -29,17 +30,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 
 	createQuestion(data: CreateQuestionInput): Promise<QuestionPayload> {
 		return this.db.question.create({
-			data: {
-				categoryId: data.categoryId,
-				text: data.text,
-				type: data.type,
-				difficulty: data.difficulty,
-				answerOptions: {
-					createMany: { data: data.answerOptions, skipDuplicates: true },
-				},
-				explanation: data.explanation ?? null,
-				aiGenerated: data.aiGenerated ?? false,
-			},
+			data: extractQuestionData(data),
 			select: questionSelect,
 		});
 	}
@@ -49,17 +40,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 			where: {
 				id: data.questionId,
 			},
-			data: {
-				categoryId: data.categoryId,
-				text: data.text,
-				type: data.type,
-				difficulty: data.difficulty,
-				answerOptions: {
-					createMany: { data: data.answerOptions, skipDuplicates: true },
-				},
-				explanation: data.explanation ?? null,
-				aiGenerated: data.aiGenerated ?? false,
-			},
+			data: extractQuestionData(data),
 			select: questionSelect,
 		});
 	}

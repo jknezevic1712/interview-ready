@@ -108,6 +108,7 @@ export const QuestionScalarFieldEnum = {
   type: 'type',
   difficulty: 'difficulty',
   aiGenerated: 'aiGenerated',
+  isArchived: 'isArchived',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

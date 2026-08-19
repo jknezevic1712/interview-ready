@@ -70,6 +70,8 @@ model Question {
 
     aiGenerated Boolean @default(false)
 
+    isArchived Boolean @default(false)
+
     answerOptions        AnswerOption[]
     responses            QuizResponse[]
     quizSessionQuestions QuizSessionQuestion[]

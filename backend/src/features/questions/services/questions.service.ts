@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import type { IQuestionsRepository } from '../contracts/questions.repository';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
@@ -40,5 +40,18 @@ export class QuestionsService {
 			questionId,
 		);
 		return toQuestionLinkDto(questionPayload);
+	}
+
+	async archiveQuestion(questionId: string): Promise<void> {
+		const canArchiveQuestion =
+			await this.questionsRepository.canArchiveQuestion(questionId);
+
+		if (!canArchiveQuestion) {
+			throw new ConflictException(
+				'Question cannot be archived since it belongs to a quiz session',
+			);
+		}
+
+		await this.questionsRepository.archiveQuestion(questionId);
 	}
 }

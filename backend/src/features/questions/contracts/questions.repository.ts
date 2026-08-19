@@ -13,4 +13,6 @@ export interface IQuestionsRepository {
 		sessionId: string,
 		questionId: string,
 	): Promise<QuestionLinkPayload>;
+	canArchiveQuestion(questionId: string): Promise<boolean>;
+	archiveQuestion(questionId: string): Promise<void>;
 }

@@ -16,6 +16,9 @@ export class QuestionsRepository implements IQuestionsRepository {
 		const sessionQuestions = await this.db.quizSessionQuestion.findMany({
 			where: {
 				sessionId,
+				question: {
+					isArchived: false,
+				},
 			},
 			select: {
 				question: {
@@ -49,6 +52,30 @@ export class QuestionsRepository implements IQuestionsRepository {
 				sessionId_questionId: { sessionId, questionId },
 			},
 			select: questionLinkSelect,
+		});
+	}
+
+	async canArchiveQuestion(questionId: string): Promise<boolean> {
+		const isLinkedToSession = await this.db.quizSessionQuestion.findFirst({
+			where: {
+				questionId,
+			},
+			select: {
+				questionId: true,
+			},
+		});
+
+		return isLinkedToSession ? false : true;
+	}
+
+	async archiveQuestion(questionId: string): Promise<void> {
+		await this.db.question.update({
+			where: {
+				id: questionId,
+			},
+			data: {
+				isArchived: true,
+			},
 		});
 	}
 }

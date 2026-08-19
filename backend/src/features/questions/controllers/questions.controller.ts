@@ -30,4 +30,11 @@ export class QuestionsController {
 	): Promise<QuestionLinkDto> {
 		return this.questionsService.unlinkQuestion(sessionId, questionId);
 	}
+
+	@Post('archive')
+	archiveQuestion(
+		@Query('questionId', ParseCuid2Pipe) questionId: string,
+	): Promise<void> {
+		return this.questionsService.archiveQuestion(questionId);
+	}
 }

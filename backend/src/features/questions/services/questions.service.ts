@@ -2,7 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import type { IQuestionsRepository } from '../contracts/questions.repository';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { toGetQuestionDto } from '../mappers/questions.mapper';
+import {
+	toGetQuestionDto,
+	toQuestionLinkDto,
+} from '../mappers/questions.mapper';
+import { QuestionLinkDto } from 'src/common/dtos/questions/questionLink.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -14,5 +18,27 @@ export class QuestionsService {
 	async getQuestions(sessionId: string): Promise<GetQuestionDto[]> {
 		const questions = await this.questionsRepository.getQuestions(sessionId);
 		return toGetQuestionDto(questions);
+	}
+
+	async linkQuestion(
+		sessionId: string,
+		questionId: string,
+	): Promise<QuestionLinkDto> {
+		const questionPayload = await this.questionsRepository.linkQuestion(
+			sessionId,
+			questionId,
+		);
+		return toQuestionLinkDto(questionPayload);
+	}
+
+	async unlinkQuestion(
+		sessionId: string,
+		questionId: string,
+	): Promise<QuestionLinkDto> {
+		const questionPayload = await this.questionsRepository.unlinkQuestion(
+			sessionId,
+			questionId,
+		);
+		return toQuestionLinkDto(questionPayload);
 	}
 }

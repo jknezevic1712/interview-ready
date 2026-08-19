@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
+	QuizSessionLitePayload,
+	quizSessionLiteSelect,
 	QuizSessionPayload,
 	quizSessionSelect,
 } from '../utilities/quizSession.selects';
@@ -11,12 +13,12 @@ import { QuizSessionStatus } from 'src/common/types/enums';
 export class QuizSessionRepository implements IQuizSessionRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	getQuizSessions(userId: string): Promise<QuizSessionPayload[]> {
+	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]> {
 		return this.db.quizSession.findMany({
 			where: {
 				userId,
 			},
-			select: quizSessionSelect,
+			select: quizSessionLiteSelect,
 		});
 	}
 
@@ -35,15 +37,13 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		return quizSession;
 	}
 
-	async createQuizSession(userId: string): Promise<QuizSessionPayload> {
-		const newQuizSession = await this.db.quizSession.create({
+	createQuizSession(userId: string): Promise<QuizSessionLitePayload> {
+		return this.db.quizSession.create({
 			data: {
 				userId,
 			},
-			select: quizSessionSelect,
+			select: quizSessionLiteSelect,
 		});
-
-		return newQuizSession;
 	}
 
 	updateQuizSessionStatus(

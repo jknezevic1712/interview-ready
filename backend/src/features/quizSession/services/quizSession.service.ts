@@ -8,8 +8,12 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { QuizSessionStatus } from 'src/common/types/client';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { toGetQuizSessionDto } from '../mappers/quizSession.mapper';
+import {
+	toGetQuizSessionDto,
+	toGetQuizSessionLiteDto,
+} from '../mappers/quizSession.mapper';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
+import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 
 @Injectable()
 export class QuizSessionService {
@@ -18,9 +22,9 @@ export class QuizSessionService {
 		private readonly quizRepository: IQuizSessionRepository,
 	) {}
 
-	async getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
+	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteDto[]> {
 		const quizSessions = await this.quizRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionDto);
+		return quizSessions.map(toGetQuizSessionLiteDto);
 	}
 
 	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
@@ -28,9 +32,9 @@ export class QuizSessionService {
 		return toGetQuizSessionDto(session);
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionDto> {
+	async createQuizSession(userId: string): Promise<GetQuizSessionLiteDto> {
 		const session = await this.quizRepository.createQuizSession(userId);
-		return toGetQuizSessionDto(session);
+		return toGetQuizSessionLiteDto(session);
 	}
 
 	async updateQuizSessionStatus(

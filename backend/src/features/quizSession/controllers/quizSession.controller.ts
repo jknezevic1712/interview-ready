@@ -11,6 +11,7 @@ import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuizSessionService } from '../services/quizSession.service';
 import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 
 @Controller('quiz-sessions')
 export class QuizSessionController {
@@ -20,7 +21,7 @@ export class QuizSessionController {
 	// TODO: @CurrentUser() user: User -> add this decorator later on after auth is implemented to extract user from request
 	getQuizSessions(
 		@Query('userId', ParseCuid2Pipe) userId: string,
-	): Promise<GetQuizSessionDto[]> {
+	): Promise<GetQuizSessionLiteDto[]> {
 		return this.quizSessionService.getQuizSessions(userId);
 	}
 
@@ -34,7 +35,7 @@ export class QuizSessionController {
 	@Post(':userId')
 	createQuizSession(
 		@Param('userId', ParseCuid2Pipe) userId: string,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSessionLiteDto> {
 		return this.quizSessionService.createQuizSession(userId);
 	}
 

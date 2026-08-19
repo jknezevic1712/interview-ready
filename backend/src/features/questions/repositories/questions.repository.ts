@@ -3,7 +3,7 @@ import { IQuestionsRepository } from '../contracts/questions.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
 	QuestionPayload,
-	questionsSelect,
+	questionSelect,
 } from '../utilities/questions.selects';
 import { CreateQuestionInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
@@ -22,7 +22,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 			},
 			select: {
 				question: {
-					select: questionsSelect,
+					select: questionSelect,
 				},
 			},
 		});
@@ -43,7 +43,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 				explanation: data.explanation ?? null,
 				aiGenerated: data.aiGenerated ?? false,
 			},
-			select: questionsSelect,
+			select: questionSelect,
 		});
 	}
 
@@ -63,7 +63,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 				explanation: data.explanation ?? null,
 				aiGenerated: data.aiGenerated ?? false,
 			},
-			select: questionsSelect,
+			select: questionSelect,
 		});
 	}
 

@@ -1,6 +1,6 @@
 import { Prisma } from 'src/common/types/client';
 
-export const questionsSelect = {
+export const questionSelect = {
 	id: true,
 	text: true,
 	explanation: true,
@@ -23,5 +23,5 @@ export const questionsSelect = {
 	},
 } satisfies Prisma.QuestionSelect;
 export type QuestionPayload = Prisma.QuestionGetPayload<{
-	select: typeof questionsSelect;
+	select: typeof questionSelect;
 }>;

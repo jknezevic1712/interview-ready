@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { IQuestionsRepository } from '../contracts/questions.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
-	QuestionsPayload,
+	QuestionPayload,
 	questionsSelect,
 } from '../utilities/questions.selects';
 import { CreateQuestionInput } from '../types/createQuestion.input';
@@ -12,7 +12,7 @@ import { UpdateQuestionInput } from '../types/updateQuestion.input';
 export class QuestionsRepository implements IQuestionsRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	async getQuestions(sessionId: string): Promise<QuestionsPayload[]> {
+	async getQuestions(sessionId: string): Promise<QuestionPayload[]> {
 		const sessionQuestions = await this.db.quizSessionQuestion.findMany({
 			where: {
 				sessionId,
@@ -30,7 +30,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 		return sessionQuestions.map(({ question }) => question);
 	}
 
-	createQuestion(data: CreateQuestionInput): Promise<QuestionsPayload> {
+	createQuestion(data: CreateQuestionInput): Promise<QuestionPayload> {
 		return this.db.question.create({
 			data: {
 				categoryId: data.categoryId,
@@ -47,7 +47,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 		});
 	}
 
-	updateQuestion(data: UpdateQuestionInput): Promise<QuestionsPayload> {
+	updateQuestion(data: UpdateQuestionInput): Promise<QuestionPayload> {
 		return this.db.question.update({
 			where: {
 				id: data.questionId,

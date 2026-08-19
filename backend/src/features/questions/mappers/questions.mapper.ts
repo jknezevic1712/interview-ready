@@ -1,22 +1,22 @@
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { QuestionsPayload } from '../utilities/questions.selects';
+import { QuestionPayload } from '../utilities/questions.selects';
 
 export const toGetQuestionDto = (
-	questionsPayload: QuestionsPayload,
+	questionPayload: QuestionPayload,
 ): GetQuestionDto => {
 	return {
-		id: questionsPayload.id,
-		text: questionsPayload.text,
-		explanation: questionsPayload.explanation,
-		type: questionsPayload.type,
-		difficulty: questionsPayload.difficulty,
-		aiGenerated: questionsPayload.aiGenerated,
+		id: questionPayload.id,
+		text: questionPayload.text,
+		explanation: questionPayload.explanation,
+		type: questionPayload.type,
+		difficulty: questionPayload.difficulty,
+		aiGenerated: questionPayload.aiGenerated,
 		category: {
-			id: questionsPayload.category.id,
-			name: questionsPayload.category.name,
-			slug: questionsPayload.category.slug,
+			id: questionPayload.category.id,
+			name: questionPayload.category.name,
+			slug: questionPayload.category.slug,
 		},
-		answerOptions: questionsPayload.answerOptions.map((answerOption) => ({
+		answerOptions: questionPayload.answerOptions.map((answerOption) => ({
 			id: answerOption.id,
 			text: answerOption.text,
 			isCorrect: answerOption.isCorrect,

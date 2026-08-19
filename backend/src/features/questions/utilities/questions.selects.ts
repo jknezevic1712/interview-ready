@@ -22,6 +22,6 @@ export const questionsSelect = {
 		},
 	},
 } satisfies Prisma.QuestionSelect;
-export type QuestionsPayload = Prisma.QuestionGetPayload<{
+export type QuestionPayload = Prisma.QuestionGetPayload<{
 	select: typeof questionsSelect;
 }>;

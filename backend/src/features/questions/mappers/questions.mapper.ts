@@ -1,5 +1,5 @@
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { QuestionPayload } from '../utilities/questions.selects';
+import { QuestionPayload } from '../utilities/question.selects';
 
 export const toGetQuestionDto = (
 	questionPayload: QuestionPayload,

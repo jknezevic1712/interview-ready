@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IQuestionsRepository } from '../contracts/questions.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
-import {
-	QuestionPayload,
-	questionSelect,
-} from '../utilities/questions.selects';
+import { QuestionPayload, questionSelect } from '../utilities/question.selects';
 import { CreateQuestionInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
 

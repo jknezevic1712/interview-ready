@@ -1,4 +1,5 @@
 import {
+	Body,
 	Controller,
 	Get,
 	HttpCode,
@@ -9,6 +10,7 @@ import {
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuestionsService } from '../services/questions.service';
+import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
 
 @Controller('questions')
 export class QuestionsController {
@@ -19,6 +21,11 @@ export class QuestionsController {
 		@Query('sessionId', ParseCuid2Pipe) sessionId: string,
 	): Promise<GetQuestionDto[]> {
 		return this.questionsService.getQuestions(sessionId);
+	}
+
+	@Post()
+	createQuestion(@Body() body: CreateQuestionDto): Promise<GetQuestionDto> {
+		return this.questionsService.createQuestion(body);
 	}
 
 	@Post('link')

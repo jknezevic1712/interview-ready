@@ -3,6 +3,7 @@ import type { IQuestionsRepository } from '../contracts/questions.repository';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
 import { toGetQuestionDto } from '../mappers/questions.mapper';
+import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -13,7 +14,12 @@ export class QuestionsService {
 
 	async getQuestions(sessionId: string): Promise<GetQuestionDto[]> {
 		const questions = await this.questionsRepository.getQuestions(sessionId);
-		return toGetQuestionDto(questions);
+		return questions.map(toGetQuestionDto);
+	}
+
+	async createQuestion(data: CreateQuestionDto): Promise<GetQuestionDto> {
+		const question = await this.questionsRepository.createQuestion(data);
+		return toGetQuestionDto(question);
 	}
 
 	async linkQuestion(sessionId: string, questionId: string): Promise<void> {

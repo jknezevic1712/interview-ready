@@ -5,6 +5,7 @@ import {
 	QuestionsPayload,
 	questionsSelect,
 } from '../utilities/questions.selects';
+import { CreateQuestionInput } from '../types/createQuestion.input';
 
 @Injectable()
 export class QuestionsRepository implements IQuestionsRepository {
@@ -26,6 +27,23 @@ export class QuestionsRepository implements IQuestionsRepository {
 		});
 
 		return sessionQuestions.map(({ question }) => question);
+	}
+
+	createQuestion(data: CreateQuestionInput): Promise<QuestionsPayload> {
+		return this.db.question.create({
+			data: {
+				categoryId: data.categoryId,
+				text: data.text,
+				type: data.type,
+				difficulty: data.difficulty,
+				answerOptions: {
+					createMany: { data: data.answerOptions, skipDuplicates: true },
+				},
+				explanation: data.explanation ?? null,
+				aiGenerated: data.aiGenerated ?? false,
+			},
+			select: questionsSelect,
+		});
 	}
 
 	async linkQuestion(sessionId: string, questionId: string): Promise<void> {

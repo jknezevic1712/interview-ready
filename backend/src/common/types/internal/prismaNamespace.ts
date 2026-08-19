@@ -403,7 +403,8 @@ export const ModelName = {
   AnswerOption: 'AnswerOption',
   QuizResponse: 'QuizResponse',
   QuizResponseAnswer: 'QuizResponseAnswer',
-  QuizSession: 'QuizSession'
+  QuizSession: 'QuizSession',
+  QuizSessionQuestion: 'QuizSessionQuestion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "category" | "question" | "answerOption" | "quizResponse" | "quizResponseAnswer" | "quizSession"
+    modelProps: "user" | "category" | "question" | "answerOption" | "quizResponse" | "quizResponseAnswer" | "quizSession" | "quizSessionQuestion"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -941,6 +942,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    QuizSessionQuestion: {
+      payload: Prisma.$QuizSessionQuestionPayload<ExtArgs>
+      fields: Prisma.QuizSessionQuestionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.QuizSessionQuestionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.QuizSessionQuestionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        findFirst: {
+          args: Prisma.QuizSessionQuestionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.QuizSessionQuestionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        findMany: {
+          args: Prisma.QuizSessionQuestionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>[]
+        }
+        create: {
+          args: Prisma.QuizSessionQuestionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        createMany: {
+          args: Prisma.QuizSessionQuestionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.QuizSessionQuestionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>[]
+        }
+        delete: {
+          args: Prisma.QuizSessionQuestionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        update: {
+          args: Prisma.QuizSessionQuestionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        deleteMany: {
+          args: Prisma.QuizSessionQuestionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.QuizSessionQuestionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.QuizSessionQuestionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>[]
+        }
+        upsert: {
+          args: Prisma.QuizSessionQuestionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuizSessionQuestionPayload>
+        }
+        aggregate: {
+          args: Prisma.QuizSessionQuestionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateQuizSessionQuestion>
+        }
+        groupBy: {
+          args: Prisma.QuizSessionQuestionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuizSessionQuestionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.QuizSessionQuestionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.QuizSessionQuestionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1061,6 +1136,14 @@ export const QuizSessionScalarFieldEnum = {
 } as const
 
 export type QuizSessionScalarFieldEnum = (typeof QuizSessionScalarFieldEnum)[keyof typeof QuizSessionScalarFieldEnum]
+
+
+export const QuizSessionQuestionScalarFieldEnum = {
+  sessionId: 'sessionId',
+  questionId: 'questionId'
+} as const
+
+export type QuizSessionQuestionScalarFieldEnum = (typeof QuizSessionQuestionScalarFieldEnum)[keyof typeof QuizSessionQuestionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1369,6 +1452,7 @@ export type GlobalOmitConfig = {
   quizResponse?: Prisma.QuizResponseOmit
   quizResponseAnswer?: Prisma.QuizResponseAnswerOmit
   quizSession?: Prisma.QuizSessionOmit
+  quizSessionQuestion?: Prisma.QuizSessionQuestionOmit
 }
 
 /* Types for Logging */

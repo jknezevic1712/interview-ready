@@ -183,6 +183,7 @@ export type QuizSessionWhereInput = {
   startedAt?: Prisma.DateTimeFilter<"QuizSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"QuizSession"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  quizSessionQuestions?: Prisma.QuizSessionQuestionListRelationFilter
   responses?: Prisma.QuizResponseListRelationFilter
 }
 
@@ -193,6 +194,7 @@ export type QuizSessionOrderByWithRelationInput = {
   startedAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  quizSessionQuestions?: Prisma.QuizSessionQuestionOrderByRelationAggregateInput
   responses?: Prisma.QuizResponseOrderByRelationAggregateInput
 }
 
@@ -206,6 +208,7 @@ export type QuizSessionWhereUniqueInput = Prisma.AtLeast<{
   startedAt?: Prisma.DateTimeFilter<"QuizSession"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"QuizSession"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  quizSessionQuestions?: Prisma.QuizSessionQuestionListRelationFilter
   responses?: Prisma.QuizResponseListRelationFilter
 }, "id">
 
@@ -237,6 +240,7 @@ export type QuizSessionCreateInput = {
   startedAt?: Date | string
   completedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  quizSessionQuestions?: Prisma.QuizSessionQuestionCreateNestedManyWithoutSessionInput
   responses?: Prisma.QuizResponseCreateNestedManyWithoutSessionInput
 }
 
@@ -246,6 +250,7 @@ export type QuizSessionUncheckedCreateInput = {
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedCreateNestedManyWithoutSessionInput
   responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutSessionInput
 }
 
@@ -255,6 +260,7 @@ export type QuizSessionUpdateInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUpdateManyWithoutSessionNestedInput
   responses?: Prisma.QuizResponseUpdateManyWithoutSessionNestedInput
 }
 
@@ -264,6 +270,7 @@ export type QuizSessionUncheckedUpdateInput = {
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedUpdateManyWithoutSessionNestedInput
   responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutSessionNestedInput
 }
 
@@ -393,11 +400,26 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type QuizSessionCreateNestedOneWithoutQuizSessionQuestionsInput = {
+  create?: Prisma.XOR<Prisma.QuizSessionCreateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput>
+  connectOrCreate?: Prisma.QuizSessionCreateOrConnectWithoutQuizSessionQuestionsInput
+  connect?: Prisma.QuizSessionWhereUniqueInput
+}
+
+export type QuizSessionUpdateOneRequiredWithoutQuizSessionQuestionsNestedInput = {
+  create?: Prisma.XOR<Prisma.QuizSessionCreateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput>
+  connectOrCreate?: Prisma.QuizSessionCreateOrConnectWithoutQuizSessionQuestionsInput
+  upsert?: Prisma.QuizSessionUpsertWithoutQuizSessionQuestionsInput
+  connect?: Prisma.QuizSessionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.QuizSessionUpdateToOneWithWhereWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUpdateWithoutQuizSessionQuestionsInput>, Prisma.QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput>
+}
+
 export type QuizSessionCreateWithoutUserInput = {
   id?: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionCreateNestedManyWithoutSessionInput
   responses?: Prisma.QuizResponseCreateNestedManyWithoutSessionInput
 }
 
@@ -406,6 +428,7 @@ export type QuizSessionUncheckedCreateWithoutUserInput = {
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedCreateNestedManyWithoutSessionInput
   responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutSessionInput
 }
 
@@ -452,6 +475,7 @@ export type QuizSessionCreateWithoutResponsesInput = {
   startedAt?: Date | string
   completedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  quizSessionQuestions?: Prisma.QuizSessionQuestionCreateNestedManyWithoutSessionInput
 }
 
 export type QuizSessionUncheckedCreateWithoutResponsesInput = {
@@ -460,6 +484,7 @@ export type QuizSessionUncheckedCreateWithoutResponsesInput = {
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type QuizSessionCreateOrConnectWithoutResponsesInput = {
@@ -484,6 +509,7 @@ export type QuizSessionUpdateWithoutResponsesInput = {
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUpdateManyWithoutSessionNestedInput
 }
 
 export type QuizSessionUncheckedUpdateWithoutResponsesInput = {
@@ -492,6 +518,59 @@ export type QuizSessionUncheckedUpdateWithoutResponsesInput = {
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedUpdateManyWithoutSessionNestedInput
+}
+
+export type QuizSessionCreateWithoutQuizSessionQuestionsInput = {
+  id?: string
+  status?: $Enums.QuizSessionStatus
+  startedAt?: Date | string
+  completedAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  responses?: Prisma.QuizResponseCreateNestedManyWithoutSessionInput
+}
+
+export type QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput = {
+  id?: string
+  userId: string
+  status?: $Enums.QuizSessionStatus
+  startedAt?: Date | string
+  completedAt?: Date | string | null
+  responses?: Prisma.QuizResponseUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type QuizSessionCreateOrConnectWithoutQuizSessionQuestionsInput = {
+  where: Prisma.QuizSessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.QuizSessionCreateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput>
+}
+
+export type QuizSessionUpsertWithoutQuizSessionQuestionsInput = {
+  update: Prisma.XOR<Prisma.QuizSessionUpdateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput>
+  create: Prisma.XOR<Prisma.QuizSessionCreateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput>
+  where?: Prisma.QuizSessionWhereInput
+}
+
+export type QuizSessionUpdateToOneWithWhereWithoutQuizSessionQuestionsInput = {
+  where?: Prisma.QuizSessionWhereInput
+  data: Prisma.XOR<Prisma.QuizSessionUpdateWithoutQuizSessionQuestionsInput, Prisma.QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput>
+}
+
+export type QuizSessionUpdateWithoutQuizSessionQuestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  responses?: Prisma.QuizResponseUpdateManyWithoutSessionNestedInput
+}
+
+export type QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
+  startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type QuizSessionCreateManyUserInput = {
@@ -506,6 +585,7 @@ export type QuizSessionUpdateWithoutUserInput = {
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUpdateManyWithoutSessionNestedInput
   responses?: Prisma.QuizResponseUpdateManyWithoutSessionNestedInput
 }
 
@@ -514,6 +594,7 @@ export type QuizSessionUncheckedUpdateWithoutUserInput = {
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  quizSessionQuestions?: Prisma.QuizSessionQuestionUncheckedUpdateManyWithoutSessionNestedInput
   responses?: Prisma.QuizResponseUncheckedUpdateManyWithoutSessionNestedInput
 }
 
@@ -530,10 +611,12 @@ export type QuizSessionUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type QuizSessionCountOutputType = {
+  quizSessionQuestions: number
   responses: number
 }
 
 export type QuizSessionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  quizSessionQuestions?: boolean | QuizSessionCountOutputTypeCountQuizSessionQuestionsArgs
   responses?: boolean | QuizSessionCountOutputTypeCountResponsesArgs
 }
 
@@ -545,6 +628,13 @@ export type QuizSessionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.
    * Select specific fields to fetch from the QuizSessionCountOutputType
    */
   select?: Prisma.QuizSessionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * QuizSessionCountOutputType without action
+ */
+export type QuizSessionCountOutputTypeCountQuizSessionQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.QuizSessionQuestionWhereInput
 }
 
 /**
@@ -562,6 +652,7 @@ export type QuizSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   startedAt?: boolean
   completedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  quizSessionQuestions?: boolean | Prisma.QuizSession$quizSessionQuestionsArgs<ExtArgs>
   responses?: boolean | Prisma.QuizSession$responsesArgs<ExtArgs>
   _count?: boolean | Prisma.QuizSessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quizSession"]>
@@ -595,6 +686,7 @@ export type QuizSessionSelectScalar = {
 export type QuizSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "startedAt" | "completedAt", ExtArgs["result"]["quizSession"]>
 export type QuizSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  quizSessionQuestions?: boolean | Prisma.QuizSession$quizSessionQuestionsArgs<ExtArgs>
   responses?: boolean | Prisma.QuizSession$responsesArgs<ExtArgs>
   _count?: boolean | Prisma.QuizSessionCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -609,6 +701,7 @@ export type $QuizSessionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "QuizSession"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    quizSessionQuestions: Prisma.$QuizSessionQuestionPayload<ExtArgs>[]
     responses: Prisma.$QuizResponsePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1012,6 +1105,7 @@ readonly fields: QuizSessionFieldRefs;
 export interface Prisma__QuizSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  quizSessionQuestions<T extends Prisma.QuizSession$quizSessionQuestionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuizSession$quizSessionQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizSessionQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   responses<T extends Prisma.QuizSession$responsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.QuizSession$responsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuizResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1445,6 +1539,30 @@ export type QuizSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many QuizSessions to delete.
    */
   limit?: number
+}
+
+/**
+ * QuizSession.quizSessionQuestions
+ */
+export type QuizSession$quizSessionQuestionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the QuizSessionQuestion
+   */
+  select?: Prisma.QuizSessionQuestionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the QuizSessionQuestion
+   */
+  omit?: Prisma.QuizSessionQuestionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuizSessionQuestionInclude<ExtArgs> | null
+  where?: Prisma.QuizSessionQuestionWhereInput
+  orderBy?: Prisma.QuizSessionQuestionOrderByWithRelationInput | Prisma.QuizSessionQuestionOrderByWithRelationInput[]
+  cursor?: Prisma.QuizSessionQuestionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.QuizSessionQuestionScalarFieldEnum | Prisma.QuizSessionQuestionScalarFieldEnum[]
 }
 
 /**

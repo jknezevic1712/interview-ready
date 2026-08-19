@@ -57,7 +57,8 @@ export const ModelName = {
   AnswerOption: 'AnswerOption',
   QuizResponse: 'QuizResponse',
   QuizResponseAnswer: 'QuizResponseAnswer',
-  QuizSession: 'QuizSession'
+  QuizSession: 'QuizSession',
+  QuizSessionQuestion: 'QuizSessionQuestion'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -157,6 +158,14 @@ export const QuizSessionScalarFieldEnum = {
 } as const
 
 export type QuizSessionScalarFieldEnum = (typeof QuizSessionScalarFieldEnum)[keyof typeof QuizSessionScalarFieldEnum]
+
+
+export const QuizSessionQuestionScalarFieldEnum = {
+  sessionId: 'sessionId',
+  questionId: 'questionId'
+} as const
+
+export type QuizSessionQuestionScalarFieldEnum = (typeof QuizSessionQuestionScalarFieldEnum)[keyof typeof QuizSessionQuestionScalarFieldEnum]
 
 
 export const SortOrder = {

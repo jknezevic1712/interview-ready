@@ -16,7 +16,7 @@ export class GetQuizSessionDto {
 		id: User['id'];
 		name: User['name'];
 	};
-	responses?: {
+	responses!: {
 		id: string;
 		textAnswer: string | null;
 		isCorrect: boolean | null;

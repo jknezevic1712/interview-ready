@@ -80,9 +80,27 @@ export class QuizSessionService {
 				data.questionId,
 			);
 
+		this.validateQuizSessionQuestionRecord(
+			quizSessionQuestionRecord,
+			data.sessionId,
+			data.questionId,
+		);
+
+		const quizResponse = await this.quizSessionRepository.createQuizResponse(
+			this.getQuizResponseData(data, quizSessionQuestionRecord!.question),
+		);
+
+		return toGetQuizResponseDto(quizResponse);
+	}
+
+	private validateQuizSessionQuestionRecord(
+		quizSessionQuestionRecord: QuizSessionQuestionLitePayload | null,
+		sessionId: string,
+		questionId: string,
+	) {
 		if (!quizSessionQuestionRecord) {
 			throw new NotFoundException(
-				`Question ${data.questionId} not found for session ${data.sessionId}`,
+				`Question ${questionId} not found for session ${sessionId}`,
 			);
 		}
 
@@ -93,14 +111,8 @@ export class QuizSessionService {
 		}
 
 		if (!quizSessionQuestionRecord.question) {
-			throw new NotFoundException(`Question ${data.questionId} not found`);
+			throw new NotFoundException(`Question ${questionId} not found`);
 		}
-
-		const quizResponse = await this.quizSessionRepository.createQuizResponse(
-			this.getQuizResponseData(data, quizSessionQuestionRecord.question),
-		);
-
-		return toGetQuizResponseDto(quizResponse);
 	}
 
 	private getQuizResponseData(

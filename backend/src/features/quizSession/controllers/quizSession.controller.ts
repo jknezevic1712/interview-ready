@@ -12,6 +12,8 @@ import { QuizSessionService } from '../services/quizSession.service';
 import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
 
 @Controller('quiz-sessions')
 export class QuizSessionController {
@@ -48,5 +50,12 @@ export class QuizSessionController {
 			sessionId,
 			body.sessionStatus,
 		);
+	}
+
+	@Post('/response')
+	createQuizResponse(
+		@Body() body: CreateQuizResponseDto,
+	): Promise<GetQuizResponseDto> {
+		return this.quizSessionService.createQuizResponse(body);
 	}
 }

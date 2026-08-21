@@ -5,9 +5,13 @@ import {
 	QuizSessionLitePayload,
 	quizSessionLiteSelect,
 	QuizSessionPayload,
+	QuizSessionQuestionLitePayload,
+	quizSessionQuestionLiteSelect,
 	quizSessionSelect,
 } from '../utilities/quizSession.selects';
 import { QuizSessionStatus } from 'src/common/types/enums';
+import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
+import { QuizResponse } from 'src/common/types/client';
 
 @Injectable()
 export class QuizSessionRepository implements IQuizSessionRepository {
@@ -58,6 +62,40 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 				status: sessionStatus,
 			},
 			select: quizSessionSelect,
+		});
+	}
+
+	getQuizSessionQuestionRecordLite(
+		sessionId: string,
+		questionId: string,
+	): Promise<QuizSessionQuestionLitePayload | null> {
+		return this.db.quizSessionQuestion.findUnique({
+			where: {
+				sessionId_questionId: {
+					sessionId,
+					questionId,
+				},
+			},
+			select: quizSessionQuestionLiteSelect,
+		});
+	}
+
+	createQuizResponse(data: CreateQuizResponseInput): Promise<QuizResponse> {
+		return this.db.quizResponse.create({
+			data: {
+				sessionId: data.sessionId,
+				questionId: data.questionId,
+				textAnswer: data.textAnswer,
+				answers: {
+					createMany: {
+						data: data.answerOptionIds,
+						skipDuplicates: true,
+					},
+				},
+				isCorrect: data.isCorrect,
+				score: data.score,
+				feedback: data.feedback,
+			},
 		});
 	}
 }

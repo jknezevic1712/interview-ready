@@ -70,7 +70,24 @@ export const quizSessionSelect = {
 		},
 	},
 } satisfies Prisma.QuizSessionSelect;
-
 export type QuizSessionPayload = Prisma.QuizSessionGetPayload<{
 	select: typeof quizSessionSelect;
 }>;
+
+export const quizSessionQuestionLiteSelect = {
+	session: {
+		select: {
+			status: true,
+		},
+	},
+	question: {
+		select: {
+			difficulty: true,
+			answerOptions: true,
+		},
+	},
+} satisfies Prisma.QuizSessionQuestionSelect;
+export type QuizSessionQuestionLitePayload =
+	Prisma.QuizSessionQuestionGetPayload<{
+		select: typeof quizSessionQuestionLiteSelect;
+	}>;

@@ -4,6 +4,8 @@ import {
 	QuizSessionPayload,
 } from '../utilities/quizSession.selects';
 import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { QuizResponse } from 'src/common/types/client';
 
 export function toGetQuizSessionDto(
 	session: QuizSessionPayload,
@@ -41,5 +43,16 @@ export function toGetQuizSessionLiteDto(
 			name: session.user.name,
 		},
 		responses: null,
+	};
+}
+
+export function toGetQuizResponseDto(
+	quizResponse: QuizResponse,
+): GetQuizResponseDto {
+	return {
+		id: quizResponse.id,
+		isCorrect: quizResponse.isCorrect,
+		score: quizResponse.score,
+		answeredAt: quizResponse.answeredAt,
 	};
 }

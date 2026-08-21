@@ -1,12 +1,15 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
-import { QuizSessionWithUser } from '../utilities/quizSession.selects';
+import {
+	QuizSessionLitePayload,
+	QuizSessionPayload,
+} from '../utilities/quizSession.selects';
 
 export interface IQuizSessionRepository {
-	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]>;
-	getQuizSession(quizSessionId: string): Promise<QuizSessionWithUser>;
-	createQuizSession(userId: string): Promise<QuizSessionWithUser>;
+	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;
+	getQuizSession(sessionId: string): Promise<QuizSessionPayload>;
+	createQuizSession(userId: string): Promise<QuizSessionLitePayload>;
 	updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
-	): Promise<QuizSessionWithUser>;
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
+	): Promise<QuizSessionPayload>;
 }

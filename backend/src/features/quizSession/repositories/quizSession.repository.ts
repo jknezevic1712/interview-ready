@@ -2,8 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
-	QuizSessionWithUser,
-	quizSessionWithUserSelect,
+	QuizSessionLitePayload,
+	quizSessionLiteSelect,
+	QuizSessionPayload,
+	quizSessionSelect,
 } from '../utilities/quizSession.selects';
 import { QuizSessionStatus } from 'src/common/types/enums';
 
@@ -11,53 +13,51 @@ import { QuizSessionStatus } from 'src/common/types/enums';
 export class QuizSessionRepository implements IQuizSessionRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	getQuizSessions(userId: string): Promise<QuizSessionWithUser[]> {
+	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]> {
 		return this.db.quizSession.findMany({
 			where: {
 				userId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionLiteSelect,
 		});
 	}
 
-	async getQuizSession(quizSessionId: string): Promise<QuizSessionWithUser> {
+	async getQuizSession(sessionId: string): Promise<QuizSessionPayload> {
 		const quizSession = await this.db.quizSession.findUnique({
 			where: {
-				id: quizSessionId,
+				id: sessionId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 
 		if (!quizSession) {
-			throw new NotFoundException(`Quiz session ${quizSessionId} not found`);
+			throw new NotFoundException(`Quiz session ${sessionId} not found`);
 		}
 
 		return quizSession;
 	}
 
-	async createQuizSession(userId: string): Promise<QuizSessionWithUser> {
-		const newQuizSession = await this.db.quizSession.create({
+	createQuizSession(userId: string): Promise<QuizSessionLitePayload> {
+		return this.db.quizSession.create({
 			data: {
 				userId,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionLiteSelect,
 		});
-
-		return newQuizSession;
 	}
 
 	updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
-	): Promise<QuizSessionWithUser> {
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
+	): Promise<QuizSessionPayload> {
 		return this.db.quizSession.update({
 			where: {
-				id: quizSessionId,
+				id: sessionId,
 			},
 			data: {
-				status: quizSessionStatus,
+				status: sessionStatus,
 			},
-			select: quizSessionWithUserSelect,
+			select: quizSessionSelect,
 		});
 	}
 }

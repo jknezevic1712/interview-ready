@@ -3,5 +3,5 @@ import { QuizSessionStatus } from 'src/common/types/enums';
 
 export class UpdateQuizSessionStatusDto {
 	@IsEnum(QuizSessionStatus)
-	quizSessionStatus!: QuizSessionStatus;
+	sessionStatus!: QuizSessionStatus;
 }

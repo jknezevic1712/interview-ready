@@ -52,3 +52,8 @@ export type QuizResponseAnswer = Prisma.QuizResponseAnswerModel
  * 
  */
 export type QuizSession = Prisma.QuizSessionModel
+/**
+ * Model QuizSessionQuestion
+ * 
+ */
+export type QuizSessionQuestion = Prisma.QuizSessionQuestionModel

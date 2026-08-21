@@ -8,8 +8,12 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
 import { QuizSessionStatus } from 'src/common/types/client';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { toGetQuizSessionDto } from '../mappers/quizSession.mapper';
+import {
+	toGetQuizSessionDto,
+	toGetQuizSessionLiteDto,
+} from '../mappers/quizSession.mapper';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
+import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 
 @Injectable()
 export class QuizSessionService {
@@ -18,26 +22,26 @@ export class QuizSessionService {
 		private readonly quizRepository: IQuizSessionRepository,
 	) {}
 
-	async getQuizSessions(userId: string): Promise<GetQuizSessionDto[]> {
+	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteDto[]> {
 		const quizSessions = await this.quizRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionDto);
+		return quizSessions.map(toGetQuizSessionLiteDto);
 	}
 
-	async getQuizSession(quizSessionId: string): Promise<GetQuizSessionDto> {
-		const session = await this.quizRepository.getQuizSession(quizSessionId);
+	async getQuizSession(sessionId: string): Promise<GetQuizSessionDto> {
+		const session = await this.quizRepository.getQuizSession(sessionId);
 		return toGetQuizSessionDto(session);
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionDto> {
+	async createQuizSession(userId: string): Promise<GetQuizSessionLiteDto> {
 		const session = await this.quizRepository.createQuizSession(userId);
-		return toGetQuizSessionDto(session);
+		return toGetQuizSessionLiteDto(session);
 	}
 
 	async updateQuizSessionStatus(
-		quizSessionId: string,
-		quizSessionStatus: QuizSessionStatus,
+		sessionId: string,
+		sessionStatus: QuizSessionStatus,
 	): Promise<GetQuizSessionDto> {
-		const quizSession = await this.quizRepository.getQuizSession(quizSessionId);
+		const quizSession = await this.quizRepository.getQuizSession(sessionId);
 
 		// ? Validate the quiz session is in progress status
 		if (quizSession.status !== QuizSessionStatus.IN_PROGRESS) {
@@ -45,15 +49,15 @@ export class QuizSessionService {
 		}
 
 		// ? Validate that the new quiz session status is allowed
-		if (!COMPLETION_STATUSES.includes(quizSessionStatus)) {
+		if (!COMPLETION_STATUSES.includes(sessionStatus)) {
 			throw new BadRequestException(
 				'Quiz session can only be completed or abandoned',
 			);
 		}
 
 		const updatedSession = await this.quizRepository.updateQuizSessionStatus(
-			quizSessionId,
-			quizSessionStatus,
+			sessionId,
+			sessionStatus,
 		);
 		return toGetQuizSessionDto(updatedSession);
 	}

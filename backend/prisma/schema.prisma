@@ -70,8 +70,11 @@ model Question {
 
     aiGenerated Boolean @default(false)
 
-    answerOptions AnswerOption[]
-    responses     QuizResponse[]
+    isArchived Boolean @default(false)
+
+    answerOptions        AnswerOption[]
+    responses            QuizResponse[]
+    quizSessionQuestions QuizSessionQuestion[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -137,8 +140,19 @@ model QuizSession {
 
     status QuizSessionStatus @default(IN_PROGRESS)
 
-    responses QuizResponse[]
+    quizSessionQuestions QuizSessionQuestion[]
+    responses            QuizResponse[]
 
     startedAt   DateTime  @default(now())
     completedAt DateTime?
+}
+
+model QuizSessionQuestion {
+    sessionId  String
+    questionId String
+
+    session  QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    question Question    @relation(fields: [questionId], references: [id])
+
+    @@id([sessionId, questionId])
 }

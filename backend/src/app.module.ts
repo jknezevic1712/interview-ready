@@ -6,9 +6,18 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
 import { CategoriesModule } from './features/categories/categories.module';
 import { QuizSessionModule } from './features/quizSession/quizSession.module';
 import { QuestionsModule } from './features/questions/questions.module';
+import { UsersModule } from './features/users/users.module';
+import { AuthenticationModule } from './features/authentication/authentication.module';
 
 @Module({
-	imports: [PrismaModule, CategoriesModule, QuizSessionModule, QuestionsModule],
+	imports: [
+		PrismaModule,
+		CategoriesModule,
+		QuizSessionModule,
+		QuestionsModule,
+		UsersModule,
+		AuthenticationModule,
+	],
 	controllers: [AppController],
 	providers: [AppService],
 })

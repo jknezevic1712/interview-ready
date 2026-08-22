@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  UserCredential: 'UserCredential',
   Category: 'Category',
   Question: 'Question',
   AnswerOption: 'AnswerOption',
@@ -87,6 +88,18 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const UserCredentialScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  provider: 'provider',
+  passwordHash: 'passwordHash',
+  providerUserId: 'providerUserId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserCredentialScalarFieldEnum = (typeof UserCredentialScalarFieldEnum)[keyof typeof UserCredentialScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {

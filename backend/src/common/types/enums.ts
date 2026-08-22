@@ -42,3 +42,12 @@ export const QuizSessionStatus = {
 } as const
 
 export type QuizSessionStatus = (typeof QuizSessionStatus)[keyof typeof QuizSessionStatus]
+
+
+export const CredentialProvider = {
+  LOCAL: 'LOCAL',
+  GOOGLE: 'GOOGLE',
+  GITHUB: 'GITHUB'
+} as const
+
+export type CredentialProvider = (typeof CredentialProvider)[keyof typeof CredentialProvider]

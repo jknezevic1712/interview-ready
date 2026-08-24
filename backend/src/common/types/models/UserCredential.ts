@@ -205,6 +205,8 @@ export type UserCredentialOrderByWithRelationInput = {
 
 export type UserCredentialWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  provider_providerUserId?: Prisma.UserCredentialProviderProviderUserIdCompoundUniqueInput
+  userId_provider?: Prisma.UserCredentialUserIdProviderCompoundUniqueInput
   AND?: Prisma.UserCredentialWhereInput | Prisma.UserCredentialWhereInput[]
   OR?: Prisma.UserCredentialWhereInput[]
   NOT?: Prisma.UserCredentialWhereInput | Prisma.UserCredentialWhereInput[]
@@ -214,7 +216,7 @@ export type UserCredentialWhereUniqueInput = Prisma.AtLeast<{
   providerUserId?: Prisma.StringNullableFilter<"UserCredential"> | string | null
   createdAt?: Prisma.DateTimeFilter<"UserCredential"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id">
+}, "id" | "provider_providerUserId" | "userId_provider">
 
 export type UserCredentialOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -310,6 +312,16 @@ export type UserCredentialListRelationFilter = {
 
 export type UserCredentialOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type UserCredentialProviderProviderUserIdCompoundUniqueInput = {
+  provider: $Enums.CredentialProvider
+  providerUserId: string
+}
+
+export type UserCredentialUserIdProviderCompoundUniqueInput = {
+  userId: string
+  provider: $Enums.CredentialProvider
 }
 
 export type UserCredentialCountOrderByAggregateInput = {

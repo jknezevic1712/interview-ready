@@ -1,20 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { IUsersRepository } from '../contracts/users.repository';
-import { UserPayload, userSelect } from '../utilities/users.selects';
+import {
+	userCredentialSelect,
+	UserPayload,
+	userSelect,
+} from '../utilities/users.selects';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import { CredentialProvider } from 'src/common/types/enums';
+import {
+	UserCredentialLocalData,
+	UserCredentialOAuthData,
+} from 'src/common/interfaces/user/userCredentialData.interface';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	getUser(email: string) {
+	getUser(email: string): Promise<UserPayload | null> {
 		return this.db.user.findUnique({
 			where: {
 				email,
 			},
 			select: userSelect,
+		});
+	}
+
+	getUserCredential(
+		provider: typeof CredentialProvider.LOCAL,
+		email: string,
+	): Promise<UserCredentialLocalData | null>;
+	getUserCredential(
+		provider:
+			typeof CredentialProvider.GOOGLE | typeof CredentialProvider.GITHUB,
+		email: string,
+	): Promise<UserCredentialOAuthData | null>;
+	getUserCredential(
+		provider: CredentialProvider,
+		email: string,
+	): Promise<UserCredentialLocalData | UserCredentialOAuthData | null> {
+		return this.db.userCredential.findFirst({
+			where: {
+				provider,
+				user: {
+					email,
+				},
+			},
+			select: userCredentialSelect(provider),
 		});
 	}
 

@@ -1,13 +1,11 @@
 import bcrypt from 'bcrypt';
 
-export const toStringHash = (input: string) => {
-	const SALT_ROUNDS = 14;
+const SALT_ROUNDS = 14 as const;
 
-	const salt = bcrypt.genSaltSync(SALT_ROUNDS);
-	const inputHash = bcrypt.hashSync(input, salt);
-	return inputHash;
+export const toStringHash = (input: string) => {
+	return bcrypt.hash(input, SALT_ROUNDS);
 };
 
 export const compareStringHashes = (input: string, inputHash: string) => {
-	return bcrypt.compareSync(input, inputHash);
+	return bcrypt.compare(input, inputHash);
 };

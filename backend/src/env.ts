@@ -6,6 +6,7 @@ import { z } from 'zod';
 export const env = createEnv({
 	server: {
 		DATABASE_URL: z.string(),
+		JWT_SECRET: z.string().min(32),
 	},
 
 	/**

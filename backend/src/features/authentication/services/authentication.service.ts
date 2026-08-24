@@ -1,8 +1,8 @@
 import {
-	BadRequestException,
 	ConflictException,
 	Injectable,
 	NotFoundException,
+	UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
@@ -12,14 +12,20 @@ import {
 	toStringHash,
 } from '../utilities/stringTransform';
 import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
-import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 import { CredentialProvider } from 'src/common/types/enums';
+import { TokenService } from './token.service';
+import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 
 @Injectable()
 export class AuthenticationService {
-	constructor(private readonly usersService: UsersService) {}
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly tokenService: TokenService,
+	) {}
 
-	async registerViaEmailAndPassword(data: CreateUserDto): Promise<GetUserDto> {
+	async registerViaEmailAndPassword(
+		data: CreateUserDto,
+	): Promise<AuthenticationResponseDto> {
 		const userExists = await this.usersService.doesUserExist(data.email);
 
 		if (userExists) {
@@ -35,10 +41,19 @@ export class AuthenticationService {
 			passwordHash,
 		};
 
-		return this.usersService.registerUser(registrationData);
+		const user = await this.usersService.registerUser(registrationData);
+		const jwtTokens = await this.tokenService.generateJwtToken(user);
+
+		return {
+			accessToken: jwtTokens,
+			refreshToken: jwtTokens,
+			user,
+		};
 	}
 
-	async loginViaEmailAndPassword(data: LoginUserDto): Promise<GetUserDto> {
+	async loginViaEmailAndPassword(
+		data: LoginUserDto,
+	): Promise<AuthenticationResponseDto> {
 		const userCredentials = await this.usersService.getUserCredential(
 			CredentialProvider.LOCAL,
 			data.email,
@@ -56,9 +71,16 @@ export class AuthenticationService {
 			userCredentials.passwordHash,
 		);
 		if (!passwordCheck) {
-			throw new BadRequestException('Please check your credentials');
+			throw new UnauthorizedException('Please check your credentials');
 		}
 
-		return this.usersService.getUser(data.email);
+		const user = await this.usersService.getUser(data.email);
+		const jwtTokens = await this.tokenService.generateJwtToken(user);
+
+		return {
+			accessToken: jwtTokens,
+			refreshToken: jwtTokens,
+			user,
+		};
 	}
 }

@@ -8,6 +8,8 @@ import { QuizSessionModule } from './features/quizSession/quizSession.module';
 import { QuestionsModule } from './features/questions/questions.module';
 import { UsersModule } from './features/users/users.module';
 import { AuthenticationModule } from './features/authentication/authentication.module';
+import { AuthGuard } from './common/guards/auth/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
 	imports: [
@@ -19,7 +21,13 @@ import { AuthenticationModule } from './features/authentication/authentication.m
 		AuthenticationModule,
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [
+		AppService,
+		{
+			provide: APP_GUARD,
+			useClass: AuthGuard,
+		},
+	],
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {

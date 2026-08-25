@@ -53,6 +53,16 @@ export class UsersService {
 		return toGetUserDto(user);
 	}
 
+	async getUserById(id: string): Promise<GetUserDto> {
+		const user = await this.usersRepository.getUserById(id);
+
+		if (!user) {
+			throw new NotFoundException(`User not found`);
+		}
+
+		return toGetUserDto(user);
+	}
+
 	async registerUser(data: UserRegistrationData): Promise<GetUserDto> {
 		const user = await this.usersRepository.registerUser(data);
 		return toGetUserDto(user);

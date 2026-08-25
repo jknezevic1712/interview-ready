@@ -1,14 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
-import { JwtPayload } from 'src/common/interfaces/authentication/jwtPayload.interface';
+import { AccessTokenPayload } from 'src/common/interfaces/authentication/accessTokenPayload.interface';
+import { GenerateTokensPayload } from 'src/common/interfaces/authentication/generateTokensPayload.interface';
+import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 import { env } from 'src/env';
 
 @Injectable()
 export class TokenService {
 	constructor(private readonly jwtService: JwtService) {}
 
-	generateJwtToken(
-		data: JwtPayload,
+	generateAccessToken(data: AccessTokenPayload): Promise<string> {
+		return this.generateToken(
+			data,
+			env.JWT_ACCESS_TOKEN_SECRET,
+			env.JWT_ACCESS_TOKEN_EXPIRATION,
+		);
+	}
+
+	async generateTokens(
+		data: AccessTokenPayload,
+	): Promise<GenerateTokensPayload> {
+		const [accessToken, refreshToken] = await Promise.all([
+			this.generateAccessToken(data),
+			this.generateRefreshToken({ sub: data.sub }),
+		]);
+
+		return {
+			accessToken,
+			refreshToken,
+		};
+	}
+
+	async validateToken<T extends object>(
+		token: string,
+		secret: JwtSignOptions['secret'],
+	): Promise<T> {
+		try {
+			return await this.jwtService.verifyAsync<T>(token, {
+				secret,
+			});
+		} catch (error) {
+			throw new UnauthorizedException(
+				'Token invalid or expired, please reauthenticate',
+			);
+		}
+	}
+
+	private generateToken(
+		data: AccessTokenPayload | RefreshTokenPayload,
 		secret: JwtSignOptions['secret'],
 		expiresIn: JwtSignOptions['expiresIn'],
 	): Promise<string> {
@@ -18,32 +57,11 @@ export class TokenService {
 		});
 	}
 
-	async generateTokens(data: JwtPayload) {
-		const generateAccessToken = this.generateJwtToken(
+	private generateRefreshToken(data: RefreshTokenPayload): Promise<string> {
+		return this.generateToken(
 			data,
-			env.JWT_SECRET,
-			'15m',
+			env.JWT_REFRESH_TOKEN_SECRET,
+			env.JWT_REFRESH_TOKEN_EXPIRATION,
 		);
-		const generateRefreshToken = this.generateJwtToken(
-			data,
-			env.JWT_REFRESH_SECRET,
-			'14d',
-		);
-		const [accessToken, refreshToken] = await Promise.all([
-			generateAccessToken,
-			generateRefreshToken,
-		]);
-
-		return {
-			accessToken,
-			refreshToken,
-		};
 	}
-
-	validateJwtToken(token: string) {
-		return this.jwtService.verifyAsync(token);
-	}
-
-	// TODO: add refreshing of access token
-	refreshAccessToken(refreshToken: string) {}
 }

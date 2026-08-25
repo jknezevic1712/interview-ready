@@ -26,6 +26,15 @@ export class UsersRepository implements IUsersRepository {
 		});
 	}
 
+	getUserById(id: string): Promise<UserPayload | null> {
+		return this.db.user.findUnique({
+			where: {
+				id,
+			},
+			select: userSelect,
+		});
+	}
+
 	getUserCredential(
 		provider: typeof CredentialProvider.LOCAL,
 		email: string,

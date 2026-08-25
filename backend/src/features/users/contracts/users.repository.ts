@@ -8,6 +8,7 @@ import {
 
 export interface IUsersRepository {
 	getUser(email: string): Promise<UserPayload | null>;
+	getUserById(id: string): Promise<UserPayload | null>;
 	getUserCredential(
 		provider: typeof CredentialProvider.LOCAL,
 		email: string,

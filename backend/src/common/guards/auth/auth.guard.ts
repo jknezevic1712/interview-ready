@@ -8,6 +8,7 @@ import { TokenService } from 'src/features/authentication/services/token.service
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
+import { env } from 'src/env';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,7 +18,9 @@ export class AuthGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		this.checkIsPublicRoute(context.getHandler(), context.getClass());
+		if (this.checkIsPublicRoute(context.getHandler(), context.getClass())) {
+			return true;
+		}
 
 		const request = context.switchToHttp().getRequest();
 		const token = this.extractTokenFromHeader(request);
@@ -27,7 +30,10 @@ export class AuthGuard implements CanActivate {
 		}
 
 		try {
-			const payload = await this.tokenService.validateJwtToken(token);
+			const payload = await this.tokenService.validateToken(
+				token,
+				env.JWT_ACCESS_TOKEN_SECRET,
+			);
 			request['user'] = payload;
 		} catch (error) {
 			throw new UnauthorizedException('Unauthorized access, please log in');
@@ -37,14 +43,10 @@ export class AuthGuard implements CanActivate {
 	}
 
 	private checkIsPublicRoute(handler: Function, classType: any) {
-		const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
+		return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
 			handler,
 			classType,
 		]);
-
-		if (isPublic) {
-			return true;
-		}
 	}
 
 	private extractTokenFromHeader(request: Request): string | undefined {

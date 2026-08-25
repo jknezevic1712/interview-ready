@@ -15,7 +15,10 @@ import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { CredentialProvider } from 'src/common/types/enums';
 import { TokenService } from './token.service';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { toJwtPayload } from '../mappers/jwt.mapper';
+import { toAccessTokenPayload } from '../mappers/token.mapper';
+import { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
+import { env } from 'src/env';
+import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -44,7 +47,7 @@ export class AuthenticationService {
 
 		const user = await this.usersService.registerUser(registrationData);
 		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(toJwtPayload(user));
+			await this.tokenService.generateTokens(toAccessTokenPayload(user));
 
 		return {
 			accessToken,
@@ -78,12 +81,33 @@ export class AuthenticationService {
 
 		const user = await this.usersService.getUser(data.email);
 		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(toJwtPayload(user));
+			await this.tokenService.generateTokens(toAccessTokenPayload(user));
 
 		return {
 			accessToken,
 			refreshToken,
 			user,
 		};
+	}
+
+	async refreshAccessToken(
+		refreshToken: string,
+	): Promise<RefreshAccessTokenResponse> {
+		if (!refreshToken) {
+			throw new UnauthorizedException('Refresh token is missing');
+		}
+
+		const validatedTokenData =
+			await this.tokenService.validateToken<RefreshTokenPayload>(
+				refreshToken,
+				env.JWT_REFRESH_TOKEN_SECRET,
+			);
+		const user = await this.usersService.getUserById(validatedTokenData.sub);
+		const accessToken = await this.tokenService.generateAccessToken({
+			sub: user.id,
+			role: user.role,
+		});
+
+		return { accessToken };
 	}
 }

@@ -32,6 +32,7 @@ export interface IUsersRepository {
 		email: string,
 	): Promise<UserCredentialLocalData | UserCredentialOAuthData | null>;
 	registerUser(data: UserRegistrationData): Promise<UserLitePayload>;
+	getSession(sessionId: string): Promise<UserSessionPayload | null>;
 	createSession(data: CreateSessionData): Promise<UserSessionPayload>;
 	updateSession(data: UpdateSessionData): Promise<UserSessionPayload>;
 	logoutUser(sessionId: string): Promise<void>;

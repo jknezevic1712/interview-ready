@@ -116,6 +116,20 @@ export class AuthenticationService {
 				refreshToken,
 				env.JWT_REFRESH_TOKEN_SECRET,
 			);
+		const userSession = await this.usersService.getSession(
+			validatedTokenData.sessionId,
+		);
+
+		const doRefreshTokensMatch = await compareStringHashes(
+			refreshToken,
+			userSession.refreshTokenHash!,
+		);
+		if (!doRefreshTokensMatch) {
+			throw new UnauthorizedException(
+				'Refresh token invalid, please reauthenticate',
+			);
+		}
+
 		const user = await this.usersService.getUserWithSession(
 			validatedTokenData.sub,
 			validatedTokenData.sessionId,
@@ -123,7 +137,7 @@ export class AuthenticationService {
 		const accessToken = await this.tokenService.generateAccessToken({
 			sub: user.id,
 			role: user.role,
-			sessionId: user.sessionId,
+			sessionId: userSession.id,
 		});
 
 		return { accessToken };

@@ -85,6 +85,15 @@ export class UsersRepository implements IUsersRepository {
 		});
 	}
 
+	getSession(sessionId: string): Promise<UserSessionPayload | null> {
+		return this.db.userSession.findUnique({
+			where: {
+				id: sessionId,
+			},
+			select: userSessionSelect,
+		});
+	}
+
 	createSession(data: CreateSessionData): Promise<UserSessionPayload> {
 		return this.db.userSession.create({
 			data: {

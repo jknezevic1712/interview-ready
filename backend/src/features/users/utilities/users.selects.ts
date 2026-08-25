@@ -53,6 +53,7 @@ export const userCredentialSelect = (provider: CredentialProvider) => {
 
 export const userSessionSelect = {
 	id: true,
+	refreshTokenHash: true,
 } satisfies Prisma.UserSessionSelect;
 export type UserSessionPayload = Prisma.UserSessionGetPayload<{
 	select: typeof userSessionSelect;

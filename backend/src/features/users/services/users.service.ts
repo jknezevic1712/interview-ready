@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+	Inject,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { USERS_REPOSITORY } from '../tokens/users.token';
 import type { IUsersRepository } from '../contracts/users.repository';
 import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
@@ -78,6 +83,16 @@ export class UsersService {
 	async registerUser(data: UserRegistrationData): Promise<GetUserLiteDto> {
 		const user = await this.usersRepository.registerUser(data);
 		return toGetUserLiteDto(user);
+	}
+
+	async getSession(sessionId: string): Promise<UserSessionPayload> {
+		const session = await this.usersRepository.getSession(sessionId);
+
+		if (!session) {
+			throw new UnauthorizedException('Invalid session, please reauthenticate');
+		}
+
+		return session;
 	}
 
 	async createSession(userId: string): Promise<UserSessionPayload> {

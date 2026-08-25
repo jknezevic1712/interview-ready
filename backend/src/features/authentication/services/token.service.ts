@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
+import { JwtPayload } from 'src/common/interfaces/authentication/jwtPayload.interface';
 import { env } from 'src/env';
 
 @Injectable()
@@ -7,7 +8,7 @@ export class TokenService {
 	constructor(private readonly jwtService: JwtService) {}
 
 	generateJwtToken(
-		data: any,
+		data: JwtPayload,
 		secret: JwtSignOptions['secret'],
 		expiresIn: JwtSignOptions['expiresIn'],
 	): Promise<string> {
@@ -17,7 +18,7 @@ export class TokenService {
 		});
 	}
 
-	async generateTokens(data: any) {
+	async generateTokens(data: JwtPayload) {
 		const generateAccessToken = this.generateJwtToken(
 			data,
 			env.JWT_SECRET,
@@ -44,4 +45,5 @@ export class TokenService {
 	}
 
 	// TODO: add refreshing of access token
+	refreshAccessToken(refreshToken: string) {}
 }

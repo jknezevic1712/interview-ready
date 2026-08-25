@@ -15,6 +15,7 @@ import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { CredentialProvider } from 'src/common/types/enums';
 import { TokenService } from './token.service';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
+import { toJwtPayload } from '../mappers/jwt.mapper';
 
 @Injectable()
 export class AuthenticationService {
@@ -43,7 +44,7 @@ export class AuthenticationService {
 
 		const user = await this.usersService.registerUser(registrationData);
 		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(user);
+			await this.tokenService.generateTokens(toJwtPayload(user));
 
 		return {
 			accessToken,
@@ -77,7 +78,7 @@ export class AuthenticationService {
 
 		const user = await this.usersService.getUser(data.email);
 		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(user);
+			await this.tokenService.generateTokens(toJwtPayload(user));
 
 		return {
 			accessToken,

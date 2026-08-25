@@ -40,3 +40,5 @@ export class AuthenticationController {
 		return this.authenticationService.logoutUser(refreshToken);
 	}
 }
+
+// TODO: RefreshTokenResponse should actually set cookie data, not return it in json

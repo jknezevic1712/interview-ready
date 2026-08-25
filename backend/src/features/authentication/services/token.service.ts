@@ -17,6 +17,14 @@ export class TokenService {
 		);
 	}
 
+	generateRefreshToken(data: RefreshTokenPayload): Promise<string> {
+		return this.generateToken(
+			data,
+			env.JWT_REFRESH_TOKEN_SECRET,
+			env.JWT_REFRESH_TOKEN_EXPIRATION,
+		);
+	}
+
 	async generateTokens(
 		data: AccessTokenPayload,
 	): Promise<GenerateTokensPayload> {
@@ -57,13 +65,5 @@ export class TokenService {
 			secret,
 			expiresIn: expiresIn,
 		});
-	}
-
-	private generateRefreshToken(data: RefreshTokenPayload): Promise<string> {
-		return this.generateToken(
-			data,
-			env.JWT_REFRESH_TOKEN_SECRET,
-			env.JWT_REFRESH_TOKEN_EXPIRATION,
-		);
 	}
 }

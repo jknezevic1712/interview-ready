@@ -98,12 +98,15 @@ export class UsersService {
 	async updateSession(
 		sessionId: string,
 		refreshToken: string,
+		expiresAt?: Date,
 	): Promise<UserSessionPayload> {
 		const refreshTokenHash = await toStringHash(refreshToken);
 		const payload: UpdateSessionData = {
 			sessionId,
 			refreshTokenHash,
-			expiresAt: new Date(Date.now() + env.JWT_REFRESH_TOKEN_EXPIRATION * 1000),
+			expiresAt:
+				expiresAt ??
+				new Date(Date.now() + env.JWT_REFRESH_TOKEN_EXPIRATION * 1000),
 		};
 
 		return this.usersRepository.updateSession(payload);

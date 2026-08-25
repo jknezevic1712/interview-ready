@@ -131,13 +131,23 @@ export class AuthenticationService {
 		}
 
 		const user = await this.usersService.getUserById(validatedTokenData.sub);
-		const accessToken = await this.tokenService.generateAccessToken({
+		const newAccessToken = await this.tokenService.generateAccessToken({
 			sub: user.id,
 			role: user.role,
 			sessionId: userSession.id,
 		});
+		const newRefreshToken = await this.tokenService.generateRefreshToken({
+			sub: user.id,
+			sessionId: userSession.id,
+		});
 
-		return { accessToken };
+		await this.usersService.updateSession(
+			userSession.id,
+			newRefreshToken,
+			new Date(validatedTokenData.exp! * 1000),
+		);
+
+		return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 	}
 
 	async logoutUser(refreshToken: string): Promise<void> {

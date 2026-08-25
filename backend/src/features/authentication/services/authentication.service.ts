@@ -42,11 +42,12 @@ export class AuthenticationService {
 		};
 
 		const user = await this.usersService.registerUser(registrationData);
-		const jwtTokens = await this.tokenService.generateJwtToken(user);
+		const { accessToken, refreshToken } =
+			await this.tokenService.generateTokens(user);
 
 		return {
-			accessToken: jwtTokens,
-			refreshToken: jwtTokens,
+			accessToken,
+			refreshToken,
 			user,
 		};
 	}
@@ -75,11 +76,12 @@ export class AuthenticationService {
 		}
 
 		const user = await this.usersService.getUser(data.email);
-		const jwtTokens = await this.tokenService.generateJwtToken(user);
+		const { accessToken, refreshToken } =
+			await this.tokenService.generateTokens(user);
 
 		return {
-			accessToken: jwtTokens,
-			refreshToken: jwtTokens,
+			accessToken,
+			refreshToken,
 			user,
 		};
 	}

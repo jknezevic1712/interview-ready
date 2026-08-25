@@ -4,7 +4,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { UsersModule } from '../users/users.module';
 import { TokenService } from './services/token.service';
 import { JwtModule } from '@nestjs/jwt';
-import { env } from 'src/env';
 
 @Module({
 	controllers: [AuthenticationController],
@@ -13,8 +12,6 @@ import { env } from 'src/env';
 		UsersModule,
 		JwtModule.register({
 			global: true,
-			secret: env.JWT_SECRET,
-			signOptions: { expiresIn: '15m' },
 		}),
 	],
 	exports: [TokenService],

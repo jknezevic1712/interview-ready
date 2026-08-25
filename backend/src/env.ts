@@ -7,9 +7,9 @@ export const env = createEnv({
 	server: {
 		DATABASE_URL: z.string(),
 		JWT_ACCESS_TOKEN_SECRET: z.string().min(32),
-		JWT_ACCESS_TOKEN_EXPIRATION: z.any(),
+		JWT_ACCESS_TOKEN_EXPIRATION: z.number(),
 		JWT_REFRESH_TOKEN_SECRET: z.string().min(32),
-		JWT_REFRESH_TOKEN_EXPIRATION: z.any(),
+		JWT_REFRESH_TOKEN_EXPIRATION: z.number(),
 	},
 
 	/**

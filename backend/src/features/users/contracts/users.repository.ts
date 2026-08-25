@@ -1,14 +1,23 @@
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import { UserPayload } from '../utilities/users.selects';
+import {
+	UserLitePayload,
+	UserPayload,
+	UserSessionPayload,
+} from '../utilities/users.selects';
 import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
+import { CreateSessionData } from 'src/common/interfaces/authentication/createSessionData.interface';
+import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 
 export interface IUsersRepository {
-	getUser(email: string): Promise<UserPayload | null>;
-	getUserById(id: string): Promise<UserPayload | null>;
+	getUser(email: string): Promise<UserLitePayload | null>;
+	getUserWithSession(
+		userId: string,
+		sessionId: string,
+	): Promise<UserPayload | null>;
 	getUserCredential(
 		provider: typeof CredentialProvider.LOCAL,
 		email: string,
@@ -22,5 +31,8 @@ export interface IUsersRepository {
 		provider: CredentialProvider,
 		email: string,
 	): Promise<UserCredentialLocalData | UserCredentialOAuthData | null>;
-	registerUser(data: UserRegistrationData): Promise<UserPayload>;
+	registerUser(data: UserRegistrationData): Promise<UserLitePayload>;
+	createSession(data: CreateSessionData): Promise<UserSessionPayload>;
+	updateSession(data: UpdateSessionData): Promise<UserSessionPayload>;
+	logoutUser(sessionId: string): Promise<void>;
 }

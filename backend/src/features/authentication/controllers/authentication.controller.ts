@@ -4,7 +4,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-import { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
+import { RefreshTokenResponse } from 'src/common/dtos/authentication/refreshTokenResponse.dto';
 import type { Request } from 'express';
 
 @Controller('authentication')
@@ -29,10 +29,14 @@ export class AuthenticationController {
 
 	@Public()
 	@Post('refresh')
-	refreshAccessToken(
-		@Req() request: Request,
-	): Promise<RefreshAccessTokenResponse> {
+	refreshAccessToken(@Req() request: Request): Promise<RefreshTokenResponse> {
 		const refreshToken = request.cookies.refresh_token;
 		return this.authenticationService.refreshAccessToken(refreshToken);
+	}
+
+	@Post('logout')
+	logout(@Req() request: Request): Promise<void> {
+		const refreshToken = request.cookies.refresh_token;
+		return this.authenticationService.logoutUser(refreshToken);
 	}
 }

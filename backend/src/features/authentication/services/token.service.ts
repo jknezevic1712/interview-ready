@@ -22,7 +22,7 @@ export class TokenService {
 	): Promise<GenerateTokensPayload> {
 		const [accessToken, refreshToken] = await Promise.all([
 			this.generateAccessToken(data),
-			this.generateRefreshToken({ sub: data.sub }),
+			this.generateRefreshToken({ sub: data.sub, sessionId: data.sessionId }),
 		]);
 
 		return {
@@ -34,10 +34,12 @@ export class TokenService {
 	async validateToken<T extends object>(
 		token: string,
 		secret: JwtSignOptions['secret'],
+		ignoreExpiration = false,
 	): Promise<T> {
 		try {
 			return await this.jwtService.verifyAsync<T>(token, {
 				secret,
+				ignoreExpiration,
 			});
 		} catch (error) {
 			throw new UnauthorizedException(

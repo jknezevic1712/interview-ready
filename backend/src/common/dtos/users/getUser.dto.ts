@@ -1,8 +1,6 @@
-import { User } from 'src/common/types/client';
+import { UserSession } from 'src/common/types/client';
+import { GetUserLiteDto } from './getUserLite.dto';
 
-export class GetUserDto {
-	id!: User['id'];
-	email!: User['email'];
-	name!: User['name'];
-	role!: User['role'];
+export class GetUserDto extends GetUserLiteDto {
+	sessionId!: UserSession['id'];
 }

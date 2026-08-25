@@ -1,14 +1,20 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { USERS_REPOSITORY } from '../tokens/users.token';
 import type { IUsersRepository } from '../contracts/users.repository';
-import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
+import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import { toGetUserDto } from '../mappers/users.mappers';
+import { toGetUserDto, toGetUserLiteDto } from '../mappers/users.mappers';
 import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
+import { CreateSessionData } from 'src/common/interfaces/authentication/createSessionData.interface';
+import { env } from 'src/env';
+import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
+import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
+import { UserSessionPayload } from '../utilities/users.selects';
+import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -43,18 +49,24 @@ export class UsersService {
 		return userCredentials;
 	}
 
-	async getUser(email: string): Promise<GetUserDto> {
+	async getUser(email: string): Promise<GetUserLiteDto> {
 		const user = await this.usersRepository.getUser(email);
 
 		if (!user) {
 			throw new NotFoundException(`User with email ${email} not found`);
 		}
 
-		return toGetUserDto(user);
+		return toGetUserLiteDto(user);
 	}
 
-	async getUserById(id: string): Promise<GetUserDto> {
-		const user = await this.usersRepository.getUserById(id);
+	async getUserWithSession(
+		userId: string,
+		sessionId: string,
+	): Promise<GetUserDto> {
+		const user = await this.usersRepository.getUserWithSession(
+			userId,
+			sessionId,
+		);
 
 		if (!user) {
 			throw new NotFoundException(`User not found`);
@@ -63,8 +75,33 @@ export class UsersService {
 		return toGetUserDto(user);
 	}
 
-	async registerUser(data: UserRegistrationData): Promise<GetUserDto> {
+	async registerUser(data: UserRegistrationData): Promise<GetUserLiteDto> {
 		const user = await this.usersRepository.registerUser(data);
-		return toGetUserDto(user);
+		return toGetUserLiteDto(user);
+	}
+
+	async createSession(userId: string): Promise<UserSessionPayload> {
+		const payload: CreateSessionData = {
+			userId,
+		};
+		return this.usersRepository.createSession(payload);
+	}
+
+	async updateSession(
+		sessionId: string,
+		refreshToken: string,
+	): Promise<UserSessionPayload> {
+		const refreshTokenHash = await toStringHash(refreshToken);
+		const payload: UpdateSessionData = {
+			sessionId,
+			refreshTokenHash,
+			expiresAt: new Date(Date.now() + env.JWT_REFRESH_TOKEN_EXPIRATION * 1000),
+		};
+
+		return this.usersRepository.updateSession(payload);
+	}
+
+	logoutUser(sessionId: string): Promise<void> {
+		return this.usersRepository.logoutUser(sessionId);
 	}
 }

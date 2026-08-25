@@ -8,7 +8,7 @@ import { USERS_REPOSITORY } from '../tokens/users.token';
 import type { IUsersRepository } from '../contracts/users.repository';
 import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import { toGetUserDto, toGetUserLiteDto } from '../mappers/users.mappers';
+import { toGetUserLiteDto } from '../mappers/users.mappers';
 import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
@@ -19,7 +19,6 @@ import { env } from 'src/env';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
 import { UserSessionPayload } from '../utilities/users.selects';
-import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -64,20 +63,14 @@ export class UsersService {
 		return toGetUserLiteDto(user);
 	}
 
-	async getUserWithSession(
-		userId: string,
-		sessionId: string,
-	): Promise<GetUserDto> {
-		const user = await this.usersRepository.getUserWithSession(
-			userId,
-			sessionId,
-		);
+	async getUserById(id: string): Promise<GetUserLiteDto> {
+		const user = await this.usersRepository.getUserById(id);
 
 		if (!user) {
 			throw new NotFoundException(`User not found`);
 		}
 
-		return toGetUserDto(user);
+		return toGetUserLiteDto(user);
 	}
 
 	async registerUser(data: UserRegistrationData): Promise<GetUserLiteDto> {

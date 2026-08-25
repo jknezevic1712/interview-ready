@@ -5,8 +5,6 @@ import {
 	userCredentialSelect,
 	UserLitePayload,
 	userLiteSelect,
-	UserPayload,
-	userSelect,
 	UserSessionPayload,
 	userSessionSelect,
 } from '../utilities/users.selects';
@@ -33,15 +31,12 @@ export class UsersRepository implements IUsersRepository {
 		});
 	}
 
-	getUserWithSession(
-		userId: string,
-		sessionId: string,
-	): Promise<UserPayload | null> {
+	getUserById(id: string): Promise<UserLitePayload | null> {
 		return this.db.user.findUnique({
 			where: {
-				id: userId,
+				id,
 			},
-			select: userSelect(sessionId),
+			select: userLiteSelect,
 		});
 	}
 

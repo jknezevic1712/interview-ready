@@ -1,7 +1,6 @@
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import {
 	UserLitePayload,
-	UserPayload,
 	UserSessionPayload,
 } from '../utilities/users.selects';
 import { CredentialProvider } from 'src/common/types/enums';
@@ -14,10 +13,7 @@ import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSe
 
 export interface IUsersRepository {
 	getUser(email: string): Promise<UserLitePayload | null>;
-	getUserWithSession(
-		userId: string,
-		sessionId: string,
-	): Promise<UserPayload | null>;
+	getUserById(id: string): Promise<UserLitePayload | null>;
 	getUserCredential(
 		provider: typeof CredentialProvider.LOCAL,
 		email: string,

@@ -130,10 +130,7 @@ export class AuthenticationService {
 			);
 		}
 
-		const user = await this.usersService.getUserWithSession(
-			validatedTokenData.sub,
-			validatedTokenData.sessionId,
-		);
+		const user = await this.usersService.getUserById(validatedTokenData.sub);
 		const accessToken = await this.tokenService.generateAccessToken({
 			sub: user.id,
 			role: user.role,

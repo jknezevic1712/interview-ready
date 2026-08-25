@@ -11,25 +11,6 @@ export type UserLitePayload = Prisma.UserGetPayload<{
 	select: typeof userLiteSelect;
 }>;
 
-export const userSelect = (sessionId: string) =>
-	({
-		id: true,
-		name: true,
-		email: true,
-		role: true,
-		userSessions: {
-			where: {
-				id: sessionId,
-			},
-			select: {
-				id: true,
-			},
-		},
-	}) satisfies Prisma.UserSelect;
-export type UserPayload = Prisma.UserGetPayload<{
-	select: ReturnType<typeof userSelect>;
-}>;
-
 export const userCredentialSelect = (provider: CredentialProvider) => {
 	function getSelectQuery(): Pick<
 		Prisma.UserCredentialSelect,

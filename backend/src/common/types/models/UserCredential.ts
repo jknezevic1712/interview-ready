@@ -397,10 +397,6 @@ export type EnumCredentialProviderFieldUpdateOperationsInput = {
   set?: $Enums.CredentialProvider
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type UserCredentialCreateWithoutUserInput = {
   id?: string
   provider: $Enums.CredentialProvider

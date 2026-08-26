@@ -5,7 +5,6 @@ import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import type { Request, Response } from 'express';
-import { ApiBearerAuth } from '@nestjs/swagger';
 import { env } from 'src/env';
 import { RefreshAccessTokenResponseDto } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
 
@@ -35,11 +34,11 @@ export class AuthenticationController {
 		@Req() request: Request,
 		@Res({ passthrough: true }) response: Response,
 	): Promise<RefreshAccessTokenResponseDto> {
-		const refreshToken = request.cookies.refresh_token;
-		const newTokens =
-			await this.authenticationService.refreshAccessToken(refreshToken);
+		const oldRefreshToken = request.cookies.refresh_token;
+		const { accessToken, refreshToken } =
+			await this.authenticationService.refreshAccessToken(oldRefreshToken);
 
-		response.cookie('refresh_token', newTokens.refreshToken, {
+		response.cookie('refresh_token', refreshToken, {
 			httpOnly: true,
 			secure: env.ENV === 'production',
 			sameSite: 'lax',
@@ -47,14 +46,23 @@ export class AuthenticationController {
 		});
 
 		return {
-			accessToken: newTokens.accessToken,
+			accessToken,
 		};
 	}
 
-	@ApiBearerAuth()
+	@Public()
 	@Post('logout')
-	logout(@Req() request: Request): Promise<void> {
-		const refreshToken = request.cookies.refresh_token;
-		return this.authenticationService.logoutUser(refreshToken);
+	async logout(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response,
+	): Promise<void> {
+		await this.authenticationService.logoutUser(request.cookies.refresh_token);
+
+		response.clearCookie('refresh_token', {
+			httpOnly: true,
+			secure: env.ENV === 'production',
+			sameSite: 'lax',
+			path: '/authentication',
+		});
 	}
 }

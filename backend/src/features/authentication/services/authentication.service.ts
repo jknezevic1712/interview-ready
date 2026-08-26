@@ -21,6 +21,7 @@ import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refres
 import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 import { GeneratedTokensPayload } from 'src/common/interfaces/authentication/generatedTokensPayload.interface';
 import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import { ValidatedRefreshTokenPayload } from 'src/common/interfaces/authentication/validatedRefreshTokenPayload.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -89,7 +90,7 @@ export class AuthenticationService {
 		}
 
 		const refreshTokenData =
-			await this.tokenService.validateToken<RefreshTokenPayload>(
+			await this.tokenService.validateToken<ValidatedRefreshTokenPayload>(
 				oldRefreshToken,
 				env.JWT_REFRESH_TOKEN_SECRET,
 			);
@@ -115,7 +116,7 @@ export class AuthenticationService {
 		await this.usersService.updateSession(
 			userSession.id,
 			refreshToken,
-			new Date(refreshTokenData.exp! * 1000),
+			new Date(refreshTokenData.exp * 1000),
 		);
 
 		return { accessToken, refreshToken };
@@ -137,7 +138,7 @@ export class AuthenticationService {
 			throw new UnauthorizedException('Invalid refresh token');
 		}
 
-		this.usersService.logoutUser(sessionId);
+		await this.usersService.logoutUser(sessionId);
 	}
 
 	private async generateUserSession(

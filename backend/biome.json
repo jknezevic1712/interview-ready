@@ -61,7 +61,9 @@
 			"attributePosition": "auto",
 			"bracketSpacing": true
 		},
-		"globals": ["exports"]
+		"globals": [
+			"exports"
+		]
 	},
 	"html": {
 		"formatter": {

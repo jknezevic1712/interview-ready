@@ -5,5 +5,6 @@ export const toAccessTokenPayload = (data: GetUserDto): AccessTokenPayload => {
 	return {
 		sub: data.id,
 		role: data.role,
+		sessionId: data.sessionId,
 	};
 };

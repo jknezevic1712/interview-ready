@@ -1,9 +1,6 @@
-import { Role } from 'src/common/types/enums';
-import { RefreshTokenPayload } from './refreshTokenPayload.interface';
+import { Role } from 'src/common/types/enums'
+import { RefreshTokenPayload } from './refreshTokenPayload.interface'
 
-export interface AccessTokenPayload extends Pick<
-	RefreshTokenPayload,
-	'sub' | 'sessionId'
-> {
+export interface AccessTokenPayload extends RefreshTokenPayload {
 	role: Role;
 }

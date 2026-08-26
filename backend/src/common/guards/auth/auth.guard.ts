@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		if (this.checkIsPublicRoute(context.getHandler(), context.getClass())) {
+		if (this.isPublicRoute(context.getHandler(), context.getClass())) {
 			return true;
 		}
 
@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate {
 		return true;
 	}
 
-	private checkIsPublicRoute(handler: Function, classType: any) {
+	private isPublicRoute(handler: Function, classType: any) {
 		return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
 			handler,
 			classType,

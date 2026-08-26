@@ -15,7 +15,6 @@ import {
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
 import { env } from 'src/env';
-import { CreateSessionData } from 'src/common/interfaces/authentication/createSessionData.interface';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 
 @Injectable()
@@ -89,10 +88,10 @@ export class UsersRepository implements IUsersRepository {
 		});
 	}
 
-	createSession(data: CreateSessionData): Promise<UserSessionPayload> {
+	createSession(userId: string): Promise<UserSessionPayload> {
 		return this.db.userSession.create({
 			data: {
-				userId: data.userId,
+				userId,
 				refreshTokenHash: null,
 				expiresAt: new Date(
 					Date.now() + env.JWT_REFRESH_TOKEN_EXPIRATION * 1000,

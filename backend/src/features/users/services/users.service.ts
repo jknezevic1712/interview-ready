@@ -14,7 +14,6 @@ import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
-import { CreateSessionData } from 'src/common/interfaces/authentication/createSessionData.interface';
 import { env } from 'src/env';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
@@ -88,11 +87,8 @@ export class UsersService {
 		return session;
 	}
 
-	async createSession(userId: string): Promise<UserSessionPayload> {
-		const payload: CreateSessionData = {
-			userId,
-		};
-		return this.usersRepository.createSession(payload);
+	createSession(userId: string): Promise<UserSessionPayload> {
+		return this.usersRepository.createSession(userId);
 	}
 
 	async updateSession(

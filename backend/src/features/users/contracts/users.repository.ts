@@ -8,7 +8,6 @@ import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
-import { CreateSessionData } from 'src/common/interfaces/authentication/createSessionData.interface';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 
 export interface IUsersRepository {
@@ -29,7 +28,7 @@ export interface IUsersRepository {
 	): Promise<UserCredentialLocalData | UserCredentialOAuthData | null>;
 	registerUser(data: UserRegistrationData): Promise<UserLitePayload>;
 	getSession(sessionId: string): Promise<UserSessionPayload | null>;
-	createSession(data: CreateSessionData): Promise<UserSessionPayload>;
+	createSession(userId: string): Promise<UserSessionPayload>;
 	updateSession(data: UpdateSessionData): Promise<UserSessionPayload>;
 	logoutUser(sessionId: string): Promise<void>;
 }

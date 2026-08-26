@@ -20,6 +20,7 @@ import { env } from 'src/env';
 import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 import { GeneratedTokensPayload } from 'src/common/interfaces/authentication/generatedTokensPayload.interface';
+import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
 
 @Injectable()
 export class AuthenticationService {
@@ -47,21 +48,9 @@ export class AuthenticationService {
 		};
 
 		const user = await this.usersService.registerUser(registrationData);
-		const session = await this.usersService.createSession(user.id);
-		const extendedUser: GetUserDto = { ...user, sessionId: session.id };
+		const authenticationResponse = await this.generateUserSession(user);
 
-		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(
-				toAccessTokenPayload(extendedUser),
-			);
-		await this.usersService.updateSession(session.id, refreshToken);
-
-		return {
-			accessToken,
-			refreshToken,
-			user: extendedUser,
-			sessionId: session.id,
-		};
+		return authenticationResponse;
 	}
 
 	async loginViaEmailAndPassword(
@@ -87,41 +76,29 @@ export class AuthenticationService {
 		}
 
 		const user = await this.usersService.getUser(data.email);
-		const session = await this.usersService.createSession(user.id);
-		const extendedUser: GetUserDto = { ...user, sessionId: session.id };
+		const authenticationResponse = await this.generateUserSession(user);
 
-		const { accessToken, refreshToken } =
-			await this.tokenService.generateTokens(
-				toAccessTokenPayload(extendedUser),
-			);
-		await this.usersService.updateSession(session.id, refreshToken);
-
-		return {
-			accessToken,
-			refreshToken,
-			user: extendedUser,
-			sessionId: session.id,
-		};
+		return authenticationResponse;
 	}
 
 	async refreshAccessToken(
-		refreshToken: string,
+		oldRefreshToken: string,
 	): Promise<GeneratedTokensPayload> {
-		if (!refreshToken) {
+		if (!oldRefreshToken) {
 			throw new UnauthorizedException('Refresh token is missing');
 		}
 
-		const validatedTokenData =
+		const refreshTokenData =
 			await this.tokenService.validateToken<RefreshTokenPayload>(
-				refreshToken,
+				oldRefreshToken,
 				env.JWT_REFRESH_TOKEN_SECRET,
 			);
 		const userSession = await this.usersService.getSession(
-			validatedTokenData.sessionId,
+			refreshTokenData.sessionId,
 		);
 
 		const doRefreshTokensMatch = await compareStringHashes(
-			refreshToken,
+			oldRefreshToken,
 			userSession.refreshTokenHash!,
 		);
 		if (!doRefreshTokensMatch) {
@@ -130,24 +107,18 @@ export class AuthenticationService {
 			);
 		}
 
-		const user = await this.usersService.getUserById(validatedTokenData.sub);
-		const newAccessToken = await this.tokenService.generateAccessToken({
-			sub: user.id,
-			role: user.role,
-			sessionId: userSession.id,
-		});
-		const newRefreshToken = await this.tokenService.generateRefreshToken({
-			sub: user.id,
-			sessionId: userSession.id,
-		});
-
+		const user = await this.usersService.getUserById(refreshTokenData.sub);
+		const { accessToken, refreshToken } =
+			await this.tokenService.generateTokens(
+				toAccessTokenPayload({ ...user, sessionId: userSession.id }),
+			);
 		await this.usersService.updateSession(
 			userSession.id,
-			newRefreshToken,
-			new Date(validatedTokenData.exp! * 1000),
+			refreshToken,
+			new Date(refreshTokenData.exp! * 1000),
 		);
 
-		return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+		return { accessToken, refreshToken };
 	}
 
 	async logoutUser(refreshToken: string): Promise<void> {
@@ -167,5 +138,26 @@ export class AuthenticationService {
 		}
 
 		this.usersService.logoutUser(sessionId);
+	}
+
+	private async generateUserSession(
+		user: GetUserLiteDto,
+	): Promise<AuthenticationResponseDto> {
+		const session = await this.usersService.createSession(user.id);
+
+		const extendedUser: GetUserDto = { ...user, sessionId: session.id };
+		const { accessToken, refreshToken } =
+			await this.tokenService.generateTokens(
+				toAccessTokenPayload(extendedUser),
+			);
+
+		await this.usersService.updateSession(session.id, refreshToken);
+
+		return {
+			accessToken,
+			refreshToken,
+			user: extendedUser,
+			sessionId: session.id,
+		};
 	}
 }

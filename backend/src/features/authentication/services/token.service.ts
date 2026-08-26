@@ -9,22 +9,6 @@ import { env } from 'src/env';
 export class TokenService {
 	constructor(private readonly jwtService: JwtService) {}
 
-	generateAccessToken(data: AccessTokenPayload): Promise<string> {
-		return this.generateToken(
-			data,
-			env.JWT_ACCESS_TOKEN_SECRET,
-			env.JWT_ACCESS_TOKEN_EXPIRATION,
-		);
-	}
-
-	generateRefreshToken(data: RefreshTokenPayload): Promise<string> {
-		return this.generateToken(
-			data,
-			env.JWT_REFRESH_TOKEN_SECRET,
-			env.JWT_REFRESH_TOKEN_EXPIRATION,
-		);
-	}
-
 	async generateTokens(
 		data: AccessTokenPayload,
 	): Promise<GenerateTokensPayload> {
@@ -54,6 +38,22 @@ export class TokenService {
 				'Token invalid or expired, please reauthenticate',
 			);
 		}
+	}
+
+	private generateAccessToken(data: AccessTokenPayload): Promise<string> {
+		return this.generateToken(
+			data,
+			env.JWT_ACCESS_TOKEN_SECRET,
+			env.JWT_ACCESS_TOKEN_EXPIRATION,
+		);
+	}
+
+	private generateRefreshToken(data: RefreshTokenPayload): Promise<string> {
+		return this.generateToken(
+			data,
+			env.JWT_REFRESH_TOKEN_SECRET,
+			env.JWT_REFRESH_TOKEN_EXPIRATION,
+		);
 	}
 
 	private generateToken(

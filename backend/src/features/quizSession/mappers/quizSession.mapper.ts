@@ -1,11 +1,11 @@
+import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { QuizResponse } from 'src/common/types/client';
 import {
 	QuizSessionLitePayload,
 	QuizSessionPayload,
 } from '../utilities/quizSession.selects';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { QuizResponse } from 'src/common/types/client';
 
 export function toGetQuizSessionDto(
 	session: QuizSessionPayload,

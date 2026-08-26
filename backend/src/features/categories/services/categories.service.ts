@@ -1,7 +1,8 @@
-import { Category } from 'src/common/types/client';
-import type { ICategoriesRepository } from '../contracts/categories.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Category } from 'src/common/types/client';
 import { CATEGORIES_REPOSITORY } from '../tokens/categories.token';
+
+import type { ICategoriesRepository } from '../contracts/categories.repository';
 
 @Injectable()
 export class CategoriesService {

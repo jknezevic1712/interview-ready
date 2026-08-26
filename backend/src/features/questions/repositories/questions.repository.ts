@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { IQuestionsRepository } from '../contracts/questions.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { QuestionPayload, questionSelect } from '../utilities/question.selects';
+import { IQuestionsRepository } from '../contracts/questions.repository';
 import { CreateQuestionInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
 import { extractQuestionData } from '../utilities/question.data';
+import { QuestionPayload, questionSelect } from '../utilities/question.selects';
 
 @Injectable()
 export class QuestionsRepository implements IQuestionsRepository {
@@ -72,7 +72,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 			},
 		});
 
-		return isLinkedToSession ? false : true;
+		return !isLinkedToSession;
 	}
 
 	async archiveQuestion(questionId: string): Promise<void> {

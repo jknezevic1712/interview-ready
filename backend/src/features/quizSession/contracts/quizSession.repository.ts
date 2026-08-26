@@ -1,11 +1,11 @@
+import { QuizResponse } from 'src/common/types/client';
 import { QuizSessionStatus } from 'src/common/types/enums';
+import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import {
 	QuizSessionLitePayload,
 	QuizSessionPayload,
 	QuizSessionQuestionLitePayload,
 } from '../utilities/quizSession.selects';
-import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
-import { QuizResponse } from 'src/common/types/client';
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;

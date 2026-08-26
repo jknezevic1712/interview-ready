@@ -1,6 +1,6 @@
-import { QuestionPayload } from '../utilities/question.selects';
 import { CreateQuestionInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
+import { QuestionPayload } from '../utilities/question.selects';
 
 export interface IQuestionsRepository {
 	getQuestions(sessionId: string): Promise<QuestionPayload[]>;

@@ -1,14 +1,14 @@
+import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import {
-	UserLitePayload,
-	UserSessionPayload,
-} from '../utilities/users.selects';
-import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
-import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
+import { CredentialProvider } from 'src/common/types/enums';
+import {
+	UserLitePayload,
+	UserSessionPayload,
+} from '../utilities/users.selects';
 
 export interface IUsersRepository {
 	getUser(email: string): Promise<UserLitePayload | null>;

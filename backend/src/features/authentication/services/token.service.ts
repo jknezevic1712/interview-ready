@@ -33,7 +33,7 @@ export class TokenService {
 				secret,
 				ignoreExpiration,
 			});
-		} catch (error) {
+		} catch (_error) {
 			throw new UnauthorizedException(
 				'Token invalid or expired, please reauthenticate',
 			);

@@ -5,21 +5,22 @@ import {
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common';
-import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
-import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
-import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
+import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
+import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
+import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
 	toGetQuizResponseDto,
 	toGetQuizSessionDto,
 	toGetQuizSessionLiteDto,
 } from '../mappers/quizSession.mapper';
-import { COMPLETION_STATUSES } from '../constants/completionStatuses';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
-import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
+
+import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
 
 @Injectable()
 export class QuizSessionService {
@@ -87,6 +88,7 @@ export class QuizSessionService {
 		);
 
 		const quizResponse = await this.quizSessionRepository.createQuizResponse(
+			// biome-ignore lint/style/noNonNullAssertion: <will certainly be truthy since we throw if it's not in above method>
 			this.getQuizResponseData(data, quizSessionQuestionRecord!.question),
 		);
 

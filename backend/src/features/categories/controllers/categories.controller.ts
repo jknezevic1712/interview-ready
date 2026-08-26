@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { Category } from 'src/common/types/client';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
+import { Category } from 'src/common/types/client';
 import { CategoriesService } from '../services/categories.service';
 
 @Controller('categories')

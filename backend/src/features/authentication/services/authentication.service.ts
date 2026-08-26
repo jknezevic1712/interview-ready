@@ -4,23 +4,24 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common';
+import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
+import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
+import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
+import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
+import { ValidatedRefreshTokenPayload } from 'src/common/interfaces/authentication/validatedRefreshTokenPayload.interface';
+import { CredentialProvider } from 'src/common/types/enums';
+import { env } from 'src/env';
 import { UsersService } from 'src/features/users/services/users.service';
+import { toAccessTokenPayload } from '../mappers/token.mapper';
 import {
 	compareStringHashes,
 	toStringHash,
 } from '../utilities/stringTransform';
-import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
-import { CredentialProvider } from 'src/common/types/enums';
 import { TokenService } from './token.service';
-import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { toAccessTokenPayload } from '../mappers/token.mapper';
-import { env } from 'src/env';
-import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
-import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
-import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
-import { ValidatedRefreshTokenPayload } from 'src/common/interfaces/authentication/validatedRefreshTokenPayload.interface';
+
 import type { GenerateTokensPayload } from 'src/common/interfaces/authentication/generateTokensPayload.interface';
 
 @Injectable()
@@ -100,6 +101,7 @@ export class AuthenticationService {
 
 		const doRefreshTokensMatch = await compareStringHashes(
 			oldRefreshToken,
+			// biome-ignore lint/style/noNonNullAssertion: <it will certainly be string>
 			userSession.refreshTokenHash!,
 		);
 		if (!doRefreshTokensMatch) {

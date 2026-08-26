@@ -1,13 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-	IsArray,
-	IsOptional,
-	IsString,
-	Matches,
-	ValidateNested,
-} from 'class-validator';
-import { CreateQuizResponseAnswerDto } from './createQuizResponseAnswer.dto';
 import { Type } from 'class-transformer';
+import { IsArray, IsString, Matches, ValidateNested } from 'class-validator';
+import { CreateQuizResponseAnswerDto } from './createQuizResponseAnswer.dto';
 
 export class CreateQuizResponseDto {
 	@IsString()

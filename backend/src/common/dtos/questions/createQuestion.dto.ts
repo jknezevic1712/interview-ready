@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
 	ArrayMinSize,
 	IsArray,
@@ -11,7 +12,6 @@ import {
 } from 'class-validator';
 import { Difficulty, QuestionType } from 'src/common/types/enums';
 import { CreateAnswerOptionDto } from './createAnswerOption.dto';
-import { Type } from 'class-transformer';
 
 export class CreateQuestionDto {
 	@IsString()

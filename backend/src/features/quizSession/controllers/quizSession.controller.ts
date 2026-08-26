@@ -7,13 +7,13 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
-import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
-import { QuizSessionService } from '../services/quizSession.service';
-import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
+import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
+import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
+import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
+import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
+import { QuizSessionService } from '../services/quizSession.service';
 
 @Controller('quiz-sessions')
 export class QuizSessionController {

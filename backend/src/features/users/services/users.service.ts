@@ -4,20 +4,21 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common';
-import { USERS_REPOSITORY } from '../tokens/users.token';
-import type { IUsersRepository } from '../contracts/users.repository';
 import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import { toGetUserLiteDto } from '../mappers/users.mappers';
-import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
+import { CredentialProvider } from 'src/common/types/enums';
 import { env } from 'src/env';
-import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
+import { toGetUserLiteDto } from '../mappers/users.mappers';
+import { USERS_REPOSITORY } from '../tokens/users.token';
 import { UserSessionPayload } from '../utilities/users.selects';
+
+import type { IUsersRepository } from '../contracts/users.repository';
 
 @Injectable()
 export class UsersService {

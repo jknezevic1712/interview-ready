@@ -45,7 +45,8 @@ export class UsersRepository implements IUsersRepository {
 	): Promise<UserCredentialLocalData | null>;
 	getUserCredential(
 		provider:
-			typeof CredentialProvider.GOOGLE | typeof CredentialProvider.GITHUB,
+			| typeof CredentialProvider.GOOGLE
+			| typeof CredentialProvider.GITHUB,
 		email: string,
 	): Promise<UserCredentialOAuthData | null>;
 	getUserCredential(

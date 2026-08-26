@@ -37,7 +37,8 @@ export class UsersService {
 	): Promise<UserCredentialLocalData | null>;
 	async getUserCredential(
 		provider:
-			typeof CredentialProvider.GOOGLE | typeof CredentialProvider.GITHUB,
+			| typeof CredentialProvider.GOOGLE
+			| typeof CredentialProvider.GITHUB,
 		email: string,
 	): Promise<UserCredentialOAuthData | null>;
 	async getUserCredential(

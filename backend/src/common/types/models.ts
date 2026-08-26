@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/UserSession'
+export type * from './models/UserCredential'
 export type * from './models/Category'
 export type * from './models/Question'
 export type * from './models/AnswerOption'

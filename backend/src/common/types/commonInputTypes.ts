@@ -104,25 +104,6 @@ export type StringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
-export type EnumQuestionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
-}
-
-export type EnumDifficultyFilter<$PrismaModel = never> = {
-  equals?: $Enums.Difficulty | Prisma.EnumDifficultyFieldRefInput<$PrismaModel>
-  in?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
-  notIn?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumDifficultyFilter<$PrismaModel> | $Enums.Difficulty
-}
-
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type SortOrderInput = {
   sort: Prisma.SortOrder
   nulls?: Prisma.NullsOrder
@@ -144,6 +125,42 @@ export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type EnumCredentialProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.CredentialProvider | Prisma.EnumCredentialProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel> | $Enums.CredentialProvider
+}
+
+export type EnumCredentialProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CredentialProvider | Prisma.EnumCredentialProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCredentialProviderWithAggregatesFilter<$PrismaModel> | $Enums.CredentialProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel>
+}
+
+export type EnumQuestionTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+}
+
+export type EnumDifficultyFilter<$PrismaModel = never> = {
+  equals?: $Enums.Difficulty | Prisma.EnumDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDifficultyFilter<$PrismaModel> | $Enums.Difficulty
+}
+
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type EnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -354,25 +371,6 @@ export type NestedStringNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
 }
 
-export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
-  equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
-  in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
-  notIn?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
-}
-
-export type NestedEnumDifficultyFilter<$PrismaModel = never> = {
-  equals?: $Enums.Difficulty | Prisma.EnumDifficultyFieldRefInput<$PrismaModel>
-  in?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
-  notIn?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumDifficultyFilter<$PrismaModel> | $Enums.Difficulty
-}
-
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
@@ -399,6 +397,42 @@ export type NestedIntNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
+}
+
+export type NestedEnumCredentialProviderFilter<$PrismaModel = never> = {
+  equals?: $Enums.CredentialProvider | Prisma.EnumCredentialProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel> | $Enums.CredentialProvider
+}
+
+export type NestedEnumCredentialProviderWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CredentialProvider | Prisma.EnumCredentialProviderFieldRefInput<$PrismaModel>
+  in?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CredentialProvider[] | Prisma.ListEnumCredentialProviderFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCredentialProviderWithAggregatesFilter<$PrismaModel> | $Enums.CredentialProvider
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCredentialProviderFilter<$PrismaModel>
+}
+
+export type NestedEnumQuestionTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.QuestionType | Prisma.EnumQuestionTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.QuestionType[] | Prisma.ListEnumQuestionTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumQuestionTypeFilter<$PrismaModel> | $Enums.QuestionType
+}
+
+export type NestedEnumDifficultyFilter<$PrismaModel = never> = {
+  equals?: $Enums.Difficulty | Prisma.EnumDifficultyFieldRefInput<$PrismaModel>
+  in?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Difficulty[] | Prisma.ListEnumDifficultyFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDifficultyFilter<$PrismaModel> | $Enums.Difficulty
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
 }
 
 export type NestedEnumQuestionTypeWithAggregatesFilter<$PrismaModel = never> = {

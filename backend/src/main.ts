@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/globalExceptionFilter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -11,12 +12,21 @@ async function bootstrap() {
 	const swaggerConfig = new DocumentBuilder()
 		.setTitle('Interview Ready')
 		.setVersion('1.0')
+		.addBearerAuth(
+			{
+				type: 'http',
+				scheme: 'bearer',
+				bearerFormat: 'JWT',
+				description: 'JWT access token',
+			},
+			'access-token',
+		)
 		.build();
 	const documentFactory = () =>
 		SwaggerModule.createDocument(app, swaggerConfig);
 	SwaggerModule.setup('api', app, documentFactory);
 
-	app.useGlobalFilters(new GlobalExceptionFilter());
+	// app.useGlobalFilters(new GlobalExceptionFilter());
 	app.useGlobalPipes(
 		new ValidationPipe({
 			whitelist: true,
@@ -24,6 +34,7 @@ async function bootstrap() {
 			transform: true,
 		}),
 	);
+	app.use(cookieParser());
 
 	await app.listen(process.env.PORT ?? 3000);
 }

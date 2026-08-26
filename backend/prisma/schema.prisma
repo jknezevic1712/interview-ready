@@ -33,16 +33,51 @@ enum QuizSessionStatus {
     ABANDONED
 }
 
+enum CredentialProvider {
+    LOCAL
+    GOOGLE
+    GITHUB
+}
+
 model User {
     id    String @id @default(cuid(2))
     email String @unique
     name  String
     role  Role   @default(USER)
 
-    sessions QuizSession[]
+    sessions        QuizSession[]
+    userSessions    UserSession[]
+    userCredentials UserCredential[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model UserSession {
+    id               String   @id @default(cuid(2))
+    userId           String
+    refreshTokenHash String?
+    expiresAt        DateTime
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model UserCredential {
+    id             String             @id @default(cuid(2))
+    userId         String
+    provider       CredentialProvider
+    passwordHash   String?
+    providerUserId String?
+    createdAt      DateTime           @default(now())
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@unique([provider, providerUserId])
+    @@unique([userId, provider])
 }
 
 model Category {
@@ -57,27 +92,21 @@ model Category {
 }
 
 model Question {
-    id String @id @default(cuid(2))
-
-    categoryId String
-    category   Category @relation(fields: [categoryId], references: [id])
-
+    id          String       @id @default(cuid(2))
+    categoryId  String
     text        String
     explanation String?
+    type        QuestionType
+    difficulty  Difficulty
+    aiGenerated Boolean      @default(false)
+    isArchived  Boolean      @default(false)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
 
-    type       QuestionType
-    difficulty Difficulty
-
-    aiGenerated Boolean @default(false)
-
-    isArchived Boolean @default(false)
-
+    category             Category              @relation(fields: [categoryId], references: [id])
     answerOptions        AnswerOption[]
     responses            QuizResponse[]
     quizSessionQuestions QuizSessionQuestion[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 
     @@index([categoryId])
     @@index([difficulty])
@@ -85,37 +114,30 @@ model Question {
 }
 
 model AnswerOption {
-    id String @id @default(cuid(2))
-
+    id         String   @id @default(cuid(2))
     questionId String
-    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+    text       String
+    isCorrect  Boolean
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
 
-    text      String
-    isCorrect Boolean
-
+    question  Question             @relation(fields: [questionId], references: [id], onDelete: Cascade)
     responses QuizResponseAnswer[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
 
 model QuizResponse {
-    id String @id @default(cuid(2))
-
-    sessionId String
-    session   QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
+    id         String   @id @default(cuid(2))
+    sessionId  String
     questionId String
-    question   Question @relation(fields: [questionId], references: [id])
-
-    answers    QuizResponseAnswer[]
     textAnswer String?
-
-    isCorrect Boolean?
-    score     Float?
-    feedback  String?
-
+    isCorrect  Boolean?
+    score      Float?
+    feedback   String?
     answeredAt DateTime @default(now())
+
+    session  QuizSession          @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+    question Question             @relation(fields: [questionId], references: [id])
+    answers  QuizResponseAnswer[]
 
     @@unique([sessionId, questionId])
     @@index([sessionId])
@@ -123,28 +145,25 @@ model QuizResponse {
 }
 
 model QuizResponseAnswer {
-    responseId String
-    response   QuizResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
-
+    responseId     String
     answerOptionId String
-    answerOption   AnswerOption @relation(fields: [answerOptionId], references: [id], onDelete: Cascade)
+
+    response     QuizResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+    answerOption AnswerOption @relation(fields: [answerOptionId], references: [id], onDelete: Cascade)
 
     @@id([responseId, answerOptionId])
 }
 
 model QuizSession {
-    id String @id @default(cuid(2))
+    id          String            @id @default(cuid(2))
+    userId      String
+    status      QuizSessionStatus @default(IN_PROGRESS)
+    startedAt   DateTime          @default(now())
+    completedAt DateTime?
 
-    userId String
-    user   User   @relation(fields: [userId], references: [id])
-
-    status QuizSessionStatus @default(IN_PROGRESS)
-
+    user                 User                  @relation(fields: [userId], references: [id])
     quizSessionQuestions QuizSessionQuestion[]
     responses            QuizResponse[]
-
-    startedAt   DateTime  @default(now())
-    completedAt DateTime?
 }
 
 model QuizSessionQuestion {

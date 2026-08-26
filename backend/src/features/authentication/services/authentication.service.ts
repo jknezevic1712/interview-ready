@@ -18,8 +18,8 @@ import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authen
 import { toAccessTokenPayload } from '../mappers/token.mapper';
 import { env } from 'src/env';
 import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
-import { RefreshTokenResponse } from 'src/common/dtos/authentication/refreshTokenResponse.dto';
 import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
+import { GeneratedTokensPayload } from 'src/common/interfaces/authentication/generatedTokensPayload.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -106,7 +106,7 @@ export class AuthenticationService {
 
 	async refreshAccessToken(
 		refreshToken: string,
-	): Promise<RefreshTokenResponse> {
+	): Promise<GeneratedTokensPayload> {
 		if (!refreshToken) {
 			throw new UnauthorizedException('Refresh token is missing');
 		}

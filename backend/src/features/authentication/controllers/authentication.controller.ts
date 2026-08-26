@@ -1,11 +1,13 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
 import { AuthenticationService } from '../services/authentication.service';
 import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-import { RefreshTokenResponse } from 'src/common/dtos/authentication/refreshTokenResponse.dto';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { env } from 'src/env';
+import { RefreshAccessTokenResponseDto } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -29,16 +31,30 @@ export class AuthenticationController {
 
 	@Public()
 	@Post('refresh')
-	refreshAccessToken(@Req() request: Request): Promise<RefreshTokenResponse> {
+	async refreshAccessToken(
+		@Req() request: Request,
+		@Res({ passthrough: true }) response: Response,
+	): Promise<RefreshAccessTokenResponseDto> {
 		const refreshToken = request.cookies.refresh_token;
-		return this.authenticationService.refreshAccessToken(refreshToken);
+		const newTokens =
+			await this.authenticationService.refreshAccessToken(refreshToken);
+
+		response.cookie('refresh_token', newTokens.refreshToken, {
+			httpOnly: true,
+			secure: env.ENV === 'production',
+			sameSite: 'lax',
+			path: '/authentication',
+		});
+
+		return {
+			accessToken: newTokens.accessToken,
+		};
 	}
 
+	@ApiBearerAuth()
 	@Post('logout')
 	logout(@Req() request: Request): Promise<void> {
 		const refreshToken = request.cookies.refresh_token;
 		return this.authenticationService.logoutUser(refreshToken);
 	}
 }
-
-// TODO: RefreshTokenResponse should actually set cookie data, not return it in json

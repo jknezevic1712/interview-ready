@@ -9,11 +9,11 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
+import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
 import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
+import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { QuestionsService } from '../services/questions.service';
-import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
-import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
 
 @Controller('questions')
 export class QuestionsController {

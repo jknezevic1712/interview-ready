@@ -4,11 +4,11 @@ import {
 	Injectable,
 	UnauthorizedException,
 } from '@nestjs/common';
-import { TokenService } from 'src/features/authentication/services/token.service';
-import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
 import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
 import { env } from 'src/env';
+import { TokenService } from 'src/features/authentication/services/token.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -34,15 +34,18 @@ export class AuthGuard implements CanActivate {
 				token,
 				env.JWT_ACCESS_TOKEN_SECRET,
 			);
-			request['user'] = payload;
-		} catch (error) {
+			request.user = payload;
+		} catch (_error) {
 			throw new UnauthorizedException('Unauthorized access, please log in');
 		}
 
 		return true;
 	}
 
-	private isPublicRoute(handler: Function, classType: any) {
+	private isPublicRoute(
+		handler: ReturnType<ExecutionContext['getHandler']>,
+		classType: ReturnType<ExecutionContext['getClass']>,
+	) {
 		return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
 			handler,
 			classType,

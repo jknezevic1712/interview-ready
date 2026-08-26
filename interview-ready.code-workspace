@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "backend"
+		}
+	],
+	"settings": {
+		"editor.defaultFormatter": "biomejs.biome",
+		"[typescript]": {
+			"editor.defaultFormatter": "biomejs.biome"
+		},
+		"editor.formatOnSave": true,
+		"editor.codeActionsOnSave": {
+			"source.organizeImports.biome": "explicit",
+			"source.fixAll.biome": "explicit"
+		},
+		"biome.requireConfiguration": true,
+	},
+}

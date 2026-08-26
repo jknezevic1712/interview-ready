@@ -1,12 +1,13 @@
 import { Body, Controller, Post, Req, Res } from '@nestjs/common';
-import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
-import { AuthenticationService } from '../services/authentication.service';
-import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
-import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { Public } from 'src/common/decorators/public.decorator';
-import type { Request, Response } from 'express';
-import { env } from 'src/env';
+import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
+import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
+import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
 import { RefreshAccessTokenResponseDto } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
+import { env } from 'src/env';
+import { AuthenticationService } from '../services/authentication.service';
+
+import type { Request, Response } from 'express';
 
 @Controller('authentication')
 export class AuthenticationController {

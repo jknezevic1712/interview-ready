@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { IUsersRepository } from '../contracts/users.repository';
-import {
-	userCredentialSelect,
-	UserLitePayload,
-	userLiteSelect,
-	UserSessionPayload,
-	userSessionSelect,
-} from '../utilities/users.selects';
+import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
-import { CredentialProvider } from 'src/common/types/enums';
 import {
 	UserCredentialLocalData,
 	UserCredentialOAuthData,
 } from 'src/common/interfaces/user/userCredentialData.interface';
+import { CredentialProvider } from 'src/common/types/enums';
 import { env } from 'src/env';
-import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { IUsersRepository } from '../contracts/users.repository';
+import {
+	UserLitePayload,
+	UserSessionPayload,
+	userCredentialSelect,
+	userLiteSelect,
+	userSessionSelect,
+} from '../utilities/users.selects';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
@@ -45,7 +45,8 @@ export class UsersRepository implements IUsersRepository {
 	): Promise<UserCredentialLocalData | null>;
 	getUserCredential(
 		provider:
-			typeof CredentialProvider.GOOGLE | typeof CredentialProvider.GITHUB,
+			| typeof CredentialProvider.GOOGLE
+			| typeof CredentialProvider.GITHUB,
 		email: string,
 	): Promise<UserCredentialOAuthData | null>;
 	getUserCredential(

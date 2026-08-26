@@ -1,10 +1,11 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import type { IQuestionsRepository } from '../contracts/questions.repository';
-import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
-import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { toGetQuestionDto } from '../mappers/questions.mapper';
 import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
+import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
 import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
+import { toGetQuestionDto } from '../mappers/questions.mapper';
+import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
+
+import type { IQuestionsRepository } from '../contracts/questions.repository';
 
 @Injectable()
 export class QuestionsService {

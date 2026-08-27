@@ -15,7 +15,7 @@ export class GetQuizSessionBuilder
 
 	build(): GetQuizSessionDto {
 		return {
-			...this.buildBase(),
+			...super.build(),
 			responses: this.responses,
 		};
 	}

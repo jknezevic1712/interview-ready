@@ -36,7 +36,7 @@ export abstract class GetQuizSessionBaseBuilder
 		return this;
 	}
 
-	protected buildBase(): GetQuizSessionBaseDto {
+	protected build(): GetQuizSessionBaseDto {
 		return {
 			id: this.id,
 			status: this.status,

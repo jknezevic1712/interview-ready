@@ -10,7 +10,7 @@ export class GetQuizSessionLiteBuilder
 
 	build(): GetQuizSessionLiteDto {
 		return {
-			...this.buildBase(),
+			...super.build(),
 			responses: this.responses,
 		};
 	}

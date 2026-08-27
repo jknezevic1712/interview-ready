@@ -15,13 +15,7 @@ class UpdateQuestionBuilder
 
 	override build(): UpdateQuestionDto {
 		return {
-			text: this.text,
-			type: this.type,
-			categoryId: this.categoryId,
-			difficulty: this.difficulty,
-			answerOptions: this.answerOptions,
-			aiGenerated: this.aiGenerated,
-			explanation: this.explanation,
+			...super.build(),
 			questionId: this.questionId,
 		};
 	}

@@ -1,4 +1,4 @@
-import type { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
+import type { CreateUserDto } from 'src/common/dtos/users/createUser.dto';
 
 class CreateUserBuilder implements CreateUserDto {
 	email = 'test@test.com';

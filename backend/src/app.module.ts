@@ -2,7 +2,8 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthGuard } from './common/guards/auth/auth.guard';
+import { AuthenticationGuard } from './common/guards/authentication.guard';
+import { AuthorizationGuard } from './common/guards/authorization.guard';
 import { AuthenticationModule } from './features/authentication/authentication.module';
 import { CategoriesModule } from './features/categories/categories.module';
 import { QuestionsModule } from './features/questions/questions.module';
@@ -25,7 +26,11 @@ import { PrismaModule } from './prisma/prisma.module';
 		AppService,
 		{
 			provide: APP_GUARD,
-			useClass: AuthGuard,
+			useClass: AuthenticationGuard,
+		},
+		{
+			provide: APP_GUARD,
+			useClass: AuthorizationGuard,
 		},
 	],
 })

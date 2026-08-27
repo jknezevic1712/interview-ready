@@ -1,22 +1,19 @@
 import {
 	CanActivate,
 	ExecutionContext,
-	ForbiddenException,
 	Injectable,
 	UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { AUTHORIZE_KEY } from 'src/common/decorators/authorize.decorator';
 import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
-import { Role } from 'src/common/types/enums';
 import { env } from 'src/env';
 import { TokenService } from 'src/features/authentication/services/token.service';
 
 import type { ValidatedAccessTokenPayload } from 'src/common/interfaces/authentication/validatedAccessTokenPayload.interface';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthenticationGuard implements CanActivate {
 	constructor(
 		private readonly tokenService: TokenService,
 		private readonly reflector: Reflector,
@@ -37,43 +34,13 @@ export class AuthGuard implements CanActivate {
 			throw new UnauthorizedException('Unauthorized access, please log in');
 		}
 
-		const validatedTokenData =
+		request.user =
 			await this.tokenService.validateToken<ValidatedAccessTokenPayload>(
 				token,
 				env.JWT_ACCESS_TOKEN_SECRET,
 			);
-		request.user = validatedTokenData;
-
-		this.validateUserAccess(ctxHandler, ctxClass, validatedTokenData.role);
 
 		return true;
-	}
-
-	private validateUserAccess(
-		handler: ReturnType<ExecutionContext['getHandler']>,
-		classType: ReturnType<ExecutionContext['getClass']>,
-		userRole: Role,
-	) {
-		if (userRole === Role.ADMIN) {
-			return true;
-		}
-
-		const allowedRoles = this.extractAllowedRoles(handler, classType);
-		if (!allowedRoles.includes(userRole)) {
-			throw new ForbiddenException('No permission to access this resource');
-		}
-
-		return true;
-	}
-
-	private extractAllowedRoles(
-		handler: ReturnType<ExecutionContext['getHandler']>,
-		classType: ReturnType<ExecutionContext['getClass']>,
-	) {
-		return this.reflector.getAllAndOverride<Role[]>(AUTHORIZE_KEY, [
-			handler,
-			classType,
-		]);
 	}
 
 	private isPublicRoute(

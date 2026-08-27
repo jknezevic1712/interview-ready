@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
 import { env } from 'src/env';
 import { TokenService } from 'src/features/authentication/services/token.service';
+import { isPublicRoute } from './helpers/auth.helper';
 
 import type { ValidatedAccessTokenPayload } from 'src/common/interfaces/authentication/validatedAccessTokenPayload.interface';
 
@@ -20,10 +20,13 @@ export class AuthenticationGuard implements CanActivate {
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		const ctxHandler = context.getHandler();
-		const ctxClass = context.getClass();
-
-		if (this.isPublicRoute(ctxHandler, ctxClass)) {
+		if (
+			isPublicRoute(
+				this.reflector.getAllAndOverride,
+				context.getHandler(),
+				context.getClass(),
+			)
+		) {
 			return true;
 		}
 
@@ -41,16 +44,6 @@ export class AuthenticationGuard implements CanActivate {
 			);
 
 		return true;
-	}
-
-	private isPublicRoute(
-		handler: ReturnType<ExecutionContext['getHandler']>,
-		classType: ReturnType<ExecutionContext['getClass']>,
-	) {
-		return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
-			handler,
-			classType,
-		]);
 	}
 
 	private extractTokenFromHeader(request: Request): string | undefined {

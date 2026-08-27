@@ -5,7 +5,7 @@ import { buildCreateAnswerOption } from './createAnswerOption.builder';
 export class CreateQuestionBuilder implements CreateQuestionDto {
 	text = 'Question 1';
 	type: CreateQuestionDto['type'] = QuestionType.SINGLE_CHOICE;
-	categoryId = 'Category id 1';
+	categoryId = 'category-id-1';
 	difficulty: CreateQuestionDto['difficulty'] = Difficulty.MID;
 	answerOptions = [buildCreateAnswerOption().build()];
 	aiGenerated: CreateQuestionDto['aiGenerated'] = false;

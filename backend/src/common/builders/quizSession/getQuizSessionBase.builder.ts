@@ -8,7 +8,7 @@ export abstract class GetQuizSessionBaseBuilder
 {
 	id = 'quiz-session-1';
 	status: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
-	startedAt = new Date();
+	startedAt = new Date(Date.now());
 	completedAt: GetQuizSessionBaseDto['completedAt'] = null;
 	user: GetQuizSessionBaseDto['user'] = buildGetUserLite().build();
 

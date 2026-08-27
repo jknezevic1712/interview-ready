@@ -1,11 +1,12 @@
+import { buildGetUser } from '../users/getUser.builder';
+
 import type { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import type { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 
 class AuthenticationResponseBuilder implements AuthenticationResponseDto {
 	accessToken = 'qwertzuiop';
 	refreshToken = '12345678';
 	sessionId = 'q1w2e3r4t5';
-	user = {} as GetUserDto;
+	user: AuthenticationResponseDto['user'] = buildGetUser().build();
 
 	withAccessToken(token: AuthenticationResponseDto['accessToken']) {
 		this.accessToken = token;

@@ -1,4 +1,5 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
+import { buildGetUserLite } from '../users/getUserLite.builder';
 
 import type { GetQuizSessionBaseDto } from 'src/common/dtos/quizSession/getQuizSessionBase.dto';
 
@@ -9,7 +10,7 @@ export abstract class GetQuizSessionBaseBuilder
 	status: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
 	startedAt = new Date();
 	completedAt: GetQuizSessionBaseDto['completedAt'] = null;
-	user: GetQuizSessionBaseDto['user'] = {} as GetQuizSessionBaseDto['user'];
+	user: GetQuizSessionBaseDto['user'] = buildGetUserLite().build();
 
 	withId(id: GetQuizSessionBaseDto['id']) {
 		this.id = id;

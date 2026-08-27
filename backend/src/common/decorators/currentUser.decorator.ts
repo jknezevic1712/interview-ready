@@ -1,14 +1,13 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
+import type { Request } from 'express';
 import type { AccessTokenPayload } from '../interfaces/authentication/accessTokenPayload.interface';
-import type { ValidatedAccessTokenPayload } from '../interfaces/authentication/validatedAccessTokenPayload.interface';
 
 export const CurrentUser = createParamDecorator(
-	(_data: unknown, context: ExecutionContext) => {
-		const request = context.switchToHttp().getRequest();
-		const { sub, sessionId, role } =
-			request.user as ValidatedAccessTokenPayload;
+	(_data: unknown, context: ExecutionContext): AccessTokenPayload => {
+		const request = context.switchToHttp().getRequest<Request>();
+		const { sub, sessionId, role } = request.user;
 
-		return { sub, sessionId, role } satisfies AccessTokenPayload;
+		return { sub, sessionId, role };
 	},
 );

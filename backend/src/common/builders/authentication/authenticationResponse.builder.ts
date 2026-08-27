@@ -38,4 +38,5 @@ class AuthenticationResponseBuilder implements AuthenticationResponseDto {
 	}
 }
 
-export const buildAuthenticationResponse = new AuthenticationResponseBuilder();
+export const buildAuthenticationResponse = () =>
+	new AuthenticationResponseBuilder();

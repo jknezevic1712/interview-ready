@@ -7,7 +7,7 @@ export class CreateQuestionBuilder implements CreateQuestionDto {
 	type: CreateQuestionDto['type'] = QuestionType.SINGLE_CHOICE;
 	categoryId = 'Category id 1';
 	difficulty: CreateQuestionDto['difficulty'] = Difficulty.MID;
-	answerOptions = [buildCreateAnswerOption.build()];
+	answerOptions = [buildCreateAnswerOption().build()];
 	aiGenerated: CreateQuestionDto['aiGenerated'] = false;
 	explanation: CreateQuestionDto['explanation'] = 'Lorem ipsum';
 
@@ -59,4 +59,4 @@ export class CreateQuestionBuilder implements CreateQuestionDto {
 	}
 }
 
-export const buildCreateQuestion = new CreateQuestionBuilder();
+export const buildCreateQuestion = () => new CreateQuestionBuilder();

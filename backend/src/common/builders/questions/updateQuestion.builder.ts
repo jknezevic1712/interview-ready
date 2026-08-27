@@ -21,4 +21,4 @@ class UpdateQuestionBuilder
 	}
 }
 
-export const buildUpdateQuestion = new UpdateQuestionBuilder();
+export const buildUpdateQuestion = () => new UpdateQuestionBuilder();

@@ -72,4 +72,4 @@ class GetQuestionBuilder implements GetQuestionDto {
 	}
 }
 
-export const buildGetQuestion = new GetQuestionBuilder();
+export const buildGetQuestion = () => new GetQuestionBuilder();

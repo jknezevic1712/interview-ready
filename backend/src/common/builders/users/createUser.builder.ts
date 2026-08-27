@@ -29,4 +29,4 @@ class CreateUserBuilder implements CreateUserDto {
 	}
 }
 
-export const buildCreateUser = new CreateUserBuilder();
+export const buildCreateUser = () => new CreateUserBuilder();

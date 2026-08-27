@@ -15,4 +15,4 @@ class RefreshAccessTokenBuilder implements RefreshAccessTokenResponseDto {
 	}
 }
 
-export const buildRefreshAccessToken = new RefreshAccessTokenBuilder();
+export const buildRefreshAccessToken = () => new RefreshAccessTokenBuilder();

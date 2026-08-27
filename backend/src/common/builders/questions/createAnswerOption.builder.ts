@@ -22,4 +22,4 @@ class CreateAnswerOptionBuilder implements CreateAnswerOptionDto {
 	}
 }
 
-export const buildCreateAnswerOption = new CreateAnswerOptionBuilder();
+export const buildCreateAnswerOption = () => new CreateAnswerOptionBuilder();

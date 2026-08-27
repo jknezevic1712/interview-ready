@@ -22,4 +22,4 @@ class LoginUserBuilder implements LoginUserDto {
 	}
 }
 
-export const buildLoginUser = new LoginUserBuilder();
+export const buildLoginUser = () => new LoginUserBuilder();

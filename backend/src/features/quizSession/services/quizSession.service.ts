@@ -35,8 +35,18 @@ export class QuizSessionService {
 		return quizSessions.map(toGetQuizSessionLiteDto);
 	}
 
-	async getQuizSession(sessionId: string): Promise<GetQuizSessionDto> {
-		const session = await this.quizSessionRepository.getQuizSession(sessionId);
+	async getQuizSession(
+		sessionId: string,
+		userId: string,
+	): Promise<GetQuizSessionDto> {
+		const session = await this.quizSessionRepository.getQuizSession(
+			sessionId,
+			userId,
+		);
+		if (!session) {
+			throw new NotFoundException(`Quiz session not found`);
+		}
+
 		return toGetQuizSessionDto(session);
 	}
 
@@ -47,10 +57,16 @@ export class QuizSessionService {
 
 	async updateQuizSessionStatus(
 		sessionId: string,
+		userId: string,
 		sessionStatus: QuizSessionStatus,
 	): Promise<GetQuizSessionDto> {
-		const quizSession =
-			await this.quizSessionRepository.getQuizSession(sessionId);
+		const quizSession = await this.quizSessionRepository.getQuizSession(
+			sessionId,
+			userId,
+		);
+		if (!quizSession) {
+			throw new NotFoundException(`Quiz session not found`);
+		}
 
 		// ? Validate the quiz session is in progress status
 		if (quizSession.status !== QuizSessionStatus.IN_PROGRESS) {
@@ -68,17 +84,20 @@ export class QuizSessionService {
 			await this.quizSessionRepository.updateQuizSessionStatus(
 				sessionId,
 				sessionStatus,
+				userId,
 			);
 		return toGetQuizSessionDto(updatedSession);
 	}
 
 	async createQuizResponse(
 		data: CreateQuizResponseDto,
+		userId: string,
 	): Promise<GetQuizResponseDto> {
 		const quizSessionQuestionRecord =
 			await this.quizSessionRepository.getQuizSessionQuestionRecordLite(
 				data.sessionId,
 				data.questionId,
+				userId,
 			);
 
 		this.validateQuizSessionQuestionRecord(

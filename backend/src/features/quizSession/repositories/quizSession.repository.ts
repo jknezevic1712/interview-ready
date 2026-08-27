@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QuizResponse } from 'src/common/types/client';
 import { QuizSessionStatus } from 'src/common/types/enums';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -26,19 +26,17 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		});
 	}
 
-	async getQuizSession(sessionId: string): Promise<QuizSessionPayload> {
-		const quizSession = await this.db.quizSession.findUnique({
+	getQuizSession(
+		sessionId: string,
+		userId: string,
+	): Promise<QuizSessionPayload | null> {
+		return this.db.quizSession.findUnique({
 			where: {
 				id: sessionId,
+				userId,
 			},
 			select: quizSessionSelect,
 		});
-
-		if (!quizSession) {
-			throw new NotFoundException(`Quiz session ${sessionId} not found`);
-		}
-
-		return quizSession;
 	}
 
 	createQuizSession(userId: string): Promise<QuizSessionLitePayload> {
@@ -53,10 +51,12 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 	updateQuizSessionStatus(
 		sessionId: string,
 		sessionStatus: QuizSessionStatus,
+		userId: string,
 	): Promise<QuizSessionPayload> {
 		return this.db.quizSession.update({
 			where: {
 				id: sessionId,
+				userId,
 			},
 			data: {
 				status: sessionStatus,
@@ -68,12 +68,16 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 	getQuizSessionQuestionRecordLite(
 		sessionId: string,
 		questionId: string,
+		userId: string,
 	): Promise<QuizSessionQuestionLitePayload | null> {
 		return this.db.quizSessionQuestion.findUnique({
 			where: {
 				sessionId_questionId: {
 					sessionId,
 					questionId,
+				},
+				session: {
+					userId,
 				},
 			},
 			select: quizSessionQuestionLiteSelect,

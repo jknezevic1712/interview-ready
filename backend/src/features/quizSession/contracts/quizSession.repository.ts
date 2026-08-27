@@ -9,15 +9,20 @@ import {
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;
-	getQuizSession(sessionId: string): Promise<QuizSessionPayload>;
+	getQuizSession(
+		sessionId: string,
+		userId: string,
+	): Promise<QuizSessionPayload | null>;
 	createQuizSession(userId: string): Promise<QuizSessionLitePayload>;
 	updateQuizSessionStatus(
 		sessionId: string,
 		sessionStatus: QuizSessionStatus,
+		userId: string,
 	): Promise<QuizSessionPayload>;
 	getQuizSessionQuestionRecordLite(
 		sessionId: string,
 		questionId: string,
+		userId: string,
 	): Promise<QuizSessionQuestionLitePayload | null>;
 	createQuizResponse(data: CreateQuizResponseInput): Promise<QuizResponse>;
 }

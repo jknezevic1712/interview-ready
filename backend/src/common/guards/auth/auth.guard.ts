@@ -1,6 +1,7 @@
 import {
 	CanActivate,
 	ExecutionContext,
+	ForbiddenException,
 	Injectable,
 	UnauthorizedException,
 } from '@nestjs/common';
@@ -43,11 +44,7 @@ export class AuthGuard implements CanActivate {
 			);
 		request.user = validatedTokenData;
 
-		if (
-			this.validateUserAccess(ctxHandler, ctxClass, validatedTokenData.role)
-		) {
-			return true;
-		}
+		this.validateUserAccess(ctxHandler, ctxClass, validatedTokenData.role);
 
 		return true;
 	}
@@ -63,9 +60,7 @@ export class AuthGuard implements CanActivate {
 
 		const allowedRoles = this.extractAllowedRoles(handler, classType);
 		if (!allowedRoles.includes(userRole)) {
-			throw new UnauthorizedException(
-				'Unauthorized access due to lack of permissions',
-			);
+			throw new ForbiddenException('No permission to access this resource');
 		}
 
 		return true;

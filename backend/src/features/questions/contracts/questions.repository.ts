@@ -3,7 +3,7 @@ import { UpdateQuestionInput } from '../types/updateQuestion.input';
 import { QuestionPayload } from '../utilities/question.selects';
 
 export interface IQuestionsRepository {
-	getQuestions(sessionId: string): Promise<QuestionPayload[]>;
+	getQuestions(sessionId: string, userId: string): Promise<QuestionPayload[]>;
 	createQuestion(data: CreateQuestionInput): Promise<QuestionPayload>;
 	updateQuestion(data: UpdateQuestionInput): Promise<QuestionPayload>;
 	linkQuestion(sessionId: string, questionId: string): Promise<void>;

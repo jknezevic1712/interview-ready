@@ -1,61 +1,66 @@
-import {
-	Body,
-	Controller,
-	Get,
-	Param,
-	Patch,
-	Post,
-	Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { Authorize } from 'src/common/decorators/authorize.decorator';
+import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
 import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
+import { Role } from 'src/common/types/enums';
 import { QuizSessionService } from '../services/quizSession.service';
+
+import type { AccessTokenPayload } from 'src/common/interfaces/authentication/accessTokenPayload.interface';
 
 @Controller('quiz-sessions')
 export class QuizSessionController {
 	constructor(private readonly quizSessionService: QuizSessionService) {}
 
+	@Authorize([Role.USER])
 	@Get()
-	// TODO: @CurrentUser() user: User -> add this decorator later on after auth is implemented to extract user from request
-	getQuizSessions(
-		@Query('userId', ParseCuid2Pipe) userId: string,
+	async getQuizSessions(
+		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionLiteDto[]> {
-		return this.quizSessionService.getQuizSessions(userId);
+		return this.quizSessionService.getQuizSessions(user.sub);
 	}
 
+	@Authorize([Role.USER])
 	@Get(':sessionId')
 	getQuizSession(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
+		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionDto> {
-		return this.quizSessionService.getQuizSession(sessionId);
+		return this.quizSessionService.getQuizSession(sessionId, user.sub);
 	}
 
-	@Post(':userId')
+	@Authorize([Role.USER])
+	@Post('/create')
 	createQuizSession(
-		@Param('userId', ParseCuid2Pipe) userId: string,
+		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionLiteDto> {
-		return this.quizSessionService.createQuizSession(userId);
+		return this.quizSessionService.createQuizSession(user.sub);
 	}
 
+	@Authorize([Role.USER])
 	@Patch(':sessionId')
 	updateQuizSessionStatus(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
 		@Body() body: UpdateQuizSessionStatusDto,
+		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionDto> {
 		return this.quizSessionService.updateQuizSessionStatus(
 			sessionId,
+			user.sub,
 			body.sessionStatus,
 		);
 	}
 
+	@Authorize([Role.USER])
 	@Post('/response')
 	createQuizResponse(
 		@Body() body: CreateQuizResponseDto,
+		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizResponseDto> {
-		return this.quizSessionService.createQuizResponse(body);
+		return this.quizSessionService.createQuizResponse(body, user.sub);
 	}
 }

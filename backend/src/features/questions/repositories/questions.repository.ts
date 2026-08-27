@@ -10,12 +10,18 @@ import { QuestionPayload, questionSelect } from '../utilities/question.selects';
 export class QuestionsRepository implements IQuestionsRepository {
 	constructor(private readonly db: PrismaService) {}
 
-	async getQuestions(sessionId: string): Promise<QuestionPayload[]> {
+	async getQuestions(
+		sessionId: string,
+		userId: string,
+	): Promise<QuestionPayload[]> {
 		const sessionQuestions = await this.db.quizSessionQuestion.findMany({
 			where: {
 				sessionId,
 				question: {
 					isArchived: false,
+				},
+				session: {
+					userId,
 				},
 			},
 			select: {

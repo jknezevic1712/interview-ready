@@ -6,19 +6,27 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
 import { env } from 'src/env';
 import { TokenService } from 'src/features/authentication/services/token.service';
+import { isPublicRoute } from './helpers/auth.helper';
+
+import type { ValidatedAccessTokenPayload } from 'src/common/interfaces/authentication/validatedAccessTokenPayload.interface';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthenticationGuard implements CanActivate {
 	constructor(
 		private readonly tokenService: TokenService,
 		private readonly reflector: Reflector,
 	) {}
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
-		if (this.isPublicRoute(context.getHandler(), context.getClass())) {
+		if (
+			isPublicRoute(
+				this.reflector.getAllAndOverride,
+				context.getHandler(),
+				context.getClass(),
+			)
+		) {
 			return true;
 		}
 
@@ -29,27 +37,13 @@ export class AuthGuard implements CanActivate {
 			throw new UnauthorizedException('Unauthorized access, please log in');
 		}
 
-		try {
-			const payload = await this.tokenService.validateToken(
+		request.user =
+			await this.tokenService.validateToken<ValidatedAccessTokenPayload>(
 				token,
 				env.JWT_ACCESS_TOKEN_SECRET,
 			);
-			request.user = payload;
-		} catch (_error) {
-			throw new UnauthorizedException('Unauthorized access, please log in');
-		}
 
 		return true;
-	}
-
-	private isPublicRoute(
-		handler: ReturnType<ExecutionContext['getHandler']>,
-		classType: ReturnType<ExecutionContext['getClass']>,
-	) {
-		return this.reflector.getAllAndOverride<boolean>(IS_PUBLIC, [
-			handler,
-			classType,
-		]);
 	}
 
 	private extractTokenFromHeader(request: Request): string | undefined {

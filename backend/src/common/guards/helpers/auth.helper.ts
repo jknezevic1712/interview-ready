@@ -1,7 +1,7 @@
-import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC } from 'src/common/decorators/public.decorator';
 
 import type { ExecutionContext } from '@nestjs/common/interfaces';
+import type { Reflector } from '@nestjs/core';
 
 export function isPublicRoute(
 	getMetadataValue: Reflector['getAllAndOverride'],

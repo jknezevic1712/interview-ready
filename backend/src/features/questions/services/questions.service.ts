@@ -14,8 +14,14 @@ export class QuestionsService {
 		private readonly questionsRepository: IQuestionsRepository,
 	) {}
 
-	async getQuestions(sessionId: string): Promise<GetQuestionDto[]> {
-		const questions = await this.questionsRepository.getQuestions(sessionId);
+	async getQuestions(
+		sessionId: string,
+		userId: string,
+	): Promise<GetQuestionDto[]> {
+		const questions = await this.questionsRepository.getQuestions(
+			sessionId,
+			userId,
+		);
 		return questions.map(toGetQuestionDto);
 	}
 

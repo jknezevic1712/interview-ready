@@ -3,19 +3,10 @@ import {
 	Category,
 	Question,
 	QuizResponseAnswer,
-	QuizSession,
-	User,
 } from 'src/common/types/client';
+import { GetQuizSessionBaseDto } from './getQuizSessionBase.dto';
 
-export class GetQuizSessionDto {
-	id!: QuizSession['id'];
-	status!: QuizSession['status'];
-	startedAt!: QuizSession['startedAt'];
-	completedAt!: QuizSession['completedAt'];
-	user!: {
-		id: User['id'];
-		name: User['name'];
-	};
+export class GetQuizSessionDto extends GetQuizSessionBaseDto {
 	responses!: {
 		id: string;
 		textAnswer: string | null;

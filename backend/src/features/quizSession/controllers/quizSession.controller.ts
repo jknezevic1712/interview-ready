@@ -5,7 +5,7 @@ import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizRes
 import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
 import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
-import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/patchQuizSessionStatus.dto';
+import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/updateQuizSessionStatus.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { Role } from 'src/common/types/enums';
 import { QuizSessionService } from '../services/quizSession.service';

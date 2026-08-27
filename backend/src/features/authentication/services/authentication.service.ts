@@ -5,8 +5,8 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { CreateUserDto } from 'src/common/dtos/authentication/createUser.dto';
 import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
+import { CreateUserDto } from 'src/common/dtos/users/createUser.dto';
 import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
 import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
 import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';

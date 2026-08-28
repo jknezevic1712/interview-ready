@@ -13,11 +13,10 @@
 		"prod": "node dist/src/main",
 		"format": "biome format --write .",
 		"check": "biome check --write .",
-		"test": "jest",
-		"test:watch": "jest --watch",
-		"test:cov": "jest --coverage",
-		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-		"test:e2e": "jest --config ./test/jest-e2e.json"
+		"test": "vitest",
+		"test:run": "vitest run",
+		"test:integration": "vitest run *.integration.spec.ts",
+		"test:e2e": "vitest run *.e2e.spec.ts"
 	},
 	"dependencies": {
 		"@nestjs/common": "^11.0.1",
@@ -55,6 +54,7 @@
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.7.3",
+		"vite-tsconfig-paths": "^6.1.1",
 		"vitest": "^4.1.11"
 	}
 }

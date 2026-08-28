@@ -5,12 +5,13 @@ import { z } from 'zod';
 
 export const env = createEnv({
 	server: {
-		ENV: z.string(),
+		NODE_ENV: z.enum(['development', 'test', 'production']),
 		DATABASE_URL: z.string(),
 		JWT_ACCESS_TOKEN_SECRET: z.string().min(32),
 		JWT_ACCESS_TOKEN_EXPIRATION: z.coerce.number().int().positive(),
 		JWT_REFRESH_TOKEN_SECRET: z.string().min(32),
 		JWT_REFRESH_TOKEN_EXPIRATION: z.coerce.number().int().positive(),
+		BCRYPT_SALT_ROUNDS: z.coerce.number().int().positive(),
 	},
 
 	/**

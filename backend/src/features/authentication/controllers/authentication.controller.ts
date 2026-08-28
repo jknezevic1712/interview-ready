@@ -41,7 +41,7 @@ export class AuthenticationController {
 
 		response.cookie('refresh_token', refreshToken, {
 			httpOnly: true,
-			secure: env.ENV === 'production',
+			secure: env.NODE_ENV === 'production',
 			sameSite: 'lax',
 			path: '/authentication',
 		});
@@ -61,7 +61,7 @@ export class AuthenticationController {
 
 		response.clearCookie('refresh_token', {
 			httpOnly: true,
-			secure: env.ENV === 'production',
+			secure: env.NODE_ENV === 'production',
 			sameSite: 'lax',
 			path: '/authentication',
 		});

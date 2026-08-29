@@ -61,6 +61,26 @@ describe('CategoriesController', () => {
 		standardUserAccessToken = standardUserAccToken;
 	}
 
+	function getCategoriesServiceMocks(): typeof categoriesService {
+		return {
+			getAll: vi
+				.fn()
+				.mockResolvedValue(
+					categoriesMockData satisfies Awaited<
+						ReturnType<typeof categoriesService.getAll>
+					>,
+				),
+
+			getById: vi
+				.fn()
+				.mockResolvedValue(
+					categoriesMockData[0] satisfies Awaited<
+						ReturnType<typeof categoriesService.getById>
+					>,
+				),
+		};
+	}
+
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			controllers: [CategoriesController],
@@ -80,25 +100,7 @@ describe('CategoriesController', () => {
 		})
 			.useMocker((token) => {
 				if (token === CategoriesService) {
-					const categoriesServiceMocks: typeof categoriesService = {
-						getAll: vi
-							.fn()
-							.mockResolvedValue(
-								categoriesMockData satisfies Awaited<
-									ReturnType<typeof categoriesService.getAll>
-								>,
-							),
-
-						getById: vi
-							.fn()
-							.mockResolvedValue(
-								categoriesMockData[0] satisfies Awaited<
-									ReturnType<typeof categoriesService.getById>
-								>,
-							),
-					};
-
-					return categoriesServiceMocks;
+					return getCategoriesServiceMocks();
 				}
 			})
 			.compile();

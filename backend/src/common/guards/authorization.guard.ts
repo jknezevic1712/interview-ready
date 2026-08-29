@@ -17,7 +17,7 @@ export class AuthorizationGuard implements CanActivate {
 		const ctxHandler = context.getHandler();
 		const ctxClass = context.getClass();
 
-		if (isPublicRoute(this.reflector.getAllAndOverride, ctxHandler, ctxClass)) {
+		if (isPublicRoute(this.reflector, ctxHandler, ctxClass)) {
 			return true;
 		}
 

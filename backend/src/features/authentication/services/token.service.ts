@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { AccessTokenPayload } from 'src/common/interfaces/authentication/accessTokenPayload.interface';
@@ -53,6 +54,9 @@ export class TokenService {
 			data,
 			env.JWT_REFRESH_TOKEN_SECRET,
 			env.JWT_REFRESH_TOKEN_EXPIRATION,
+			{
+				jwtid: randomUUID(),
+			},
 		);
 	}
 
@@ -60,8 +64,10 @@ export class TokenService {
 		data: AccessTokenPayload | RefreshTokenPayload,
 		secret: JwtSignOptions['secret'],
 		expiresIn: JwtSignOptions['expiresIn'],
+		options?: JwtSignOptions,
 	): Promise<string> {
 		return this.jwtService.signAsync(data, {
+			...options,
 			secret,
 			expiresIn: expiresIn,
 		});

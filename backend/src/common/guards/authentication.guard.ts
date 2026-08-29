@@ -21,11 +21,7 @@ export class AuthenticationGuard implements CanActivate {
 
 	async canActivate(context: ExecutionContext): Promise<boolean> {
 		if (
-			isPublicRoute(
-				this.reflector.getAllAndOverride,
-				context.getHandler(),
-				context.getClass(),
-			)
+			isPublicRoute(this.reflector, context.getHandler(), context.getClass())
 		) {
 			return true;
 		}

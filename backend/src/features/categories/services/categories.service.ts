@@ -1,7 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Category } from 'src/common/types/client';
+import { toCategoryResponse } from '../mappers/categories.mapper';
 import { CATEGORIES_REPOSITORY } from '../tokens/categories.token';
 
+import type { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
 import type { ICategoriesRepository } from '../contracts/categories.repository';
 
 @Injectable()
@@ -11,17 +12,18 @@ export class CategoriesService {
 		private readonly categoriesRepository: ICategoriesRepository,
 	) {}
 
-	getAll(): Promise<Category[]> {
-		return this.categoriesRepository.getAll();
+	async getAll(): Promise<CategoryResponse[]> {
+		const categories = await this.categoriesRepository.getAll();
+		return categories.map(toCategoryResponse);
 	}
 
-	async getById(id: string): Promise<Category | null> {
+	async getById(id: string): Promise<CategoryResponse | null> {
 		const fetchedCategory = await this.categoriesRepository.getById(id);
 
 		if (fetchedCategory === null) {
 			throw new NotFoundException(`Category ${id} was not found`);
 		}
 
-		return fetchedCategory;
+		return toCategoryResponse(fetchedCategory);
 	}
 }

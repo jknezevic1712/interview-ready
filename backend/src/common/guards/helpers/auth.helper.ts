@@ -4,9 +4,12 @@ import type { ExecutionContext } from '@nestjs/common/interfaces';
 import type { Reflector } from '@nestjs/core';
 
 export function isPublicRoute(
-	getMetadataValue: Reflector['getAllAndOverride'],
+	reflector: Reflector,
 	handler: ReturnType<ExecutionContext['getHandler']>,
 	classType: ReturnType<ExecutionContext['getClass']>,
 ) {
-	return getMetadataValue<boolean>(IS_PUBLIC, [handler, classType]);
+	return (
+		reflector.getAllAndOverride<boolean>(IS_PUBLIC, [handler, classType]) ??
+		false
+	);
 }

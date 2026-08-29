@@ -8,12 +8,13 @@ import { CategoriesService } from '../services/categories.service';
 export class CategoriesController {
 	constructor(private readonly categoriesService: CategoriesService) {}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
 	getCategories(): Promise<Category[]> {
 		return this.categoriesService.getAll();
 	}
 
+	@Authorize([Role.ADMIN])
 	@Get(':id')
 	getCategoryById(
 		@Param('id', ParseCuid2Pipe) id: string,

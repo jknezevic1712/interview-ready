@@ -24,7 +24,7 @@ import type { ValidatedAccessTokenPayload } from 'src/common/interfaces/authenti
 export class QuestionsController {
 	constructor(private readonly questionsService: QuestionsService) {}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
 	getQuestions(
 		@Query('sessionId', ParseCuid2Pipe) sessionId: string,
@@ -33,16 +33,19 @@ export class QuestionsController {
 		return this.questionsService.getQuestions(sessionId, user.sub);
 	}
 
+	@Authorize([Role.ADMIN])
 	@Post()
 	createQuestion(@Body() body: CreateQuestionDto): Promise<GetQuestionDto> {
 		return this.questionsService.createQuestion(body);
 	}
 
+	@Authorize([Role.ADMIN])
 	@Patch()
 	updateQuestion(@Body() body: UpdateQuestionDto): Promise<GetQuestionDto> {
 		return this.questionsService.updateQuestion(body);
 	}
 
+	@Authorize([Role.ADMIN])
 	@Post('link')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async linkQuestion(
@@ -52,6 +55,7 @@ export class QuestionsController {
 		await this.questionsService.linkQuestion(sessionId, questionId);
 	}
 
+	@Authorize([Role.ADMIN])
 	@Delete('unlink')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async unlinkQuestion(
@@ -61,6 +65,7 @@ export class QuestionsController {
 		await this.questionsService.unlinkQuestion(sessionId, questionId);
 	}
 
+	@Authorize([Role.ADMIN])
 	@Patch('archive')
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async archiveQuestion(

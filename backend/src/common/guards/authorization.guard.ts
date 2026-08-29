@@ -1,4 +1,5 @@
 import {
+	BadRequestException,
 	CanActivate,
 	ExecutionContext,
 	ForbiddenException,
@@ -23,8 +24,8 @@ export class AuthorizationGuard implements CanActivate {
 
 		const userRole = context.switchToHttp().getRequest().user.role;
 
-		if (userRole === Role.ADMIN) {
-			return true;
+		if (!userRole) {
+			throw new BadRequestException('User data malformed');
 		}
 
 		const allowedRoles = this.getAllowedRoles(ctxHandler, ctxClass);

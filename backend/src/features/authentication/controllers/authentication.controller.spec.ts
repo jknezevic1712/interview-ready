@@ -1,9 +1,12 @@
-import 'reflect-metadata';
-
 import { HttpStatus, type INestApplication } from '@nestjs/common';
+import { APP_GUARD, Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
-import { Request, Response } from 'express';
+import { buildGetUser } from 'src/common/builders/users/getUser.builder';
+import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
+import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
+import { Role } from 'src/common/types/enums';
 import { USERS_REPOSITORY } from 'src/features/users/tokens/users.token';
 import request from 'supertest';
 import {
@@ -16,223 +19,132 @@ import {
 	vi,
 } from 'vitest';
 import { AuthenticationModule } from '../authentication.module';
-import { AuthenticationService } from '../services/authentication.service';
 import { TokenService } from '../services/token.service';
 import { toStringHash } from '../utilities/stringTransform';
-import { AuthenticationController } from './authentication.controller';
 
 import type { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import type { IUsersRepository } from 'src/features/users/contracts/users.repository';
 
 describe('AuthenticationController', () => {
-	describe('Unit tests', () => {
-		let controller: AuthenticationController;
-		let authenticationService: {
-			registerViaEmailAndPassword: ReturnType<typeof vi.fn>;
-			loginViaEmailAndPassword: ReturnType<typeof vi.fn>;
-			refreshAccessToken: ReturnType<typeof vi.fn>;
-			logoutUser: ReturnType<typeof vi.fn>;
+	let app: INestApplication;
+	let tokenService: TokenService;
+
+	const user = buildGetUser()
+		.withId('user-1')
+		.withName('Test User')
+		.withEmail('test@test.com')
+		.withRole(Role.USER)
+		.withSessionId('session-1')
+		.build();
+
+	const getSessionMock = vi.fn();
+	const getUserByIdMock = vi.fn();
+	const updateSessionMock = vi.fn();
+	const logoutUserMock = vi.fn();
+
+	const session = {
+		id: user.sessionId,
+		refreshTokenHash: null as string | null,
+	};
+
+	beforeAll(async () => {
+		const repository: Partial<IUsersRepository> = {
+			getSession: getSessionMock,
+			getUserById: getUserByIdMock,
+			updateSession: updateSessionMock,
+			logoutUser: logoutUserMock,
 		};
 
-		beforeEach(async () => {
-			authenticationService = {
-				registerViaEmailAndPassword: vi.fn(),
-				loginViaEmailAndPassword: vi.fn(),
-				refreshAccessToken: vi.fn(),
-				logoutUser: vi.fn(),
-			};
-
-			const module: TestingModule = await Test.createTestingModule({
-				controllers: [AuthenticationController],
-				providers: [
-					{
-						provide: AuthenticationService,
-						useValue: authenticationService,
-					},
-				],
-			}).compile();
-
-			controller = module.get(AuthenticationController);
-		});
-
-		it('should refresh tokens and set a new refresh-token cookie', async () => {
-			const refreshToken = 'old-refresh-token';
-
-			authenticationService.refreshAccessToken.mockResolvedValue({
-				accessToken: 'new-access-token',
-				refreshToken: 'new-refresh-token',
-			});
-
-			const request = {
-				cookies: {
-					refresh_token: refreshToken,
+		const moduleRef: TestingModule = await Test.createTestingModule({
+			imports: [AuthenticationModule],
+			providers: [
+				JwtService,
+				TokenService,
+				Reflector,
+				{
+					provide: APP_GUARD,
+					useClass: AuthenticationGuard,
 				},
-			} as unknown as Request;
-
-			const cookie = vi.fn();
-
-			const response = {
-				cookie,
-			} as unknown as Response;
-
-			const result = await controller.refreshAccessToken(request, response);
-
-			expect(authenticationService.refreshAccessToken).toHaveBeenCalledWith(
-				refreshToken,
-			);
-
-			expect(cookie).toHaveBeenCalledWith(
-				'refresh_token',
-				'new-refresh-token',
-				expect.objectContaining({
-					httpOnly: true,
-					sameSite: 'lax',
-					path: '/authentication',
-				}),
-			);
-
-			expect(result).toEqual({
-				accessToken: 'new-access-token',
-			});
-		});
-
-		it('should logout the current session', async () => {
-			const refreshToken = 'refresh-token';
-
-			authenticationService.logoutUser.mockResolvedValue(undefined);
-
-			const request = {
-				cookies: {
-					refresh_token: refreshToken,
+				{
+					provide: APP_GUARD,
+					useClass: AuthorizationGuard,
 				},
-			} as unknown as Request;
+			],
+		})
+			.overrideProvider(USERS_REPOSITORY)
+			.useValue(repository)
+			.compile();
 
-			const clearCookie = vi.fn();
+		app = moduleRef.createNestApplication();
+		app.use(cookieParser());
 
-			const response = {
-				clearCookie,
-			} as unknown as Response;
+		await app.init();
 
-			await controller.logout(request, response);
-
-			expect(authenticationService.logoutUser).toHaveBeenCalledWith(
-				refreshToken,
-			);
-
-			expect(clearCookie).toHaveBeenCalledWith(
-				'refresh_token',
-				expect.objectContaining({
-					path: '/authentication',
-				}),
-			);
-		});
+		tokenService = moduleRef.get(TokenService);
 	});
 
-	describe('Integration tests', () => {
-		let app: INestApplication;
-		let tokenService: TokenService;
+	beforeEach(() => {
+		vi.clearAllMocks();
 
-		const user = {
-			id: 'user-1',
-			name: 'Test User',
-			email: 'test@test.com',
-			role: 'USER' as const,
-		};
+		session.refreshTokenHash = null;
 
-		const session = {
-			id: 'session-1',
-			refreshTokenHash: null as string | null,
-		};
-
-		const getSessionMock = vi.fn();
-		const getUserByIdMock = vi.fn();
-		const updateSessionMock = vi.fn();
-		const logoutUserMock = vi.fn();
-
-		beforeAll(async () => {
-			const repository: Partial<IUsersRepository> = {
-				getSession: getSessionMock,
-				getUserById: getUserByIdMock,
-				updateSession: updateSessionMock,
-				logoutUser: logoutUserMock,
-			};
-
-			const moduleRef: TestingModule = await Test.createTestingModule({
-				imports: [AuthenticationModule],
-			})
-				.overrideProvider(USERS_REPOSITORY)
-				.useValue(repository)
-				.compile();
-
-			app = moduleRef.createNestApplication();
-			app.use(cookieParser());
-
-			await app.init();
-
-			tokenService = moduleRef.get(TokenService);
-		});
-
-		beforeEach(() => {
-			vi.clearAllMocks();
-
-			session.refreshTokenHash = null;
-
-			getSessionMock.mockImplementation(async (sessionId: string) => {
-				if (sessionId !== session.id) {
-					return null;
-				}
-
-				return {
-					id: session.id,
-					refreshTokenHash: session.refreshTokenHash,
-				};
-			});
-
-			getUserByIdMock.mockResolvedValue(user);
-
-			updateSessionMock.mockImplementation(async (data: UpdateSessionData) => {
-				session.refreshTokenHash = data.refreshTokenHash;
-
-				return {
-					id: data.sessionId,
-				};
-			});
-
-			logoutUserMock.mockResolvedValue(undefined);
-		});
-
-		afterAll(async () => {
-			await app.close();
-		});
-
-		async function createRefreshToken(): Promise<string> {
-			const { refreshToken } = await tokenService.generateTokens({
-				sub: user.id,
-				role: user.role,
-				sessionId: session.id,
-			});
-
-			session.refreshTokenHash = await toStringHash(refreshToken);
-
-			return refreshToken;
-		}
-
-		function getRefreshCookie(response: {
-			headers: Record<string, unknown>;
-		}): string | undefined {
-			const cookies = response.headers['set-cookie'];
-
-			if (!Array.isArray(cookies)) {
-				return undefined;
+		getSessionMock.mockImplementation(async (sessionId: string) => {
+			if (sessionId !== session.id) {
+				return null;
 			}
 
-			return cookies.find((cookie) => cookie.startsWith('refresh_token='));
+			return {
+				id: session.id,
+				refreshTokenHash: session.refreshTokenHash,
+			};
+		});
+
+		getUserByIdMock.mockResolvedValue(user);
+
+		updateSessionMock.mockImplementation(async (data: UpdateSessionData) => {
+			session.refreshTokenHash = data.refreshTokenHash;
+
+			return {
+				id: data.sessionId,
+			};
+		});
+
+		logoutUserMock.mockResolvedValue(undefined);
+	});
+
+	afterAll(async () => {
+		await app.close();
+	});
+
+	async function createRefreshToken(): Promise<string> {
+		const { refreshToken } = await tokenService.generateTokens({
+			sub: user.id,
+			role: user.role,
+			sessionId: session.id,
+		});
+
+		session.refreshTokenHash = await toStringHash(refreshToken);
+
+		return refreshToken;
+	}
+
+	function getRefreshCookie(response: {
+		headers: Record<string, unknown>;
+	}): string | undefined {
+		const cookies = response.headers['set-cookie'];
+
+		if (!Array.isArray(cookies)) {
+			return undefined;
 		}
 
-		function extractRefreshToken(cookie: string): string {
-			return cookie.split(';')[0].replace('refresh_token=', '');
-		}
+		return cookies.find((cookie) => cookie.startsWith('refresh_token='));
+	}
 
+	function extractRefreshToken(cookie: string): string {
+		return cookie.split(';')[0].replace('refresh_token=', '');
+	}
+
+	describe('Refresh token', () => {
 		it('should refresh and rotate the refresh token', async () => {
 			const oldRefreshToken = await createRefreshToken();
 
@@ -253,6 +165,7 @@ describe('AuthenticationController', () => {
 
 			expect(newRefreshToken).not.toBe(oldRefreshToken);
 			expect(updateSessionMock).toHaveBeenCalledOnce();
+			expect(session.refreshTokenHash).not.toBeNull();
 		});
 
 		it('should reject the old refresh token after rotation', async () => {
@@ -305,7 +218,15 @@ describe('AuthenticationController', () => {
 			expect(refreshCookie).toContain('SameSite=Lax');
 		});
 
-		it('should logout and clear the refresh token cookie', async () => {
+		it('should reject refresh when the refresh cookie is missing', async () => {
+			await request(app.getHttpServer())
+				.post('/authentication/refresh')
+				.expect(HttpStatus.UNAUTHORIZED);
+		});
+	});
+
+	describe('Logout', () => {
+		it('should logout the current session and clear the refresh cookie', async () => {
 			const refreshToken = await createRefreshToken();
 
 			const response = await request(app.getHttpServer())
@@ -325,10 +246,12 @@ describe('AuthenticationController', () => {
 			expect(clearedCookie).toContain('Expires=');
 		});
 
-		it('should reject refresh when the refresh cookie is missing', async () => {
+		it('should reject logout when the refresh cookie is missing', async () => {
 			await request(app.getHttpServer())
-				.post('/authentication/refresh')
+				.post('/authentication/logout')
 				.expect(HttpStatus.UNAUTHORIZED);
+
+			expect(logoutUserMock).not.toHaveBeenCalled();
 		});
 	});
 });

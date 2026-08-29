@@ -16,10 +16,10 @@ import {
 	vi,
 } from 'vitest';
 import { AuthenticationModule } from '../authentication.module';
-import { AuthenticationController } from '../controllers/authentication.controller';
 import { AuthenticationService } from '../services/authentication.service';
 import { TokenService } from '../services/token.service';
 import { toStringHash } from '../utilities/stringTransform';
+import { AuthenticationController } from './authentication.controller';
 
 import type { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import type { IUsersRepository } from 'src/features/users/contracts/users.repository';

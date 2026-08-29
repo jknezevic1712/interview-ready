@@ -61,7 +61,7 @@ describe('CategoriesController', () => {
 		standardUserAccessToken = standardUserAccToken;
 	}
 
-	function getCategoriesServiceMocks(): typeof categoriesService {
+	function createCategoriesServiceMocks(): typeof categoriesService {
 		return {
 			getAll: vi
 				.fn()
@@ -100,7 +100,7 @@ describe('CategoriesController', () => {
 		})
 			.useMocker((token) => {
 				if (token === CategoriesService) {
-					return getCategoriesServiceMocks();
+					return createCategoriesServiceMocks();
 				}
 			})
 			.compile();

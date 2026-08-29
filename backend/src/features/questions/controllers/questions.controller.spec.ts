@@ -75,7 +75,7 @@ describe('QuestionsController', () => {
 		adminUserAccessToken = adminToken;
 	}
 
-	function getQuestionsServiceMocks(): typeof questionsService {
+	function createQuestionsServiceMocks(): typeof questionsService {
 		return {
 			getQuestions: vi
 				.fn()
@@ -146,7 +146,7 @@ describe('QuestionsController', () => {
 		})
 			.useMocker((token) => {
 				if (token === QuestionsService) {
-					return getQuestionsServiceMocks();
+					return createQuestionsServiceMocks();
 				}
 			})
 			.compile();

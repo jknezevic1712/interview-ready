@@ -16,7 +16,7 @@ import type { AccessTokenPayload } from 'src/common/interfaces/authentication/ac
 export class QuizSessionController {
 	constructor(private readonly quizSessionService: QuizSessionService) {}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
 	async getQuizSessions(
 		@CurrentUser() user: AccessTokenPayload,
@@ -24,7 +24,7 @@ export class QuizSessionController {
 		return this.quizSessionService.getQuizSessions(user.sub);
 	}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Get(':sessionId')
 	getQuizSession(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
@@ -33,7 +33,7 @@ export class QuizSessionController {
 		return this.quizSessionService.getQuizSession(sessionId, user.sub);
 	}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Post('/create')
 	createQuizSession(
 		@CurrentUser() user: AccessTokenPayload,
@@ -41,7 +41,7 @@ export class QuizSessionController {
 		return this.quizSessionService.createQuizSession(user.sub);
 	}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Patch(':sessionId')
 	updateQuizSessionStatus(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
@@ -55,7 +55,7 @@ export class QuizSessionController {
 		);
 	}
 
-	@Authorize([Role.USER])
+	@Authorize([Role.ADMIN, Role.USER])
 	@Post('/response')
 	createQuizResponse(
 		@Body() body: CreateQuizResponseDto,

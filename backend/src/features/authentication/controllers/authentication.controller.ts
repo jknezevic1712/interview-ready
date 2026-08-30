@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
@@ -13,6 +14,12 @@ import type { Request, Response } from 'express';
 export class AuthenticationController {
 	constructor(private readonly authenticationService: AuthenticationService) {}
 
+	@Throttle({
+		default: {
+			limit: 5,
+			ttl: 60000,
+		},
+	})
 	@Public()
 	@Post('register')
 	registerViaEmailAndPassword(
@@ -21,6 +28,12 @@ export class AuthenticationController {
 		return this.authenticationService.registerViaEmailAndPassword(data);
 	}
 
+	@Throttle({
+		default: {
+			limit: 5,
+			ttl: 60000,
+		},
+	})
 	@Public()
 	@Post('login')
 	loginViaEmailAndPassword(
@@ -29,6 +42,12 @@ export class AuthenticationController {
 		return this.authenticationService.loginViaEmailAndPassword(data);
 	}
 
+	@Throttle({
+		default: {
+			limit: 15,
+			ttl: 60000,
+		},
+	})
 	@Public()
 	@Post('refresh')
 	async refreshAccessToken(

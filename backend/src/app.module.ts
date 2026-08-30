@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthenticationGuard } from './common/guards/authentication.guard';
 import { AuthorizationGuard } from './common/guards/authorization.guard';
 import { AuthenticationModule } from './features/authentication/authentication.module';
@@ -18,8 +19,20 @@ import { PrismaModule } from './prisma/prisma.module';
 		QuestionsModule,
 		UsersModule,
 		AuthenticationModule,
+		ThrottlerModule.forRoot({
+			throttlers: [
+				{
+					limit: 30,
+					ttl: 60000,
+				},
+			],
+		}),
 	],
 	providers: [
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard,
+		},
 		{
 			provide: APP_GUARD,
 			useClass: AuthenticationGuard,

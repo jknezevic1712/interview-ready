@@ -1,8 +1,10 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
-import { Category, Role } from 'src/common/types/client';
+import { Role } from 'src/common/types/client';
 import { CategoriesService } from '../services/categories.service';
+
+import type { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
 
 @Controller('categories')
 export class CategoriesController {
@@ -10,7 +12,7 @@ export class CategoriesController {
 
 	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
-	getCategories(): Promise<Category[]> {
+	getCategories(): Promise<CategoryResponse[]> {
 		return this.categoriesService.getAll();
 	}
 
@@ -18,7 +20,7 @@ export class CategoriesController {
 	@Get(':id')
 	getCategoryById(
 		@Param('id', ParseCuid2Pipe) id: string,
-	): Promise<Category | null> {
+	): Promise<CategoryResponse | null> {
 		return this.categoriesService.getById(id);
 	}
 }

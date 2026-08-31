@@ -4,7 +4,7 @@ import { QuestionPayload } from '../utilities/question.selects';
 
 export interface IQuestionsRepository {
 	getQuestions(sessionId: string, userId: string): Promise<QuestionPayload[]>;
-	CreateQuestionRequest(
+	createQuestionRequest(
 		data: CreateQuestionRequestInput,
 	): Promise<QuestionPayload>;
 	updateQuestion(data: UpdateQuestionInput): Promise<QuestionPayload>;

@@ -13,8 +13,8 @@ import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
 	toGetQuizResponse,
-	toGetQuizSession,
-	toGetQuizSessionLite,
+	toGetQuizSessionLiteResponse,
+	toGetQuizSessionResponse,
 } from '../mappers/quizSession.mapper';
 import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
@@ -32,7 +32,7 @@ export class QuizSessionService {
 	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteResponse[]> {
 		const quizSessions =
 			await this.quizSessionRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionLite);
+		return quizSessions.map(toGetQuizSessionLiteResponse);
 	}
 
 	async getQuizSession(
@@ -47,12 +47,12 @@ export class QuizSessionService {
 			throw new NotFoundException(`Quiz session not found`);
 		}
 
-		return toGetQuizSession(session);
+		return toGetQuizSessionResponse(session);
 	}
 
 	async createQuizSession(userId: string): Promise<GetQuizSessionLiteResponse> {
 		const session = await this.quizSessionRepository.createQuizSession(userId);
-		return toGetQuizSessionLite(session);
+		return toGetQuizSessionLiteResponse(session);
 	}
 
 	async updateQuizSessionStatus(
@@ -86,7 +86,7 @@ export class QuizSessionService {
 				sessionStatus,
 				userId,
 			);
-		return toGetQuizSession(updatedSession);
+		return toGetQuizSessionResponse(updatedSession);
 	}
 
 	async createQuizResponse(

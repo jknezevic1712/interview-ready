@@ -85,11 +85,11 @@ describe('QuestionsController', () => {
 					>,
 				),
 
-			CreateQuestionRequest: vi
+			createQuestionRequest: vi
 				.fn()
 				.mockResolvedValue(
 					buildGetQuestionResponse().build() satisfies Awaited<
-						ReturnType<typeof questionsService.CreateQuestionRequest>
+						ReturnType<typeof questionsService.createQuestionRequest>
 					>,
 				),
 
@@ -191,7 +191,7 @@ describe('QuestionsController', () => {
 				.send(CreateQuestionRequestData)
 				.expect(HttpStatus.FORBIDDEN);
 
-			expect(questionsService.CreateQuestionRequest).not.toHaveBeenCalled();
+			expect(questionsService.createQuestionRequest).not.toHaveBeenCalled();
 		});
 
 		it('should not allow updating a question', async () => {
@@ -263,8 +263,8 @@ describe('QuestionsController', () => {
 				.send(CreateQuestionRequestData)
 				.expect(HttpStatus.CREATED);
 
-			expect(questionsService.CreateQuestionRequest).toHaveBeenCalledOnce();
-			expect(questionsService.CreateQuestionRequest).toHaveBeenCalledWith(
+			expect(questionsService.createQuestionRequest).toHaveBeenCalledOnce();
+			expect(questionsService.createQuestionRequest).toHaveBeenCalledWith(
 				CreateQuestionRequestData,
 			);
 		});

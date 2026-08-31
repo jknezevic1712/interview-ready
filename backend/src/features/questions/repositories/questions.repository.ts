@@ -34,7 +34,7 @@ export class QuestionsRepository implements IQuestionsRepository {
 		return sessionQuestions.map(({ question }) => question);
 	}
 
-	CreateQuestionRequest(
+	createQuestionRequest(
 		data: CreateQuestionRequestInput,
 	): Promise<QuestionPayload> {
 		return this.db.question.create({

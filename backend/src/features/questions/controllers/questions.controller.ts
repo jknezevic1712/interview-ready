@@ -38,7 +38,7 @@ export class QuestionsController {
 	CreateQuestionRequest(
 		@Body() body: CreateQuestionRequest,
 	): Promise<GetQuestionResponse> {
-		return this.questionsService.CreateQuestionRequest(body);
+		return this.questionsService.createQuestionRequest(body);
 	}
 
 	@Authorize([Role.ADMIN])

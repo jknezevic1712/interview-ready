@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
 import { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
 import { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
-import { toGetQuestion } from '../mappers/questions.mapper';
+import { toGetQuestionResponse } from '../mappers/questions.mapper';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 
 import type { IQuestionsRepository } from '../contracts/questions.repository.contract';
@@ -22,21 +22,21 @@ export class QuestionsService {
 			sessionId,
 			userId,
 		);
-		return questions.map(toGetQuestion);
+		return questions.map(toGetQuestionResponse);
 	}
 
-	async CreateQuestionRequest(
+	async createQuestionRequest(
 		data: CreateQuestionRequest,
 	): Promise<GetQuestionResponse> {
-		const question = await this.questionsRepository.CreateQuestionRequest(data);
-		return toGetQuestion(question);
+		const question = await this.questionsRepository.createQuestionRequest(data);
+		return toGetQuestionResponse(question);
 	}
 
 	async updateQuestion(
 		data: UpdateQuestionRequest,
 	): Promise<GetQuestionResponse> {
 		const question = await this.questionsRepository.updateQuestion(data);
-		return toGetQuestion(question);
+		return toGetQuestionResponse(question);
 	}
 
 	async linkQuestion(sessionId: string, questionId: string): Promise<void> {

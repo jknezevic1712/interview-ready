@@ -14,7 +14,7 @@ import {
 import { CredentialProvider } from 'src/common/types/enums';
 import { env } from 'src/env';
 import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
-import { toGetUserLite } from '../mappers/users.mappers';
+import { toGetUserLiteResponse } from '../mappers/users.mappers';
 import { USERS_REPOSITORY } from '../tokens/users.token';
 import { UserSessionPayload } from '../utilities/users.selects';
 
@@ -61,7 +61,7 @@ export class UsersService {
 			throw new NotFoundException(`User with email ${email} not found`);
 		}
 
-		return toGetUserLite(user);
+		return toGetUserLiteResponse(user);
 	}
 
 	async getUserById(id: string): Promise<GetUserLiteResponse> {
@@ -71,12 +71,12 @@ export class UsersService {
 			throw new NotFoundException(`User not found`);
 		}
 
-		return toGetUserLite(user);
+		return toGetUserLiteResponse(user);
 	}
 
 	async registerUser(data: UserRegistrationData): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.registerUser(data);
-		return toGetUserLite(user);
+		return toGetUserLiteResponse(user);
 	}
 
 	async getSession(sessionId: string): Promise<UserSessionPayload> {

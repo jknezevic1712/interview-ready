@@ -7,7 +7,7 @@ import {
 	QuizSessionPayload,
 } from '../utilities/quizSession.selects';
 
-export function toGetQuizSession(
+export function toGetQuizSessionResponse(
 	session: QuizSessionPayload,
 ): GetQuizSessionResponse {
 	return {
@@ -30,7 +30,7 @@ export function toGetQuizSession(
 	};
 }
 
-export function toGetQuizSessionLite(
+export function toGetQuizSessionLiteResponse(
 	session: QuizSessionLitePayload,
 ): GetQuizSessionLiteResponse {
 	return {

@@ -23,7 +23,7 @@ import { TokenService } from '../services/token.service';
 import { toStringHash } from '../utilities/stringTransform';
 
 import type { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
-import type { IUsersRepository } from 'src/features/users/contracts/users.repository';
+import type { IUsersRepository } from 'src/features/users/contracts/users.repository.contract';
 
 describe('AuthenticationController', () => {
 	let app: INestApplication;

@@ -20,7 +20,7 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
 
-import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
+import type { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 
 @Injectable()
 export class QuizSessionService {

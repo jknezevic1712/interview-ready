@@ -5,7 +5,7 @@ import { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionR
 import { toGetQuestion } from '../mappers/questions.mapper';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 
-import type { IQuestionsRepository } from '../contracts/questions.repository';
+import type { IQuestionsRepository } from '../contracts/questions.repository.contract';
 
 @Injectable()
 export class QuestionsService {

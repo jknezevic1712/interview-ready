@@ -3,7 +3,7 @@ import { toCategoryResponse } from '../mappers/categories.mapper';
 import { CATEGORIES_REPOSITORY } from '../tokens/categories.token';
 
 import type { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
-import type { ICategoriesRepository } from '../contracts/categories.repository';
+import type { ICategoriesRepository } from '../contracts/categories.repository.contract';
 
 @Injectable()
 export class CategoriesService {

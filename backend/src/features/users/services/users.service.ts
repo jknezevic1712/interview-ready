@@ -18,7 +18,7 @@ import { toGetUserLite } from '../mappers/users.mappers';
 import { USERS_REPOSITORY } from '../tokens/users.token';
 import { UserSessionPayload } from '../utilities/users.selects';
 
-import type { IUsersRepository } from '../contracts/users.repository';
+import type { IUsersRepository } from '../contracts/users.repository.contract';
 
 @Injectable()
 export class UsersService {

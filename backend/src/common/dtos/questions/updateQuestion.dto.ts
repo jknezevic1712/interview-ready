@@ -1,4 +1,4 @@
-import { IsString, Matches } from 'class-validator';
+import { IsNotEmpty, IsString, Matches } from 'class-validator';
 import { CreateQuestionDto } from './createQuestion.dto';
 
 export class UpdateQuestionDto extends CreateQuestionDto {
@@ -6,5 +6,6 @@ export class UpdateQuestionDto extends CreateQuestionDto {
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid question id',
 	})
+	@IsNotEmpty()
 	questionId!: string;
 }

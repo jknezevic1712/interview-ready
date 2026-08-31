@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsString, Matches, ValidateNested } from 'class-validator';
+import {
+	IsArray,
+	IsNotEmpty,
+	IsString,
+	Matches,
+	ValidateNested,
+} from 'class-validator';
 import { CreateQuizResponseAnswerDto } from './createQuizResponseAnswer.dto';
 
 export class CreateQuizResponseDto {
@@ -8,12 +14,14 @@ export class CreateQuizResponseDto {
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid session id',
 	})
+	@IsNotEmpty()
 	sessionId!: string;
 
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid question id',
 	})
+	@IsNotEmpty()
 	questionId!: string;
 
 	@ApiProperty({

@@ -5,6 +5,7 @@ import {
 	IsArray,
 	IsBoolean,
 	IsEnum,
+	IsNotEmpty,
 	IsOptional,
 	IsString,
 	Matches,
@@ -18,9 +19,11 @@ export class CreateQuestionDto {
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid category id',
 	})
+	@IsNotEmpty()
 	categoryId!: string;
 
 	@IsString()
+	@IsNotEmpty()
 	text!: string;
 
 	@IsEnum(QuestionType)

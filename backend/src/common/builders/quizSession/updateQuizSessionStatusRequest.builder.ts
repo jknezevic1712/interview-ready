@@ -2,7 +2,7 @@ import { QuizSessionStatus } from 'src/common/types/enums';
 
 import type { UpdateQuizSessionStatusRequest } from 'src/common/dtos/quizSession/updateQuizSessionStatusRequest.dto';
 
-export class UpdateQuizSessionStatusBuilder
+export class UpdateQuizSessionStatusRequestBuilder
 	implements UpdateQuizSessionStatusRequest
 {
 	sessionStatus: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
@@ -21,5 +21,5 @@ export class UpdateQuizSessionStatusBuilder
 	}
 }
 
-export const buildUpdateQuizSessionStatus = () =>
-	new UpdateQuizSessionStatusBuilder();
+export const buildUpdateQuizSessionStatusRequest = () =>
+	new UpdateQuizSessionStatusRequestBuilder();

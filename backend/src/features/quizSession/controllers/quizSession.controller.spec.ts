@@ -2,11 +2,11 @@ import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { buildCreateQuizResponse } from 'src/common/builders/quizSession/createQuizResponse.builder';
-import { buildGetQuizSession } from 'src/common/builders/quizSession/getQuizSession.builder';
-import { buildGetQuizSessionLite } from 'src/common/builders/quizSession/getQuizSessionLite.builder';
-import { buildUpdateQuizSessionStatus } from 'src/common/builders/quizSession/updateQuizSessionStatus.builder';
-import { buildGetUser } from 'src/common/builders/users/getUser.builder';
+import { buildCreateQuizResponseRequest } from 'src/common/builders/quizSession/createQuizResponseRequest.builder';
+import { buildGetQuizSessionLiteResponse } from 'src/common/builders/quizSession/getQuizSessionLiteResponse.builder';
+import { buildGetQuizSessionResponse } from 'src/common/builders/quizSession/getQuizSessionResponse.builder';
+import { buildUpdateQuizSessionStatusRequest } from 'src/common/builders/quizSession/updateQuizSessionStatusRequest.builder';
+import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { QuizSessionStatus, Role } from 'src/common/types/enums';
@@ -34,13 +34,13 @@ describe('QuizSessionController', () => {
 		'quizSessionRepository'
 	>;
 
-	const standardUser = buildGetUser()
+	const standardUser = buildGetUserResponse()
 		.withId('user-1')
 		.withRole(Role.USER)
 		.withSessionId('session-1')
 		.build();
 
-	const adminUser = buildGetUser()
+	const adminUser = buildGetUserResponse()
 		.withId('admin-1')
 		.withRole(Role.ADMIN)
 		.withSessionId('session-2')
@@ -51,22 +51,22 @@ describe('QuizSessionController', () => {
 	let standardUserAccessToken = '';
 	let adminUserAccessToken = '';
 
-	const quizSession = buildGetQuizSession()
+	const quizSession = buildGetQuizSessionResponse()
 		.withId(sessionId)
 		.withUser({
 			id: standardUser.id,
 			name: standardUser.name,
 		})
 		.build();
-	const quizSessionLite = buildGetQuizSessionLite()
+	const quizSessionLite = buildGetQuizSessionLiteResponse()
 		.withId(sessionId)
 		.withUser({
 			id: standardUser.id,
 			name: standardUser.name,
 		})
 		.build();
-	const createQuizResponseData = buildCreateQuizResponse().build();
-	const updateQuizSessionStatusData = buildUpdateQuizSessionStatus()
+	const createQuizResponseData = buildCreateQuizResponseRequest().build();
+	const updateQuizSessionStatusData = buildUpdateQuizSessionStatusRequest()
 		.withSessionStatus(QuizSessionStatus.COMPLETED)
 		.build();
 

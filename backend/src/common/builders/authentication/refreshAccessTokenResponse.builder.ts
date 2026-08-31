@@ -1,6 +1,6 @@
 import type { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
 
-class RefreshAccessTokenBuilder implements RefreshAccessTokenResponse {
+class RefreshAccessTokenResponseBuilder implements RefreshAccessTokenResponse {
 	accessToken = 'qwertzuiop';
 
 	withAccessToken(token: RefreshAccessTokenResponse['accessToken']) {
@@ -15,4 +15,5 @@ class RefreshAccessTokenBuilder implements RefreshAccessTokenResponse {
 	}
 }
 
-export const buildRefreshAccessToken = () => new RefreshAccessTokenBuilder();
+export const buildRefreshAccessTokenResponse = () =>
+	new RefreshAccessTokenResponseBuilder();

@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
 import { buildCategoryResponse } from 'src/common/builders/categories/categoryResponse.builder';
-import { buildGetUser } from 'src/common/builders/users/getUser.builder';
+import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
@@ -37,8 +37,8 @@ describe('CategoriesController', () => {
 			.build(),
 	];
 
-	const standardUser = buildGetUser().withRole(Role.USER).build();
-	const adminUser = buildGetUser().withRole(Role.ADMIN).build();
+	const standardUser = buildGetUserResponse().withRole(Role.USER).build();
+	const adminUser = buildGetUserResponse().withRole(Role.ADMIN).build();
 
 	let standardUserAccessToken = '';
 	let adminUserAccessToken = '';

@@ -1,8 +1,8 @@
-import { CreateQuestionRequestBuilder } from './createQuestion.builder';
+import { CreateQuestionRequestBuilder } from './createQuestionRequest.builder';
 
 import type { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
 
-class UpdateQuestionBuilder
+class UpdateQuestionRequestBuilder
 	extends CreateQuestionRequestBuilder
 	implements UpdateQuestionRequest
 {
@@ -21,4 +21,5 @@ class UpdateQuestionBuilder
 	}
 }
 
-export const buildUpdateQuestion = () => new UpdateQuestionBuilder();
+export const buildUpdateQuestionRequest = () =>
+	new UpdateQuestionRequestBuilder();

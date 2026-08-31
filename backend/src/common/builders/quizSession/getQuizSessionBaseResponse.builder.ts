@@ -1,16 +1,16 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
-import { buildGetUserLite } from '../users/getUserLite.builder';
+import { buildGetUserLiteResponse } from '../users/getUserLiteResponse.builder';
 
 import type { GetQuizSessionBaseResponse } from 'src/common/dtos/quizSession/getQuizSessionBaseResponse.dto';
 
-export abstract class GetQuizSessionBaseBuilder
+export abstract class GetQuizSessionBaseResponseBuilder
 	implements GetQuizSessionBaseResponse
 {
 	id = 'quiz-session-1';
 	status: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
 	startedAt = new Date(Date.now());
 	completedAt: GetQuizSessionBaseResponse['completedAt'] = null;
-	user: GetQuizSessionBaseResponse['user'] = buildGetUserLite().build();
+	user: GetQuizSessionBaseResponse['user'] = buildGetUserLiteResponse().build();
 
 	withId(id: GetQuizSessionBaseResponse['id']) {
 		this.id = id;

@@ -1,6 +1,6 @@
 import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
 import { Difficulty, QuestionType } from 'src/common/types/enums';
-import { buildCreateAnswerOptionRequest } from './createAnswerOption.builder';
+import { buildCreateAnswerOptionRequest } from './createAnswerOptionRequest.builder';
 
 export class CreateQuestionRequestBuilder implements CreateQuestionRequest {
 	text = 'Question 1';

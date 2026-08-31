@@ -1,8 +1,11 @@
-import { GetUserLiteBuilder } from './getUserLite.builder';
+import { GetUserLiteResponseBuilder } from './getUserLiteResponse.builder';
 
 import type { GetUserResponse } from 'src/common/dtos/users/getUserResponse.dto';
 
-class GetUserBuilder extends GetUserLiteBuilder implements GetUserResponse {
+class GetUserResponseBuilder
+	extends GetUserLiteResponseBuilder
+	implements GetUserResponse
+{
 	sessionId = 'session-1';
 
 	withSessionId(sessionId: GetUserResponse['sessionId']) {
@@ -18,4 +21,4 @@ class GetUserBuilder extends GetUserLiteBuilder implements GetUserResponse {
 	}
 }
 
-export const buildGetUser = () => new GetUserBuilder();
+export const buildGetUserResponse = () => new GetUserResponseBuilder();

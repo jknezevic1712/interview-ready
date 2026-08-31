@@ -2,10 +2,10 @@ import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { buildCreateQuestionRequest } from 'src/common/builders/questions/createQuestion.builder';
-import { buildGetQuestion } from 'src/common/builders/questions/getQuestion.builder';
-import { buildUpdateQuestion } from 'src/common/builders/questions/updateQuestion.builder';
-import { buildGetUser } from 'src/common/builders/users/getUser.builder';
+import { buildCreateQuestionRequest } from 'src/common/builders/questions/createQuestionRequest.builder';
+import { buildGetQuestionResponse } from 'src/common/builders/questions/getQuestionResponse.builder';
+import { buildUpdateQuestionRequest } from 'src/common/builders/questions/updateQuestionRequest.builder';
+import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { Role } from 'src/common/types/enums';
@@ -30,13 +30,13 @@ describe('QuestionsController', () => {
 
 	let questionsService: Omit<Mocked<QuestionsService>, 'questionsRepository'>;
 
-	const standardUser = buildGetUser()
+	const standardUser = buildGetUserResponse()
 		.withId('user-1')
 		.withRole(Role.USER)
 		.withSessionId('session-1')
 		.build();
 
-	const adminUser = buildGetUser()
+	const adminUser = buildGetUserResponse()
 		.withId('admin-1')
 		.withRole(Role.ADMIN)
 		.withSessionId('session-2')
@@ -52,7 +52,7 @@ describe('QuestionsController', () => {
 		.withText('What is React?')
 		.build();
 
-	const updateQuestionData = buildUpdateQuestion()
+	const updateQuestionData = buildUpdateQuestionRequest()
 		.withQuestionId(questionId)
 		.withText('What is React?')
 		.build();
@@ -88,7 +88,7 @@ describe('QuestionsController', () => {
 			CreateQuestionRequest: vi
 				.fn()
 				.mockResolvedValue(
-					buildGetQuestion().build() satisfies Awaited<
+					buildGetQuestionResponse().build() satisfies Awaited<
 						ReturnType<typeof questionsService.CreateQuestionRequest>
 					>,
 				),
@@ -96,7 +96,7 @@ describe('QuestionsController', () => {
 			updateQuestion: vi
 				.fn()
 				.mockResolvedValue(
-					buildGetQuestion().build() satisfies Awaited<
+					buildGetQuestionResponse().build() satisfies Awaited<
 						ReturnType<typeof questionsService.updateQuestion>
 					>,
 				),

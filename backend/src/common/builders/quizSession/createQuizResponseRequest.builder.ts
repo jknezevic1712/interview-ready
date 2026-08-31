@@ -1,14 +1,16 @@
-import { buildCreateQuizResponseAnswer } from './createQuizResponseAnswer.builder';
+import { buildCreateQuizResponseAnswerRequest } from './createQuizResponseAnswerRequest.builder';
 
 import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
 import type { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
 
-export class CreateQuizResponseBuilder implements CreateQuizResponseRequest {
+export class CreateQuizResponseRequestBuilder
+	implements CreateQuizResponseRequest
+{
 	sessionId = '12345678';
 	questionId = 'qwertzuiop';
 	textAnswer: CreateQuizResponseRequest['textAnswer'] = null;
 	answers: CreateQuizResponseAnswerRequest[] = [
-		buildCreateQuizResponseAnswer().build(),
+		buildCreateQuizResponseAnswerRequest().build(),
 	];
 	feedback: CreateQuizResponseRequest['feedback'] = 'Lorem ipsum';
 
@@ -48,4 +50,5 @@ export class CreateQuizResponseBuilder implements CreateQuizResponseRequest {
 	}
 }
 
-export const buildCreateQuizResponse = () => new CreateQuizResponseBuilder();
+export const buildCreateQuizResponseRequest = () =>
+	new CreateQuizResponseRequestBuilder();

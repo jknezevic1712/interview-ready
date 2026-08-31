@@ -3,7 +3,7 @@ import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
 import cookieParser from 'cookie-parser';
-import { buildGetUser } from 'src/common/builders/users/getUser.builder';
+import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
 import { Role } from 'src/common/types/enums';
@@ -29,7 +29,7 @@ describe('AuthenticationController', () => {
 	let app: INestApplication;
 	let tokenService: TokenService;
 
-	const user = buildGetUser()
+	const user = buildGetUserResponse()
 		.withId('user-1')
 		.withName('Test User')
 		.withEmail('test@test.com')

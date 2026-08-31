@@ -2,7 +2,7 @@ import { Difficulty, QuestionType } from 'src/common/types/enums';
 
 import type { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
 
-class GetQuestionBuilder implements GetQuestionResponse {
+class GetQuestionResponseBuilder implements GetQuestionResponse {
 	id = '1';
 	text = 'Question 1';
 	type: QuestionType = QuestionType.SINGLE_CHOICE;
@@ -72,4 +72,4 @@ class GetQuestionBuilder implements GetQuestionResponse {
 	}
 }
 
-export const buildGetQuestion = () => new GetQuestionBuilder();
+export const buildGetQuestionResponse = () => new GetQuestionResponseBuilder();

@@ -1,6 +1,6 @@
 import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
 
-class CreateQuizResponseAnswerBuilder
+class CreateQuizResponseAnswerRequestBuilder
 	implements CreateQuizResponseAnswerRequest
 {
 	answerOptionId = 'answer-option-1';
@@ -19,5 +19,5 @@ class CreateQuizResponseAnswerBuilder
 	}
 }
 
-export const buildCreateQuizResponseAnswer = () =>
-	new CreateQuizResponseAnswerBuilder();
+export const buildCreateQuizResponseAnswerRequest = () =>
+	new CreateQuizResponseAnswerRequestBuilder();

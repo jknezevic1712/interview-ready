@@ -1,6 +1,6 @@
 import type { CreateUserRequest } from 'src/common/dtos/users/createUserRequest.dto';
 
-class CreateUserBuilder implements CreateUserRequest {
+class CreateUserRequestBuilder implements CreateUserRequest {
 	email = 'test@test.com';
 	name = 'Test user 1';
 	password = '12345678';
@@ -29,4 +29,4 @@ class CreateUserBuilder implements CreateUserRequest {
 	}
 }
 
-export const buildCreateUser = () => new CreateUserBuilder();
+export const buildCreateUserRequest = () => new CreateUserRequestBuilder();

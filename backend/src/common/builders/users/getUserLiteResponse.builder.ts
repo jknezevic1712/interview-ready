@@ -2,7 +2,7 @@ import { Role } from 'src/common/types/enums';
 
 import type { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
 
-export class GetUserLiteBuilder implements GetUserLiteResponse {
+export class GetUserLiteResponseBuilder implements GetUserLiteResponse {
 	id = 'user-1';
 	email = 'test@test.com';
 	name = 'Test user 1';
@@ -38,4 +38,4 @@ export class GetUserLiteBuilder implements GetUserLiteResponse {
 	}
 }
 
-export const buildGetUserLite = () => new GetUserLiteBuilder();
+export const buildGetUserLiteResponse = () => new GetUserLiteResponseBuilder();

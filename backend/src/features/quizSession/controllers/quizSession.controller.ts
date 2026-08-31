@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
-import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
-import { UpdateQuizSessionStatusDto } from 'src/common/dtos/quizSession/updateQuizSessionStatus.dto';
+import { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
+import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
+import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
+import { UpdateQuizSessionStatusRequest } from 'src/common/dtos/quizSession/updateQuizSessionStatusRequest.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { Role } from 'src/common/types/enums';
 import { QuizSessionService } from '../services/quizSession.service';
@@ -20,7 +20,7 @@ export class QuizSessionController {
 	@Get()
 	async getQuizSessions(
 		@CurrentUser() user: AccessTokenPayload,
-	): Promise<GetQuizSessionLiteDto[]> {
+	): Promise<GetQuizSessionLiteResponse[]> {
 		return this.quizSessionService.getQuizSessions(user.sub);
 	}
 
@@ -29,7 +29,7 @@ export class QuizSessionController {
 	getQuizSession(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
 		@CurrentUser() user: AccessTokenPayload,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSessionResponse> {
 		return this.quizSessionService.getQuizSession(sessionId, user.sub);
 	}
 
@@ -37,7 +37,7 @@ export class QuizSessionController {
 	@Post('/create')
 	createQuizSession(
 		@CurrentUser() user: AccessTokenPayload,
-	): Promise<GetQuizSessionLiteDto> {
+	): Promise<GetQuizSessionLiteResponse> {
 		return this.quizSessionService.createQuizSession(user.sub);
 	}
 
@@ -45,9 +45,9 @@ export class QuizSessionController {
 	@Patch(':sessionId')
 	updateQuizSessionStatus(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
-		@Body() body: UpdateQuizSessionStatusDto,
+		@Body() body: UpdateQuizSessionStatusRequest,
 		@CurrentUser() user: AccessTokenPayload,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSessionResponse> {
 		return this.quizSessionService.updateQuizSessionStatus(
 			sessionId,
 			user.sub,
@@ -58,9 +58,9 @@ export class QuizSessionController {
 	@Authorize([Role.ADMIN, Role.USER])
 	@Post('/response')
 	createQuizResponse(
-		@Body() body: CreateQuizResponseDto,
+		@Body() body: CreateQuizResponseRequest,
 		@CurrentUser() user: AccessTokenPayload,
-	): Promise<GetQuizResponseDto> {
+	): Promise<GetQuizResponse> {
 		return this.quizSessionService.createQuizResponse(body, user.sub);
 	}
 }

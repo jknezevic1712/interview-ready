@@ -8,7 +8,7 @@ import {
 import { CredentialProvider } from 'src/common/types/enums';
 import { env } from 'src/env';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { IUsersRepository } from '../contracts/users.repository';
+import { IUsersRepository } from '../contracts/users.repository.contract';
 import {
 	UserLitePayload,
 	UserSessionPayload,

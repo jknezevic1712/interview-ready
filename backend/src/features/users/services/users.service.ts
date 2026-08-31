@@ -4,7 +4,7 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common';
-import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import {
@@ -14,11 +14,11 @@ import {
 import { CredentialProvider } from 'src/common/types/enums';
 import { env } from 'src/env';
 import { toStringHash } from 'src/features/authentication/utilities/stringTransform';
-import { toGetUserLiteDto } from '../mappers/users.mappers';
+import { toGetUserLiteResponse } from '../mappers/users.mappers';
 import { USERS_REPOSITORY } from '../tokens/users.token';
 import { UserSessionPayload } from '../utilities/users.selects';
 
-import type { IUsersRepository } from '../contracts/users.repository';
+import type { IUsersRepository } from '../contracts/users.repository.contract';
 
 @Injectable()
 export class UsersService {
@@ -54,29 +54,29 @@ export class UsersService {
 		return userCredentials;
 	}
 
-	async getUser(email: string): Promise<GetUserLiteDto> {
+	async getUser(email: string): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.getUser(email);
 
 		if (!user) {
 			throw new NotFoundException(`User with email ${email} not found`);
 		}
 
-		return toGetUserLiteDto(user);
+		return toGetUserLiteResponse(user);
 	}
 
-	async getUserById(id: string): Promise<GetUserLiteDto> {
+	async getUserById(id: string): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.getUserById(id);
 
 		if (!user) {
 			throw new NotFoundException(`User not found`);
 		}
 
-		return toGetUserLiteDto(user);
+		return toGetUserLiteResponse(user);
 	}
 
-	async registerUser(data: UserRegistrationData): Promise<GetUserLiteDto> {
+	async registerUser(data: UserRegistrationData): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.registerUser(data);
-		return toGetUserLiteDto(user);
+		return toGetUserLiteResponse(user);
 	}
 
 	async getSession(sessionId: string): Promise<UserSessionPayload> {

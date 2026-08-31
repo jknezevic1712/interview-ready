@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { QuizResponse } from 'src/common/types/client';
 import { QuizSessionStatus } from 'src/common/types/enums';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { IQuizSessionRepository } from '../contracts/quizSession.repository';
+import { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import {
 	QuizSessionLitePayload,

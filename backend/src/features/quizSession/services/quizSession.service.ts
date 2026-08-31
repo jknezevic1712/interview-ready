@@ -5,22 +5,22 @@ import {
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common';
-import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
+import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
+import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
 import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
-	toGetQuizResponseDto,
-	toGetQuizSessionDto,
-	toGetQuizSessionLiteDto,
+	toGetQuizResponse,
+	toGetQuizSessionLiteResponse,
+	toGetQuizSessionResponse,
 } from '../mappers/quizSession.mapper';
 import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
 
-import type { IQuizSessionRepository } from '../contracts/quizSession.repository';
+import type { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 
 @Injectable()
 export class QuizSessionService {
@@ -29,16 +29,16 @@ export class QuizSessionService {
 		private readonly quizSessionRepository: IQuizSessionRepository,
 	) {}
 
-	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteDto[]> {
+	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteResponse[]> {
 		const quizSessions =
 			await this.quizSessionRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionLiteDto);
+		return quizSessions.map(toGetQuizSessionLiteResponse);
 	}
 
 	async getQuizSession(
 		sessionId: string,
 		userId: string,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSessionResponse> {
 		const session = await this.quizSessionRepository.getQuizSession(
 			sessionId,
 			userId,
@@ -47,19 +47,19 @@ export class QuizSessionService {
 			throw new NotFoundException(`Quiz session not found`);
 		}
 
-		return toGetQuizSessionDto(session);
+		return toGetQuizSessionResponse(session);
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionLiteDto> {
+	async createQuizSession(userId: string): Promise<GetQuizSessionLiteResponse> {
 		const session = await this.quizSessionRepository.createQuizSession(userId);
-		return toGetQuizSessionLiteDto(session);
+		return toGetQuizSessionLiteResponse(session);
 	}
 
 	async updateQuizSessionStatus(
 		sessionId: string,
 		userId: string,
 		sessionStatus: QuizSessionStatus,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSessionResponse> {
 		const quizSession = await this.quizSessionRepository.getQuizSession(
 			sessionId,
 			userId,
@@ -86,13 +86,13 @@ export class QuizSessionService {
 				sessionStatus,
 				userId,
 			);
-		return toGetQuizSessionDto(updatedSession);
+		return toGetQuizSessionResponse(updatedSession);
 	}
 
 	async createQuizResponse(
-		data: CreateQuizResponseDto,
+		data: CreateQuizResponseRequest,
 		userId: string,
-	): Promise<GetQuizResponseDto> {
+	): Promise<GetQuizResponse> {
 		const quizSessionQuestionRecord =
 			await this.quizSessionRepository.getQuizSessionQuestionRecordLite(
 				data.sessionId,
@@ -111,7 +111,7 @@ export class QuizSessionService {
 			this.getQuizResponseData(data, quizSessionQuestionRecord!.question),
 		);
 
-		return toGetQuizResponseDto(quizResponse);
+		return toGetQuizResponse(quizResponse);
 	}
 
 	private validateQuizSessionQuestionRecord(
@@ -137,7 +137,7 @@ export class QuizSessionService {
 	}
 
 	private getQuizResponseData(
-		request: CreateQuizResponseDto,
+		request: CreateQuizResponseRequest,
 		question: QuizSessionQuestionLitePayload['question'],
 	): CreateQuizResponseInput {
 		function getScore(difficulty: Difficulty) {
@@ -153,7 +153,7 @@ export class QuizSessionService {
 
 		function isQuestionAnsweredCorrectly(
 			question: QuizSessionQuestionLitePayload['question'],
-			userAnswers: CreateQuizResponseDto['answers'],
+			userAnswers: CreateQuizResponseRequest['answers'],
 		): boolean {
 			const correctAnswerIds = question.answerOptions
 				.filter((answer) => answer.isCorrect)

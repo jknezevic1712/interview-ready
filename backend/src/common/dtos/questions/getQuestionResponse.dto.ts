@@ -1,6 +1,6 @@
 import { AnswerOption, Category, Question } from 'src/common/types/client';
 
-export class GetQuestionDto {
+export class GetQuestionResponse {
 	id!: Question['id'];
 	text!: Question['text'];
 	explanation!: Question['explanation'];

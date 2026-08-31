@@ -1,6 +1,6 @@
 import { AnswerOption, Question } from 'src/common/types/client';
 
-export interface CreateQuestionInput {
+export interface CreateQuestionRequestInput {
 	categoryId: Question['categoryId'];
 	text: Question['text'];
 	type: Question['type'];

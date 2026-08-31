@@ -1,32 +1,32 @@
-import type { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import type { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 
-class GetQuizResponseBuilder implements GetQuizResponseDto {
+class GetQuizResponseBuilder implements GetQuizResponse {
 	id = 'quiz-response-1';
 	answeredAt = new Date(Date.now());
-	isCorrect: GetQuizResponseDto['isCorrect'] = null;
-	score: GetQuizResponseDto['score'] = null;
+	isCorrect: GetQuizResponse['isCorrect'] = null;
+	score: GetQuizResponse['score'] = null;
 
-	withId(id: GetQuizResponseDto['id']) {
+	withId(id: GetQuizResponse['id']) {
 		this.id = id;
 		return this;
 	}
 
-	withAnsweredAt(answeredAt: GetQuizResponseDto['answeredAt']) {
+	withAnsweredAt(answeredAt: GetQuizResponse['answeredAt']) {
 		this.answeredAt = answeredAt;
 		return this;
 	}
 
-	withIsCorrect(isCorrect: GetQuizResponseDto['isCorrect']) {
+	withIsCorrect(isCorrect: GetQuizResponse['isCorrect']) {
 		this.isCorrect = isCorrect;
 		return this;
 	}
 
-	withScore(score: GetQuizResponseDto['score']) {
+	withScore(score: GetQuizResponse['score']) {
 		this.score = score;
 		return this;
 	}
 
-	build(): GetQuizResponseDto {
+	build(): GetQuizResponse {
 		return {
 			id: this.id,
 			answeredAt: this.answeredAt,

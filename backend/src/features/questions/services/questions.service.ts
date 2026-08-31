@@ -1,11 +1,11 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
-import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
-import { toGetQuestionDto } from '../mappers/questions.mapper';
+import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
+import { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
+import { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
+import { toGetQuestionResponse } from '../mappers/questions.mapper';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 
-import type { IQuestionsRepository } from '../contracts/questions.repository';
+import type { IQuestionsRepository } from '../contracts/questions.repository.contract';
 
 @Injectable()
 export class QuestionsService {
@@ -17,22 +17,26 @@ export class QuestionsService {
 	async getQuestions(
 		sessionId: string,
 		userId: string,
-	): Promise<GetQuestionDto[]> {
+	): Promise<GetQuestionResponse[]> {
 		const questions = await this.questionsRepository.getQuestions(
 			sessionId,
 			userId,
 		);
-		return questions.map(toGetQuestionDto);
+		return questions.map(toGetQuestionResponse);
 	}
 
-	async createQuestion(data: CreateQuestionDto): Promise<GetQuestionDto> {
-		const question = await this.questionsRepository.createQuestion(data);
-		return toGetQuestionDto(question);
+	async createQuestionRequest(
+		data: CreateQuestionRequest,
+	): Promise<GetQuestionResponse> {
+		const question = await this.questionsRepository.createQuestionRequest(data);
+		return toGetQuestionResponse(question);
 	}
 
-	async updateQuestion(data: UpdateQuestionDto): Promise<GetQuestionDto> {
+	async updateQuestion(
+		data: UpdateQuestionRequest,
+	): Promise<GetQuestionResponse> {
 		const question = await this.questionsRepository.updateQuestion(data);
-		return toGetQuestionDto(question);
+		return toGetQuestionResponse(question);
 	}
 
 	async linkQuestion(sessionId: string, questionId: string): Promise<void> {

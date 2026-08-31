@@ -5,22 +5,25 @@ import {
 	IsArray,
 	IsBoolean,
 	IsEnum,
+	IsNotEmpty,
 	IsOptional,
 	IsString,
 	Matches,
 	ValidateNested,
 } from 'class-validator';
 import { Difficulty, QuestionType } from 'src/common/types/enums';
-import { CreateAnswerOptionDto } from './createAnswerOption.dto';
+import { CreateAnswerOptionRequest } from './createAnswerOptionRequest.dto';
 
-export class CreateQuestionDto {
+export class CreateQuestionRequest {
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid category id',
 	})
+	@IsNotEmpty()
 	categoryId!: string;
 
 	@IsString()
+	@IsNotEmpty()
 	text!: string;
 
 	@IsEnum(QuestionType)
@@ -30,14 +33,14 @@ export class CreateQuestionDto {
 	difficulty!: Difficulty;
 
 	@ApiProperty({
-		type: () => CreateAnswerOptionDto,
+		type: () => CreateAnswerOptionRequest,
 		isArray: true,
 	})
 	@IsArray()
 	@ArrayMinSize(2, { message: 'Minimum of two answer options must be added' })
 	@ValidateNested({ each: true })
-	@Type(() => CreateAnswerOptionDto)
-	answerOptions!: CreateAnswerOptionDto[];
+	@Type(() => CreateAnswerOptionRequest)
+	answerOptions!: CreateAnswerOptionRequest[];
 
 	@IsOptional()
 	@IsString()

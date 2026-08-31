@@ -1,6 +1,6 @@
 import { User } from 'src/common/types/client';
 
-export class GetUserLiteDto {
+export class GetUserLiteResponse {
 	id!: User['id'];
 	email!: User['email'];
 	name!: User['name'];

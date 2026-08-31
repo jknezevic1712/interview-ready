@@ -8,14 +8,26 @@ export class CacheService {
 	constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
 	async get<T>(key: string): Promise<T | undefined> {
-		return this.cacheManager.get<T>(key);
+		try {
+			return this.cacheManager.get<T>(key);
+		} catch (error) {
+			console.error(`Error occurred while fetching cache: ${error}`);
+		}
 	}
 
 	async set<T>(key: string, value: T, ttl?: number): Promise<void> {
-		await this.cacheManager.set(key, value, ttl);
+		try {
+			await this.cacheManager.set(key, value, ttl);
+		} catch (error) {
+			console.error(`Error occurred while setting cached value ${error}`);
+		}
 	}
 
 	async del(key: string): Promise<void> {
-		await this.cacheManager.del(key);
+		try {
+			await this.cacheManager.del(key);
+		} catch (error) {
+			console.error(`Error occurred while deleting cached value ${error}`);
+		}
 	}
 }

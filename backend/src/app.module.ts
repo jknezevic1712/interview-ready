@@ -8,12 +8,14 @@ import { CategoriesModule } from './features/categories/categories.module';
 import { QuestionsModule } from './features/questions/questions.module';
 import { QuizSessionModule } from './features/quizSession/quizSession.module';
 import { UsersModule } from './features/users/users.module';
+import { CacheModule } from './infrastructure/cache/cache.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
 	imports: [
 		PrismaModule,
+		CacheModule,
 		CategoriesModule,
 		QuizSessionModule,
 		QuestionsModule,

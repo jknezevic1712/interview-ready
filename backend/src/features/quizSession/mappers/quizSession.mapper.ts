@@ -1,15 +1,13 @@
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { GetQuizSession } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { GetQuizSessionLite } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 import { QuizResponse } from 'src/common/types/client';
 import {
 	QuizSessionLitePayload,
 	QuizSessionPayload,
 } from '../utilities/quizSession.selects';
 
-export function toGetQuizSessionDto(
-	session: QuizSessionPayload,
-): GetQuizSessionDto {
+export function toGetQuizSession(session: QuizSessionPayload): GetQuizSession {
 	return {
 		id: session.id,
 		status: session.status,
@@ -30,9 +28,9 @@ export function toGetQuizSessionDto(
 	};
 }
 
-export function toGetQuizSessionLiteDto(
+export function toGetQuizSessionLite(
 	session: QuizSessionLitePayload,
-): GetQuizSessionLiteDto {
+): GetQuizSessionLite {
 	return {
 		id: session.id,
 		status: session.status,
@@ -46,9 +44,7 @@ export function toGetQuizSessionLiteDto(
 	};
 }
 
-export function toGetQuizResponseDto(
-	quizResponse: QuizResponse,
-): GetQuizResponseDto {
+export function toGetQuizResponse(quizResponse: QuizResponse): GetQuizResponse {
 	return {
 		id: quizResponse.id,
 		isCorrect: quizResponse.isCorrect,

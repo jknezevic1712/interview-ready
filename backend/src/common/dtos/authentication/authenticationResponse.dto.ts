@@ -1,8 +1,8 @@
-import { GetUserDto } from '../users/getUser.dto';
+import { GetUser } from '../users/getUser.dto';
 
-export class AuthenticationResponseDto {
+export class AuthenticationResponse {
 	accessToken!: string;
 	refreshToken!: string;
-	user!: GetUserDto;
+	user!: GetUser;
 	sessionId!: string;
 }

@@ -1,3 +1,3 @@
-export class RefreshAccessTokenResponseDto {
+export class RefreshAccessTokenResponse {
 	accessToken!: string;
 }

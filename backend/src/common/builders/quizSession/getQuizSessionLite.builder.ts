@@ -1,14 +1,14 @@
 import { GetQuizSessionBaseBuilder } from './getQuizSessionBase.builder';
 
-import type { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import type { GetQuizSessionLite } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 
 export class GetQuizSessionLiteBuilder
 	extends GetQuizSessionBaseBuilder
-	implements GetQuizSessionLiteDto
+	implements GetQuizSessionLite
 {
-	responses: GetQuizSessionLiteDto['responses'] = null;
+	responses: GetQuizSessionLite['responses'] = null;
 
-	build(): GetQuizSessionLiteDto {
+	build(): GetQuizSessionLite {
 		return {
 			...super.build(),
 			responses: this.responses,

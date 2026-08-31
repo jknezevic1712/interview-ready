@@ -1,14 +1,14 @@
-import type { RefreshAccessTokenResponseDto } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
+import type { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
 
-class RefreshAccessTokenBuilder implements RefreshAccessTokenResponseDto {
+class RefreshAccessTokenBuilder implements RefreshAccessTokenResponse {
 	accessToken = 'qwertzuiop';
 
-	withAccessToken(token: RefreshAccessTokenResponseDto['accessToken']) {
+	withAccessToken(token: RefreshAccessTokenResponse['accessToken']) {
 		this.accessToken = token;
 		return this;
 	}
 
-	build(): RefreshAccessTokenResponseDto {
+	build(): RefreshAccessTokenResponse {
 		return {
 			accessToken: this.accessToken,
 		};

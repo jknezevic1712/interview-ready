@@ -11,9 +11,9 @@ import {
 } from '@nestjs/common';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
-import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
-import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
+import { CreateQuestion } from 'src/common/dtos/questions/createQuestion.dto';
+import { GetQuestion } from 'src/common/dtos/questions/getQuestion.dto';
+import { UpdateQuestion } from 'src/common/dtos/questions/updateQuestion.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { Role } from 'src/common/types/enums';
 import { QuestionsService } from '../services/questions.service';
@@ -29,19 +29,19 @@ export class QuestionsController {
 	getQuestions(
 		@Query('sessionId', ParseCuid2Pipe) sessionId: string,
 		@CurrentUser() user: ValidatedAccessTokenPayload,
-	): Promise<GetQuestionDto[]> {
+	): Promise<GetQuestion[]> {
 		return this.questionsService.getQuestions(sessionId, user.sub);
 	}
 
 	@Authorize([Role.ADMIN])
 	@Post()
-	createQuestion(@Body() body: CreateQuestionDto): Promise<GetQuestionDto> {
+	createQuestion(@Body() body: CreateQuestion): Promise<GetQuestion> {
 		return this.questionsService.createQuestion(body);
 	}
 
 	@Authorize([Role.ADMIN])
 	@Patch()
-	updateQuestion(@Body() body: UpdateQuestionDto): Promise<GetQuestionDto> {
+	updateQuestion(@Body() body: UpdateQuestion): Promise<GetQuestion> {
 		return this.questionsService.updateQuestion(body);
 	}
 

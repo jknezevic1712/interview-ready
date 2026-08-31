@@ -1,8 +1,8 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CreateQuestionDto } from 'src/common/dtos/questions/createQuestion.dto';
-import { GetQuestionDto } from 'src/common/dtos/questions/getQuestion.dto';
-import { UpdateQuestionDto } from 'src/common/dtos/questions/updateQuestion.dto';
-import { toGetQuestionDto } from '../mappers/questions.mapper';
+import { CreateQuestion } from 'src/common/dtos/questions/createQuestion.dto';
+import { GetQuestion } from 'src/common/dtos/questions/getQuestion.dto';
+import { UpdateQuestion } from 'src/common/dtos/questions/updateQuestion.dto';
+import { toGetQuestion } from '../mappers/questions.mapper';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 
 import type { IQuestionsRepository } from '../contracts/questions.repository';
@@ -17,22 +17,22 @@ export class QuestionsService {
 	async getQuestions(
 		sessionId: string,
 		userId: string,
-	): Promise<GetQuestionDto[]> {
+	): Promise<GetQuestion[]> {
 		const questions = await this.questionsRepository.getQuestions(
 			sessionId,
 			userId,
 		);
-		return questions.map(toGetQuestionDto);
+		return questions.map(toGetQuestion);
 	}
 
-	async createQuestion(data: CreateQuestionDto): Promise<GetQuestionDto> {
+	async createQuestion(data: CreateQuestion): Promise<GetQuestion> {
 		const question = await this.questionsRepository.createQuestion(data);
-		return toGetQuestionDto(question);
+		return toGetQuestion(question);
 	}
 
-	async updateQuestion(data: UpdateQuestionDto): Promise<GetQuestionDto> {
+	async updateQuestion(data: UpdateQuestion): Promise<GetQuestion> {
 		const question = await this.questionsRepository.updateQuestion(data);
-		return toGetQuestionDto(question);
+		return toGetQuestion(question);
 	}
 
 	async linkQuestion(sessionId: string, questionId: string): Promise<void> {

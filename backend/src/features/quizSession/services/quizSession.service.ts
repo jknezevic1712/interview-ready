@@ -5,16 +5,16 @@ import {
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common';
-import { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import { GetQuizResponseDto } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { GetQuizSessionLiteDto } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { CreateQuizResponse } from 'src/common/dtos/quizSession/createQuizResponse.dto';
+import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
+import { GetQuizSession } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import { GetQuizSessionLite } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
 import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
-	toGetQuizResponseDto,
-	toGetQuizSessionDto,
-	toGetQuizSessionLiteDto,
+	toGetQuizResponse,
+	toGetQuizSession,
+	toGetQuizSessionLite,
 } from '../mappers/quizSession.mapper';
 import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
@@ -29,16 +29,16 @@ export class QuizSessionService {
 		private readonly quizSessionRepository: IQuizSessionRepository,
 	) {}
 
-	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteDto[]> {
+	async getQuizSessions(userId: string): Promise<GetQuizSessionLite[]> {
 		const quizSessions =
 			await this.quizSessionRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionLiteDto);
+		return quizSessions.map(toGetQuizSessionLite);
 	}
 
 	async getQuizSession(
 		sessionId: string,
 		userId: string,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSession> {
 		const session = await this.quizSessionRepository.getQuizSession(
 			sessionId,
 			userId,
@@ -47,19 +47,19 @@ export class QuizSessionService {
 			throw new NotFoundException(`Quiz session not found`);
 		}
 
-		return toGetQuizSessionDto(session);
+		return toGetQuizSession(session);
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionLiteDto> {
+	async createQuizSession(userId: string): Promise<GetQuizSessionLite> {
 		const session = await this.quizSessionRepository.createQuizSession(userId);
-		return toGetQuizSessionLiteDto(session);
+		return toGetQuizSessionLite(session);
 	}
 
 	async updateQuizSessionStatus(
 		sessionId: string,
 		userId: string,
 		sessionStatus: QuizSessionStatus,
-	): Promise<GetQuizSessionDto> {
+	): Promise<GetQuizSession> {
 		const quizSession = await this.quizSessionRepository.getQuizSession(
 			sessionId,
 			userId,
@@ -86,13 +86,13 @@ export class QuizSessionService {
 				sessionStatus,
 				userId,
 			);
-		return toGetQuizSessionDto(updatedSession);
+		return toGetQuizSession(updatedSession);
 	}
 
 	async createQuizResponse(
-		data: CreateQuizResponseDto,
+		data: CreateQuizResponse,
 		userId: string,
-	): Promise<GetQuizResponseDto> {
+	): Promise<GetQuizResponse> {
 		const quizSessionQuestionRecord =
 			await this.quizSessionRepository.getQuizSessionQuestionRecordLite(
 				data.sessionId,
@@ -111,7 +111,7 @@ export class QuizSessionService {
 			this.getQuizResponseData(data, quizSessionQuestionRecord!.question),
 		);
 
-		return toGetQuizResponseDto(quizResponse);
+		return toGetQuizResponse(quizResponse);
 	}
 
 	private validateQuizSessionQuestionRecord(
@@ -137,7 +137,7 @@ export class QuizSessionService {
 	}
 
 	private getQuizResponseData(
-		request: CreateQuizResponseDto,
+		request: CreateQuizResponse,
 		question: QuizSessionQuestionLitePayload['question'],
 	): CreateQuizResponseInput {
 		function getScore(difficulty: Difficulty) {
@@ -153,7 +153,7 @@ export class QuizSessionService {
 
 		function isQuestionAnsweredCorrectly(
 			question: QuizSessionQuestionLitePayload['question'],
-			userAnswers: CreateQuizResponseDto['answers'],
+			userAnswers: CreateQuizResponse['answers'],
 		): boolean {
 			const correctAnswerIds = question.answerOptions
 				.filter((answer) => answer.isCorrect)

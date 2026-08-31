@@ -1,34 +1,34 @@
 import { buildGetUser } from '../users/getUser.builder';
 
-import type { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
+import type { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
 
-class AuthenticationResponseBuilder implements AuthenticationResponseDto {
+class AuthenticationResponseBuilder implements AuthenticationResponse {
 	accessToken = 'qwertzuiop';
 	refreshToken = '12345678';
 	sessionId = 'q1w2e3r4t5';
-	user: AuthenticationResponseDto['user'] = buildGetUser().build();
+	user: AuthenticationResponse['user'] = buildGetUser().build();
 
-	withAccessToken(token: AuthenticationResponseDto['accessToken']) {
+	withAccessToken(token: AuthenticationResponse['accessToken']) {
 		this.accessToken = token;
 		return this;
 	}
 
-	withRefreshToken(token: AuthenticationResponseDto['refreshToken']) {
+	withRefreshToken(token: AuthenticationResponse['refreshToken']) {
 		this.refreshToken = token;
 		return this;
 	}
 
-	withSessionId(sessionId: AuthenticationResponseDto['sessionId']) {
+	withSessionId(sessionId: AuthenticationResponse['sessionId']) {
 		this.sessionId = sessionId;
 		return this;
 	}
 
-	withUser(user: AuthenticationResponseDto['user']) {
+	withUser(user: AuthenticationResponse['user']) {
 		this.user = user;
 		return this;
 	}
 
-	build(): AuthenticationResponseDto {
+	build(): AuthenticationResponse {
 		return {
 			accessToken: this.accessToken,
 			refreshToken: this.refreshToken,

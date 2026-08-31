@@ -12,9 +12,9 @@ import {
 	ValidateNested,
 } from 'class-validator';
 import { Difficulty, QuestionType } from 'src/common/types/enums';
-import { CreateAnswerOptionDto } from './createAnswerOption.dto';
+import { CreateAnswerOption } from './createAnswerOption.dto';
 
-export class CreateQuestionDto {
+export class CreateQuestion {
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid category id',
@@ -33,14 +33,14 @@ export class CreateQuestionDto {
 	difficulty!: Difficulty;
 
 	@ApiProperty({
-		type: () => CreateAnswerOptionDto,
+		type: () => CreateAnswerOption,
 		isArray: true,
 	})
 	@IsArray()
 	@ArrayMinSize(2, { message: 'Minimum of two answer options must be added' })
 	@ValidateNested({ each: true })
-	@Type(() => CreateAnswerOptionDto)
-	answerOptions!: CreateAnswerOptionDto[];
+	@Type(() => CreateAnswerOption)
+	answerOptions!: CreateAnswerOption[];
 
 	@IsOptional()
 	@IsString()

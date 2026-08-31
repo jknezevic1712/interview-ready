@@ -1,19 +1,19 @@
 import { GetQuizSessionBaseBuilder } from './getQuizSessionBase.builder';
 
-import type { GetQuizSessionDto } from 'src/common/dtos/quizSession/getQuizSession.dto';
+import type { GetQuizSession } from 'src/common/dtos/quizSession/getQuizSession.dto';
 
 export class GetQuizSessionBuilder
 	extends GetQuizSessionBaseBuilder
-	implements GetQuizSessionDto
+	implements GetQuizSession
 {
-	responses: GetQuizSessionDto['responses'] = [];
+	responses: GetQuizSession['responses'] = [];
 
-	withResponses(responses: GetQuizSessionDto['responses']) {
+	withResponses(responses: GetQuizSession['responses']) {
 		this.responses = responses;
 		return this;
 	}
 
-	build(): GetQuizSessionDto {
+	build(): GetQuizSession {
 		return {
 			...super.build(),
 			responses: this.responses,

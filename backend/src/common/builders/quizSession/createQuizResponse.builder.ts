@@ -1,43 +1,43 @@
 import { buildCreateQuizResponseAnswer } from './createQuizResponseAnswer.builder';
 
-import type { CreateQuizResponseDto } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import type { CreateQuizResponseAnswerDto } from 'src/common/dtos/quizSession/createQuizResponseAnswer.dto';
+import type { CreateQuizResponse } from 'src/common/dtos/quizSession/createQuizResponse.dto';
+import type { CreateQuizResponseAnswer } from 'src/common/dtos/quizSession/createQuizResponseAnswer.dto';
 
-export class CreateQuizResponseBuilder implements CreateQuizResponseDto {
+export class CreateQuizResponseBuilder implements CreateQuizResponse {
 	sessionId = '12345678';
 	questionId = 'qwertzuiop';
-	textAnswer: CreateQuizResponseDto['textAnswer'] = null;
-	answers: CreateQuizResponseAnswerDto[] = [
+	textAnswer: CreateQuizResponse['textAnswer'] = null;
+	answers: CreateQuizResponseAnswer[] = [
 		buildCreateQuizResponseAnswer().build(),
 	];
-	feedback: CreateQuizResponseDto['feedback'] = 'Lorem ipsum';
+	feedback: CreateQuizResponse['feedback'] = 'Lorem ipsum';
 
-	withSessionId(sessionId: CreateQuizResponseDto['sessionId']) {
+	withSessionId(sessionId: CreateQuizResponse['sessionId']) {
 		this.sessionId = sessionId;
 		return this;
 	}
 
-	withQuestionId(questionId: CreateQuizResponseDto['questionId']) {
+	withQuestionId(questionId: CreateQuizResponse['questionId']) {
 		this.questionId = questionId;
 		return this;
 	}
 
-	withTextAnswer(textAnswer: CreateQuizResponseDto['textAnswer']) {
+	withTextAnswer(textAnswer: CreateQuizResponse['textAnswer']) {
 		this.textAnswer = textAnswer;
 		return this;
 	}
 
-	withAnswers(answers: CreateQuizResponseDto['answers']) {
+	withAnswers(answers: CreateQuizResponse['answers']) {
 		this.answers = answers;
 		return this;
 	}
 
-	withFeedback(feedback: CreateQuizResponseDto['feedback']) {
+	withFeedback(feedback: CreateQuizResponse['feedback']) {
 		this.feedback = feedback;
 		return this;
 	}
 
-	build(): CreateQuizResponseDto {
+	build(): CreateQuizResponse {
 		return {
 			sessionId: this.sessionId,
 			questionId: this.questionId,

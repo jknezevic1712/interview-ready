@@ -1,10 +1,10 @@
 import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { Public } from 'src/common/decorators/public.decorator';
-import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
-import { RefreshAccessTokenResponseDto } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
-import { CreateUserDto } from 'src/common/dtos/users/createUser.dto';
+import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
+import { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
+import { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
+import { CreateUser } from 'src/common/dtos/users/createUser.dto';
 import { env } from 'src/env';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -23,8 +23,8 @@ export class AuthenticationController {
 	@Public()
 	@Post('register')
 	registerViaEmailAndPassword(
-		@Body() data: CreateUserDto,
-	): Promise<AuthenticationResponseDto> {
+		@Body() data: CreateUser,
+	): Promise<AuthenticationResponse> {
 		return this.authenticationService.registerViaEmailAndPassword(data);
 	}
 
@@ -37,8 +37,8 @@ export class AuthenticationController {
 	@Public()
 	@Post('login')
 	loginViaEmailAndPassword(
-		@Body() data: LoginUserDto,
-	): Promise<AuthenticationResponseDto> {
+		@Body() data: LoginUser,
+	): Promise<AuthenticationResponse> {
 		return this.authenticationService.loginViaEmailAndPassword(data);
 	}
 
@@ -53,7 +53,7 @@ export class AuthenticationController {
 	async refreshAccessToken(
 		@Req() request: Request,
 		@Res({ passthrough: true }) response: Response,
-	): Promise<RefreshAccessTokenResponseDto> {
+	): Promise<RefreshAccessTokenResponse> {
 		const oldRefreshToken = request.cookies.refresh_token;
 		const { accessToken, refreshToken } =
 			await this.authenticationService.refreshAccessToken(oldRefreshToken);

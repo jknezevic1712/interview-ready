@@ -1,20 +1,20 @@
-import type { CreateAnswerOptionDto } from 'src/common/dtos/questions/createAnswerOption.dto';
+import type { CreateAnswerOption } from 'src/common/dtos/questions/createAnswerOption.dto';
 
-class CreateAnswerOptionBuilder implements CreateAnswerOptionDto {
+class CreateAnswerOptionBuilder implements CreateAnswerOption {
 	text = 'Answer option 1';
 	isCorrect = false;
 
-	withText(text: CreateAnswerOptionDto['text']) {
+	withText(text: CreateAnswerOption['text']) {
 		this.text = text;
 		return this;
 	}
 
-	withIsCorrect(isCorrect: CreateAnswerOptionDto['isCorrect']) {
+	withIsCorrect(isCorrect: CreateAnswerOption['isCorrect']) {
 		this.isCorrect = isCorrect;
 		return this;
 	}
 
-	build(): CreateAnswerOptionDto {
+	build(): CreateAnswerOption {
 		return {
 			text: this.text,
 			isCorrect: this.isCorrect,

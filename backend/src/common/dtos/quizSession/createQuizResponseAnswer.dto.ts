@@ -1,6 +1,6 @@
 import { IsOptional, IsString, Matches } from 'class-validator';
 
-export class CreateQuizResponseAnswerDto {
+export class CreateQuizResponseAnswer {
 	@IsOptional()
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {

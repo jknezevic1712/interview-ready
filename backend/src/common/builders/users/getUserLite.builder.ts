@@ -1,34 +1,34 @@
 import { Role } from 'src/common/types/enums';
 
-import type { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import type { GetUserLite } from 'src/common/dtos/users/getUserLite.dto';
 
-export class GetUserLiteBuilder implements GetUserLiteDto {
+export class GetUserLiteBuilder implements GetUserLite {
 	id = 'user-1';
 	email = 'test@test.com';
 	name = 'Test user 1';
 	role: Role = Role.USER;
 
-	withId(id: GetUserLiteDto['id']) {
+	withId(id: GetUserLite['id']) {
 		this.id = id;
 		return this;
 	}
 
-	withEmail(email: GetUserLiteDto['email']) {
+	withEmail(email: GetUserLite['email']) {
 		this.email = email;
 		return this;
 	}
 
-	withName(name: GetUserLiteDto['name']) {
+	withName(name: GetUserLite['name']) {
 		this.name = name;
 		return this;
 	}
 
-	withRole(role: GetUserLiteDto['role']) {
+	withRole(role: GetUserLite['role']) {
 		this.role = role;
 		return this;
 	}
 
-	build(): GetUserLiteDto {
+	build(): GetUserLite {
 		return {
 			id: this.id,
 			email: this.email,

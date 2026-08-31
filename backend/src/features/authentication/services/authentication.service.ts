@@ -4,11 +4,11 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common';
-import { AuthenticationResponseDto } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
-import { CreateUserDto } from 'src/common/dtos/users/createUser.dto';
-import { GetUserDto } from 'src/common/dtos/users/getUser.dto';
-import { GetUserLiteDto } from 'src/common/dtos/users/getUserLite.dto';
+import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
+import { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
+import { CreateUser } from 'src/common/dtos/users/createUser.dto';
+import { GetUser } from 'src/common/dtos/users/getUser.dto';
+import { GetUserLite } from 'src/common/dtos/users/getUserLite.dto';
 import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import { ValidatedRefreshTokenPayload } from 'src/common/interfaces/authentication/validatedRefreshTokenPayload.interface';
@@ -32,8 +32,8 @@ export class AuthenticationService {
 	) {}
 
 	async registerViaEmailAndPassword(
-		data: CreateUserDto,
-	): Promise<AuthenticationResponseDto> {
+		data: CreateUser,
+	): Promise<AuthenticationResponse> {
 		const userExists = await this.usersService.doesUserExist(data.email);
 
 		if (userExists) {
@@ -56,8 +56,8 @@ export class AuthenticationService {
 	}
 
 	async loginViaEmailAndPassword(
-		data: LoginUserDto,
-	): Promise<AuthenticationResponseDto> {
+		data: LoginUser,
+	): Promise<AuthenticationResponse> {
 		const userCredentials = await this.usersService.getUserCredential(
 			CredentialProvider.LOCAL,
 			data.email,
@@ -144,11 +144,11 @@ export class AuthenticationService {
 	}
 
 	private async generateUserSession(
-		user: GetUserLiteDto,
-	): Promise<AuthenticationResponseDto> {
+		user: GetUserLite,
+	): Promise<AuthenticationResponse> {
 		const session = await this.usersService.createSession(user.id);
 
-		const extendedUser: GetUserDto = { ...user, sessionId: session.id };
+		const extendedUser: GetUser = { ...user, sessionId: session.id };
 		const { accessToken, refreshToken } =
 			await this.tokenService.generateTokens(
 				toAccessTokenPayload(extendedUser),

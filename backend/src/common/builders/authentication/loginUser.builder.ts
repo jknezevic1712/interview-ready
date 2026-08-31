@@ -1,20 +1,20 @@
-import type { LoginUserDto } from 'src/common/dtos/authentication/loginUser.dto';
+import type { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
 
-class LoginUserBuilder implements LoginUserDto {
+class LoginUserBuilder implements LoginUser {
 	email = 'test@test.com';
 	password = '12345678';
 
-	withEmail(email: LoginUserDto['email']) {
+	withEmail(email: LoginUser['email']) {
 		this.email = email;
 		return this;
 	}
 
-	withPassword(password: LoginUserDto['password']) {
+	withPassword(password: LoginUser['password']) {
 		this.password = password;
 		return this;
 	}
 
-	build(): LoginUserDto {
+	build(): LoginUser {
 		return {
 			email: this.email,
 			password: this.password,

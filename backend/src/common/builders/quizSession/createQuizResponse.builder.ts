@@ -1,43 +1,43 @@
 import { buildCreateQuizResponseAnswer } from './createQuizResponseAnswer.builder';
 
-import type { CreateQuizResponse } from 'src/common/dtos/quizSession/createQuizResponse.dto';
-import type { CreateQuizResponseAnswer } from 'src/common/dtos/quizSession/createQuizResponseAnswer.dto';
+import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
+import type { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
 
-export class CreateQuizResponseBuilder implements CreateQuizResponse {
+export class CreateQuizResponseBuilder implements CreateQuizResponseRequest {
 	sessionId = '12345678';
 	questionId = 'qwertzuiop';
-	textAnswer: CreateQuizResponse['textAnswer'] = null;
-	answers: CreateQuizResponseAnswer[] = [
+	textAnswer: CreateQuizResponseRequest['textAnswer'] = null;
+	answers: CreateQuizResponseAnswerRequest[] = [
 		buildCreateQuizResponseAnswer().build(),
 	];
-	feedback: CreateQuizResponse['feedback'] = 'Lorem ipsum';
+	feedback: CreateQuizResponseRequest['feedback'] = 'Lorem ipsum';
 
-	withSessionId(sessionId: CreateQuizResponse['sessionId']) {
+	withSessionId(sessionId: CreateQuizResponseRequest['sessionId']) {
 		this.sessionId = sessionId;
 		return this;
 	}
 
-	withQuestionId(questionId: CreateQuizResponse['questionId']) {
+	withQuestionId(questionId: CreateQuizResponseRequest['questionId']) {
 		this.questionId = questionId;
 		return this;
 	}
 
-	withTextAnswer(textAnswer: CreateQuizResponse['textAnswer']) {
+	withTextAnswer(textAnswer: CreateQuizResponseRequest['textAnswer']) {
 		this.textAnswer = textAnswer;
 		return this;
 	}
 
-	withAnswers(answers: CreateQuizResponse['answers']) {
+	withAnswers(answers: CreateQuizResponseRequest['answers']) {
 		this.answers = answers;
 		return this;
 	}
 
-	withFeedback(feedback: CreateQuizResponse['feedback']) {
+	withFeedback(feedback: CreateQuizResponseRequest['feedback']) {
 		this.feedback = feedback;
 		return this;
 	}
 
-	build(): CreateQuizResponse {
+	build(): CreateQuizResponseRequest {
 		return {
 			sessionId: this.sessionId,
 			questionId: this.questionId,

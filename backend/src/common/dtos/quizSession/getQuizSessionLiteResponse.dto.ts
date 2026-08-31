@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GetQuizSessionBase } from './getQuizSessionBase.dto';
+import { GetQuizSessionBaseResponse } from './getQuizSessionBaseResponse.dto';
 
-export class GetQuizSessionLite extends GetQuizSessionBase {
+export class GetQuizSessionLiteResponse extends GetQuizSessionBaseResponse {
 	@ApiProperty({
 		type: 'object',
 		additionalProperties: {

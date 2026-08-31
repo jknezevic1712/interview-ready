@@ -7,9 +7,9 @@ import {
 	Matches,
 	ValidateNested,
 } from 'class-validator';
-import { CreateQuizResponseAnswer } from './createQuizResponseAnswer.dto';
+import { CreateQuizResponseAnswerRequest } from './createQuizResponseAnswerRequest.dto';
 
-export class CreateQuizResponse {
+export class CreateQuizResponseRequest {
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid session id',
@@ -25,13 +25,13 @@ export class CreateQuizResponse {
 	questionId!: string;
 
 	@ApiProperty({
-		type: () => CreateQuizResponseAnswer,
+		type: () => CreateQuizResponseAnswerRequest,
 		isArray: true,
 	})
 	@IsArray()
 	@ValidateNested({ each: true })
-	@Type(() => CreateQuizResponseAnswer)
-	answers!: CreateQuizResponseAnswer[];
+	@Type(() => CreateQuizResponseAnswerRequest)
+	answers!: CreateQuizResponseAnswerRequest[];
 
 	@IsString()
 	textAnswer!: string | null;

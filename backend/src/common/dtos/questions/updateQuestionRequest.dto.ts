@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString, Matches } from 'class-validator';
-import { CreateQuestion } from './createQuestion.dto';
+import { CreateQuestionRequest } from './createQuestionRequest.dto';
 
-export class UpdateQuestion extends CreateQuestion {
+export class UpdateQuestionRequest extends CreateQuestionRequest {
 	@IsString()
 	@Matches(/^[a-z0-9]{24,}$/, {
 		message: 'Invalid question id',

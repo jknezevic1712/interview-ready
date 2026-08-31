@@ -1,26 +1,26 @@
-import type { CreateUser } from 'src/common/dtos/users/createUser.dto';
+import type { CreateUserRequest } from 'src/common/dtos/users/createUserRequest.dto';
 
-class CreateUserBuilder implements CreateUser {
+class CreateUserBuilder implements CreateUserRequest {
 	email = 'test@test.com';
 	name = 'Test user 1';
 	password = '12345678';
 
-	withEmail(email: CreateUser['email']) {
+	withEmail(email: CreateUserRequest['email']) {
 		this.email = email;
 		return this;
 	}
 
-	withName(name: CreateUser['name']) {
+	withName(name: CreateUserRequest['name']) {
 		this.name = name;
 		return this;
 	}
 
-	withPassword(password: CreateUser['password']) {
+	withPassword(password: CreateUserRequest['password']) {
 		this.password = password;
 		return this;
 	}
 
-	build(): CreateUser {
+	build(): CreateUserRequest {
 		return {
 			email: this.email,
 			name: this.name,

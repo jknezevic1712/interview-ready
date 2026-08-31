@@ -5,10 +5,10 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common';
 import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
-import { CreateUser } from 'src/common/dtos/users/createUser.dto';
-import { GetUser } from 'src/common/dtos/users/getUser.dto';
-import { GetUserLite } from 'src/common/dtos/users/getUserLite.dto';
+import { LoginUserRequest } from 'src/common/dtos/authentication/loginUserRequest.dto';
+import { CreateUserRequest } from 'src/common/dtos/users/createUserRequest.dto';
+import { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
+import { GetUserResponse } from 'src/common/dtos/users/getUserResponse.dto';
 import { RefreshTokenPayload } from 'src/common/interfaces/authentication/refreshTokenPayload.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import { ValidatedRefreshTokenPayload } from 'src/common/interfaces/authentication/validatedRefreshTokenPayload.interface';
@@ -32,7 +32,7 @@ export class AuthenticationService {
 	) {}
 
 	async registerViaEmailAndPassword(
-		data: CreateUser,
+		data: CreateUserRequest,
 	): Promise<AuthenticationResponse> {
 		const userExists = await this.usersService.doesUserExist(data.email);
 
@@ -56,7 +56,7 @@ export class AuthenticationService {
 	}
 
 	async loginViaEmailAndPassword(
-		data: LoginUser,
+		data: LoginUserRequest,
 	): Promise<AuthenticationResponse> {
 		const userCredentials = await this.usersService.getUserCredential(
 			CredentialProvider.LOCAL,
@@ -144,11 +144,11 @@ export class AuthenticationService {
 	}
 
 	private async generateUserSession(
-		user: GetUserLite,
+		user: GetUserLiteResponse,
 	): Promise<AuthenticationResponse> {
 		const session = await this.usersService.createSession(user.id);
 
-		const extendedUser: GetUser = { ...user, sessionId: session.id };
+		const extendedUser: GetUserResponse = { ...user, sessionId: session.id };
 		const { accessToken, refreshToken } =
 			await this.tokenService.generateTokens(
 				toAccessTokenPayload(extendedUser),

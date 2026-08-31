@@ -2,9 +2,9 @@ import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
-import { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
+import { LoginUserRequest } from 'src/common/dtos/authentication/loginUserRequest.dto';
 import { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
-import { CreateUser } from 'src/common/dtos/users/createUser.dto';
+import { CreateUserRequest } from 'src/common/dtos/users/createUserRequest.dto';
 import { env } from 'src/env';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -23,7 +23,7 @@ export class AuthenticationController {
 	@Public()
 	@Post('register')
 	registerViaEmailAndPassword(
-		@Body() data: CreateUser,
+		@Body() data: CreateUserRequest,
 	): Promise<AuthenticationResponse> {
 		return this.authenticationService.registerViaEmailAndPassword(data);
 	}
@@ -37,7 +37,7 @@ export class AuthenticationController {
 	@Public()
 	@Post('login')
 	loginViaEmailAndPassword(
-		@Body() data: LoginUser,
+		@Body() data: LoginUserRequest,
 	): Promise<AuthenticationResponse> {
 		return this.authenticationService.loginViaEmailAndPassword(data);
 	}

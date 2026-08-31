@@ -1,16 +1,16 @@
 import { GetUserLiteBuilder } from './getUserLite.builder';
 
-import type { GetUser } from 'src/common/dtos/users/getUser.dto';
+import type { GetUserResponse } from 'src/common/dtos/users/getUserResponse.dto';
 
-class GetUserBuilder extends GetUserLiteBuilder implements GetUser {
+class GetUserBuilder extends GetUserLiteBuilder implements GetUserResponse {
 	sessionId = 'session-1';
 
-	withSessionId(sessionId: GetUser['sessionId']) {
+	withSessionId(sessionId: GetUserResponse['sessionId']) {
 		this.sessionId = sessionId;
 		return this;
 	}
 
-	build(): GetUser {
+	build(): GetUserResponse {
 		return {
 			...super.build(),
 			sessionId: this.sessionId,

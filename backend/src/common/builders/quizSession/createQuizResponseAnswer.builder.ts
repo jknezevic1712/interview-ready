@@ -1,16 +1,18 @@
-import type { CreateQuizResponseAnswer } from 'src/common/dtos/quizSession/createQuizResponseAnswer.dto';
+import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
 
-class CreateQuizResponseAnswerBuilder implements CreateQuizResponseAnswer {
+class CreateQuizResponseAnswerBuilder
+	implements CreateQuizResponseAnswerRequest
+{
 	answerOptionId = 'answer-option-1';
 
 	withAnswerOptionId(
-		answerOptionId: CreateQuizResponseAnswer['answerOptionId'],
+		answerOptionId: CreateQuizResponseAnswerRequest['answerOptionId'],
 	) {
 		this.answerOptionId = answerOptionId;
 		return this;
 	}
 
-	build(): CreateQuizResponseAnswer {
+	build(): CreateQuizResponseAnswerRequest {
 		return {
 			answerOptionId: this.answerOptionId,
 		};

@@ -1,9 +1,9 @@
-import { GetQuestion } from 'src/common/dtos/questions/getQuestion.dto';
+import { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
 import { QuestionPayload } from '../utilities/question.selects';
 
 export const toGetQuestion = (
 	questionPayload: QuestionPayload,
-): GetQuestion => {
+): GetQuestionResponse => {
 	return {
 		id: questionPayload.id,
 		text: questionPayload.text,

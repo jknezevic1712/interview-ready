@@ -1,64 +1,64 @@
 import { Difficulty, QuestionType } from 'src/common/types/enums';
 
-import type { GetQuestion } from 'src/common/dtos/questions/getQuestion.dto';
+import type { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
 
-class GetQuestionBuilder implements GetQuestion {
+class GetQuestionBuilder implements GetQuestionResponse {
 	id = '1';
 	text = 'Question 1';
 	type: QuestionType = QuestionType.SINGLE_CHOICE;
 	aiGenerated = false;
 	difficulty: Difficulty = Difficulty.MID;
-	category: GetQuestion['category'] = {
+	category: GetQuestionResponse['category'] = {
 		id: 'category-1',
 		name: 'CAT-1',
 		slug: 'cat-1',
 	};
-	answerOptions: GetQuestion['answerOptions'] = [
+	answerOptions: GetQuestionResponse['answerOptions'] = [
 		{ id: 'answer-option-1', text: 'Answer option 1', isCorrect: false },
 	];
-	explanation: GetQuestion['explanation'] = 'Lorem ipsum';
+	explanation: GetQuestionResponse['explanation'] = 'Lorem ipsum';
 
-	withId(id: GetQuestion['id']) {
+	withId(id: GetQuestionResponse['id']) {
 		this.id = id;
 		return this;
 	}
 
-	withText(text: GetQuestion['text']) {
+	withText(text: GetQuestionResponse['text']) {
 		this.text = text;
 		return this;
 	}
 
-	withType(type: GetQuestion['type']) {
+	withType(type: GetQuestionResponse['type']) {
 		this.type = type;
 		return this;
 	}
 
-	withAiGenerated(aiGenerated: GetQuestion['aiGenerated']) {
+	withAiGenerated(aiGenerated: GetQuestionResponse['aiGenerated']) {
 		this.aiGenerated = aiGenerated;
 		return this;
 	}
 
-	withDifficulty(difficulty: GetQuestion['difficulty']) {
+	withDifficulty(difficulty: GetQuestionResponse['difficulty']) {
 		this.difficulty = difficulty;
 		return this;
 	}
 
-	withCategory(category: GetQuestion['category']) {
+	withCategory(category: GetQuestionResponse['category']) {
 		this.category = category;
 		return this;
 	}
 
-	withAnswerOptions(answerOptions: GetQuestion['answerOptions']) {
+	withAnswerOptions(answerOptions: GetQuestionResponse['answerOptions']) {
 		this.answerOptions = answerOptions;
 		return this;
 	}
 
-	withExplanation(explanation: GetQuestion['explanation']) {
+	withExplanation(explanation: GetQuestionResponse['explanation']) {
 		this.explanation = explanation;
 		return this;
 	}
 
-	build(): GetQuestion {
+	build(): GetQuestionResponse {
 		return {
 			id: this.id,
 			text: this.text,

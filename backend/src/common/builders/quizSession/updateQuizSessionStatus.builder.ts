@@ -1,16 +1,20 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
 
-import type { UpdateQuizSessionStatus } from 'src/common/dtos/quizSession/updateQuizSessionStatus.dto';
+import type { UpdateQuizSessionStatusRequest } from 'src/common/dtos/quizSession/updateQuizSessionStatusRequest.dto';
 
-export class UpdateQuizSessionStatusBuilder implements UpdateQuizSessionStatus {
+export class UpdateQuizSessionStatusBuilder
+	implements UpdateQuizSessionStatusRequest
+{
 	sessionStatus: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
 
-	withSessionStatus(sessionStatus: UpdateQuizSessionStatus['sessionStatus']) {
+	withSessionStatus(
+		sessionStatus: UpdateQuizSessionStatusRequest['sessionStatus'],
+	) {
 		this.sessionStatus = sessionStatus;
 		return this;
 	}
 
-	build(): UpdateQuizSessionStatus {
+	build(): UpdateQuizSessionStatusRequest {
 		return {
 			sessionStatus: this.sessionStatus,
 		};

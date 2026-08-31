@@ -1,7 +1,7 @@
-import { GetUserLite } from 'src/common/dtos/users/getUserLite.dto';
+import { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
 import { UserLitePayload } from '../utilities/users.selects';
 
-export const toGetUserLite = (data: UserLitePayload): GetUserLite => {
+export const toGetUserLite = (data: UserLitePayload): GetUserLiteResponse => {
 	return {
 		id: data.id,
 		name: data.name,

@@ -1,20 +1,20 @@
-import type { LoginUser } from 'src/common/dtos/authentication/loginUser.dto';
+import type { LoginUserRequest } from 'src/common/dtos/authentication/loginUserRequest.dto';
 
-class LoginUserBuilder implements LoginUser {
+class LoginUserRequestBuilder implements LoginUserRequest {
 	email = 'test@test.com';
 	password = '12345678';
 
-	withEmail(email: LoginUser['email']) {
+	withEmail(email: LoginUserRequest['email']) {
 		this.email = email;
 		return this;
 	}
 
-	withPassword(password: LoginUser['password']) {
+	withPassword(password: LoginUserRequest['password']) {
 		this.password = password;
 		return this;
 	}
 
-	build(): LoginUser {
+	build(): LoginUserRequest {
 		return {
 			email: this.email,
 			password: this.password,
@@ -22,4 +22,4 @@ class LoginUserBuilder implements LoginUser {
 	}
 }
 
-export const buildLoginUser = () => new LoginUserBuilder();
+export const buildLoginUserRequest = () => new LoginUserRequestBuilder();

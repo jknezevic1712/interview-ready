@@ -1,13 +1,15 @@
 import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
-import { GetQuizSession } from 'src/common/dtos/quizSession/getQuizSession.dto';
-import { GetQuizSessionLite } from 'src/common/dtos/quizSession/getQuizSessionLite.dto';
+import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
+import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
 import { QuizResponse } from 'src/common/types/client';
 import {
 	QuizSessionLitePayload,
 	QuizSessionPayload,
 } from '../utilities/quizSession.selects';
 
-export function toGetQuizSession(session: QuizSessionPayload): GetQuizSession {
+export function toGetQuizSession(
+	session: QuizSessionPayload,
+): GetQuizSessionResponse {
 	return {
 		id: session.id,
 		status: session.status,
@@ -30,7 +32,7 @@ export function toGetQuizSession(session: QuizSessionPayload): GetQuizSession {
 
 export function toGetQuizSessionLite(
 	session: QuizSessionLitePayload,
-): GetQuizSessionLite {
+): GetQuizSessionLiteResponse {
 	return {
 		id: session.id,
 		status: session.status,

@@ -1,41 +1,43 @@
 import { QuizSessionStatus } from 'src/common/types/enums';
 import { buildGetUserLite } from '../users/getUserLite.builder';
 
-import type { GetQuizSessionBase } from 'src/common/dtos/quizSession/getQuizSessionBase.dto';
+import type { GetQuizSessionBaseResponse } from 'src/common/dtos/quizSession/getQuizSessionBaseResponse.dto';
 
-export abstract class GetQuizSessionBaseBuilder implements GetQuizSessionBase {
+export abstract class GetQuizSessionBaseBuilder
+	implements GetQuizSessionBaseResponse
+{
 	id = 'quiz-session-1';
 	status: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
 	startedAt = new Date(Date.now());
-	completedAt: GetQuizSessionBase['completedAt'] = null;
-	user: GetQuizSessionBase['user'] = buildGetUserLite().build();
+	completedAt: GetQuizSessionBaseResponse['completedAt'] = null;
+	user: GetQuizSessionBaseResponse['user'] = buildGetUserLite().build();
 
-	withId(id: GetQuizSessionBase['id']) {
+	withId(id: GetQuizSessionBaseResponse['id']) {
 		this.id = id;
 		return this;
 	}
 
-	withStatus(status: GetQuizSessionBase['status']) {
+	withStatus(status: GetQuizSessionBaseResponse['status']) {
 		this.status = status;
 		return this;
 	}
 
-	withStartedAt(startedAt: GetQuizSessionBase['startedAt']) {
+	withStartedAt(startedAt: GetQuizSessionBaseResponse['startedAt']) {
 		this.startedAt = startedAt;
 		return this;
 	}
 
-	withCompletedAt(completedAt: GetQuizSessionBase['completedAt']) {
+	withCompletedAt(completedAt: GetQuizSessionBaseResponse['completedAt']) {
 		this.completedAt = completedAt;
 		return this;
 	}
 
-	withUser(user: GetQuizSessionBase['user']) {
+	withUser(user: GetQuizSessionBaseResponse['user']) {
 		this.user = user;
 		return this;
 	}
 
-	protected build(): GetQuizSessionBase {
+	protected build(): GetQuizSessionBaseResponse {
 		return {
 			id: this.id,
 			status: this.status,

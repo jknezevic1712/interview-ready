@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { IQuestionsRepository } from '../contracts/questions.repository';
-import { CreateQuestionInput } from '../types/createQuestion.input';
+import { CreateQuestionRequestInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
 import { extractQuestionData } from '../utilities/question.data';
 import { QuestionPayload, questionSelect } from '../utilities/question.selects';
@@ -34,7 +34,9 @@ export class QuestionsRepository implements IQuestionsRepository {
 		return sessionQuestions.map(({ question }) => question);
 	}
 
-	createQuestion(data: CreateQuestionInput): Promise<QuestionPayload> {
+	CreateQuestionRequest(
+		data: CreateQuestionRequestInput,
+	): Promise<QuestionPayload> {
 		return this.db.question.create({
 			data: extractQuestionData(data),
 			select: questionSelect,

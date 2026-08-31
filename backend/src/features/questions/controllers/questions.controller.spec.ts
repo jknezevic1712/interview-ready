@@ -2,7 +2,7 @@ import { HttpStatus, type INestApplication } from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
-import { buildCreateQuestion } from 'src/common/builders/questions/createQuestion.builder';
+import { buildCreateQuestionRequest } from 'src/common/builders/questions/createQuestion.builder';
 import { buildGetQuestion } from 'src/common/builders/questions/getQuestion.builder';
 import { buildUpdateQuestion } from 'src/common/builders/questions/updateQuestion.builder';
 import { buildGetUser } from 'src/common/builders/users/getUser.builder';
@@ -48,7 +48,7 @@ describe('QuestionsController', () => {
 	let standardUserAccessToken = '';
 	let adminUserAccessToken = '';
 
-	const createQuestionData = buildCreateQuestion()
+	const CreateQuestionRequestData = buildCreateQuestionRequest()
 		.withText('What is React?')
 		.build();
 
@@ -75,7 +75,7 @@ describe('QuestionsController', () => {
 		adminUserAccessToken = adminToken;
 	}
 
-	function createQuestionsServiceMocks(): typeof questionsService {
+	function CreateQuestionRequestsServiceMocks(): typeof questionsService {
 		return {
 			getQuestions: vi
 				.fn()
@@ -85,11 +85,11 @@ describe('QuestionsController', () => {
 					>,
 				),
 
-			createQuestion: vi
+			CreateQuestionRequest: vi
 				.fn()
 				.mockResolvedValue(
 					buildGetQuestion().build() satisfies Awaited<
-						ReturnType<typeof questionsService.createQuestion>
+						ReturnType<typeof questionsService.CreateQuestionRequest>
 					>,
 				),
 
@@ -146,7 +146,7 @@ describe('QuestionsController', () => {
 		})
 			.useMocker((token) => {
 				if (token === QuestionsService) {
-					return createQuestionsServiceMocks();
+					return CreateQuestionRequestsServiceMocks();
 				}
 			})
 			.compile();
@@ -188,10 +188,10 @@ describe('QuestionsController', () => {
 			await request(app.getHttpServer())
 				.post('/questions')
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
-				.send(createQuestionData)
+				.send(CreateQuestionRequestData)
 				.expect(HttpStatus.FORBIDDEN);
 
-			expect(questionsService.createQuestion).not.toHaveBeenCalled();
+			expect(questionsService.CreateQuestionRequest).not.toHaveBeenCalled();
 		});
 
 		it('should not allow updating a question', async () => {
@@ -260,12 +260,12 @@ describe('QuestionsController', () => {
 			await request(app.getHttpServer())
 				.post('/questions')
 				.set('Authorization', `Bearer ${adminUserAccessToken}`)
-				.send(createQuestionData)
+				.send(CreateQuestionRequestData)
 				.expect(HttpStatus.CREATED);
 
-			expect(questionsService.createQuestion).toHaveBeenCalledOnce();
-			expect(questionsService.createQuestion).toHaveBeenCalledWith(
-				createQuestionData,
+			expect(questionsService.CreateQuestionRequest).toHaveBeenCalledOnce();
+			expect(questionsService.CreateQuestionRequest).toHaveBeenCalledWith(
+				CreateQuestionRequestData,
 			);
 		});
 

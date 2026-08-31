@@ -1,8 +1,8 @@
-import { CreateQuestionInput } from '../types/createQuestion.input';
+import { CreateQuestionRequestInput } from '../types/createQuestion.input';
 import { UpdateQuestionInput } from '../types/updateQuestion.input';
 
 export const extractQuestionData = (
-	data: CreateQuestionInput | UpdateQuestionInput,
+	data: CreateQuestionRequestInput | UpdateQuestionInput,
 ) => ({
 	categoryId: data.categoryId,
 	text: data.text,

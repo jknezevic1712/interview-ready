@@ -1,20 +1,20 @@
-import type { CreateAnswerOption } from 'src/common/dtos/questions/createAnswerOption.dto';
+import type { CreateAnswerOptionRequest } from 'src/common/dtos/questions/createAnswerOptionRequest.dto';
 
-class CreateAnswerOptionBuilder implements CreateAnswerOption {
+class CreateAnswerOptionRequestBuilder implements CreateAnswerOptionRequest {
 	text = 'Answer option 1';
 	isCorrect = false;
 
-	withText(text: CreateAnswerOption['text']) {
+	withText(text: CreateAnswerOptionRequest['text']) {
 		this.text = text;
 		return this;
 	}
 
-	withIsCorrect(isCorrect: CreateAnswerOption['isCorrect']) {
+	withIsCorrect(isCorrect: CreateAnswerOptionRequest['isCorrect']) {
 		this.isCorrect = isCorrect;
 		return this;
 	}
 
-	build(): CreateAnswerOption {
+	build(): CreateAnswerOptionRequest {
 		return {
 			text: this.text,
 			isCorrect: this.isCorrect,
@@ -22,4 +22,5 @@ class CreateAnswerOptionBuilder implements CreateAnswerOption {
 	}
 }
 
-export const buildCreateAnswerOption = () => new CreateAnswerOptionBuilder();
+export const buildCreateAnswerOptionRequest = () =>
+	new CreateAnswerOptionRequestBuilder();

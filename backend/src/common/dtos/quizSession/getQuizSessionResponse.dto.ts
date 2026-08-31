@@ -4,9 +4,9 @@ import {
 	Question,
 	QuizResponseAnswer,
 } from 'src/common/types/client';
-import { GetQuizSessionBase } from './getQuizSessionBase.dto';
+import { GetQuizSessionBaseResponse } from './getQuizSessionBaseResponse.dto';
 
-export class GetQuizSession extends GetQuizSessionBase {
+export class GetQuizSessionResponse extends GetQuizSessionBaseResponse {
 	responses!: {
 		id: string;
 		textAnswer: string | null;

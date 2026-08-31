@@ -1,19 +1,19 @@
-import { CreateQuestionBuilder } from './createQuestion.builder';
+import { CreateQuestionRequestBuilder } from './createQuestion.builder';
 
-import type { UpdateQuestion } from 'src/common/dtos/questions/updateQuestion.dto';
+import type { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
 
 class UpdateQuestionBuilder
-	extends CreateQuestionBuilder
-	implements UpdateQuestion
+	extends CreateQuestionRequestBuilder
+	implements UpdateQuestionRequest
 {
 	questionId = 'question-id-1';
 
-	withQuestionId(questionId: UpdateQuestion['questionId']) {
+	withQuestionId(questionId: UpdateQuestionRequest['questionId']) {
 		this.questionId = questionId;
 		return this;
 	}
 
-	override build(): UpdateQuestion {
+	override build(): UpdateQuestionRequest {
 		return {
 			...super.build(),
 			questionId: this.questionId,

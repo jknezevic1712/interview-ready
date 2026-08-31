@@ -4,7 +4,7 @@ import {
 	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common';
-import { GetUserLite } from 'src/common/dtos/users/getUserLite.dto';
+import { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
 import { UpdateSessionData } from 'src/common/interfaces/authentication/updateSessionData.interface';
 import { UserRegistrationData } from 'src/common/interfaces/authentication/userRegistrationData.interface';
 import {
@@ -54,7 +54,7 @@ export class UsersService {
 		return userCredentials;
 	}
 
-	async getUser(email: string): Promise<GetUserLite> {
+	async getUser(email: string): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.getUser(email);
 
 		if (!user) {
@@ -64,7 +64,7 @@ export class UsersService {
 		return toGetUserLite(user);
 	}
 
-	async getUserById(id: string): Promise<GetUserLite> {
+	async getUserById(id: string): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.getUserById(id);
 
 		if (!user) {
@@ -74,7 +74,7 @@ export class UsersService {
 		return toGetUserLite(user);
 	}
 
-	async registerUser(data: UserRegistrationData): Promise<GetUserLite> {
+	async registerUser(data: UserRegistrationData): Promise<GetUserLiteResponse> {
 		const user = await this.usersRepository.registerUser(data);
 		return toGetUserLite(user);
 	}

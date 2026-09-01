@@ -5,6 +5,7 @@ import { AuthenticationGuard } from './common/guards/authentication.guard';
 import { AuthorizationGuard } from './common/guards/authorization.guard';
 import { AuthenticationModule } from './features/authentication/authentication.module';
 import { CategoriesModule } from './features/categories/categories.module';
+import { HealthModule } from './features/health/health.module';
 import { QuestionsModule } from './features/questions/questions.module';
 import { QuizSessionModule } from './features/quizSession/quizSession.module';
 import { UsersModule } from './features/users/users.module';
@@ -16,6 +17,7 @@ import { PrismaModule } from './prisma/prisma.module';
 	imports: [
 		PrismaModule,
 		CacheModule,
+		HealthModule,
 		CategoriesModule,
 		QuizSessionModule,
 		QuestionsModule,

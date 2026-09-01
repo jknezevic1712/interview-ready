@@ -1,13 +1,19 @@
-import { days } from '@nestjs/throttler';
+import { days, minutes } from '@nestjs/throttler';
 
 export const CACHE_KEYS = {
 	categories: {
-		getAll: 'categories:all',
+		all: 'categories:all',
+	},
+	questions: {
+		bySession: (sessionId: string) => `questions:session:${sessionId}`,
 	},
 } as const;
 
 export const CACHE_TTL = {
 	categories: {
 		getAll: days(1),
+	},
+	questions: {
+		bySession: minutes(1),
 	},
 } as const;

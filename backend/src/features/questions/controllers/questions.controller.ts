@@ -35,7 +35,7 @@ export class QuestionsController {
 
 	@Authorize([Role.ADMIN])
 	@Post()
-	CreateQuestionRequest(
+	createQuestionRequest(
 		@Body() body: CreateQuestionRequest,
 	): Promise<GetQuestionResponse> {
 		return this.questionsService.createQuestionRequest(body);

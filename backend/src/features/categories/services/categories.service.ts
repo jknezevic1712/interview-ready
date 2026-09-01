@@ -20,15 +20,15 @@ export class CategoriesService {
 
 	async getAll(): Promise<CategoryResponse[]> {
 		const cached = await this.cacheService.get<CategoryResponse[]>(
-			CACHE_KEYS.categories.getAll,
+			CACHE_KEYS.categories.all,
 		);
-		if (cached) return cached;
+		if (cached !== undefined) return cached;
 
 		const categories = await this.categoriesRepository.getAll();
 		const mappedCategories = categories.map(toCategoryResponse);
 
 		await this.cacheService.set(
-			CACHE_KEYS.categories.getAll,
+			CACHE_KEYS.categories.all,
 			mappedCategories,
 			CACHE_TTL.categories.getAll,
 		);

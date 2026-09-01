@@ -30,15 +30,15 @@ export class QuestionsService {
 			sessionId,
 			userId,
 		);
-		const mappedQuestions = questions.map(toGetQuestionResponse);
+		const response = questions.map(toGetQuestionResponse);
 
 		await this.cacheService.set(
 			CACHE_KEYS.questions.bySession(sessionId),
-			mappedQuestions,
+			response,
 			CACHE_TTL.questions.bySession,
 		);
 
-		return mappedQuestions;
+		return response;
 	}
 
 	async createQuestionRequest(

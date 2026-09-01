@@ -22,15 +22,15 @@ export class CategoriesService {
 		if (cached !== undefined) return cached;
 
 		const categories = await this.categoriesRepository.getAll();
-		const mappedCategories = categories.map(toCategoryResponse);
+		const response = categories.map(toCategoryResponse);
 
 		await this.cacheService.set(
 			CACHE_KEYS.categories.all,
-			mappedCategories,
+			response,
 			CACHE_TTL.categories.getAll,
 		);
 
-		return mappedCategories;
+		return response;
 	}
 
 	async getById(id: string): Promise<CategoryResponse | null> {

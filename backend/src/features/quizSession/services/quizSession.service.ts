@@ -10,6 +10,7 @@ import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto
 import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
 import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
 import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
+import { CacheService } from 'src/infrastructure/cache/cache.service';
 import { CACHE_KEYS, CACHE_TTL } from 'src/infrastructure/cache/constants';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
@@ -21,7 +22,6 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
 
-import type { CacheService } from 'src/infrastructure/cache/cache.service';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 
 @Injectable()

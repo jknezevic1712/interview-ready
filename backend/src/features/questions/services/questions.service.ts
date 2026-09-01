@@ -2,10 +2,7 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
 import { GetQuestionResponse } from 'src/common/dtos/questions/getQuestionResponse.dto';
 import { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
-import {
-	CACHE_KEYS,
-	CACHE_TTL,
-} from 'src/infrastructure/cache/utilities/constants';
+import { CACHE_KEYS, CACHE_TTL } from 'src/infrastructure/cache/constants';
 import { toGetQuestionResponse } from '../mappers/questions.mapper';
 import { QUESTIONS_REPOSITORY } from '../tokens/questions.token';
 

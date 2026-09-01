@@ -1,10 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
 import { CacheService } from 'src/infrastructure/cache/cache.service';
-import {
-	CACHE_KEYS,
-	CACHE_TTL,
-} from 'src/infrastructure/cache/utilities/constants';
+import { CACHE_KEYS, CACHE_TTL } from 'src/infrastructure/cache/constants';
 import { toCategoryResponse } from '../mappers/categories.mapper';
 import { CATEGORIES_REPOSITORY } from '../tokens/categories.token';
 

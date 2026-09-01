@@ -10,6 +10,7 @@ import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto
 import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
 import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
 import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
+import { CACHE_KEYS, CACHE_TTL } from 'src/infrastructure/cache/constants';
 import { COMPLETION_STATUSES } from '../constants/completionStatuses';
 import {
 	toGetQuizResponse,
@@ -20,6 +21,7 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
 
+import type { CacheService } from 'src/infrastructure/cache/cache.service';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 
 @Injectable()
@@ -27,12 +29,26 @@ export class QuizSessionService {
 	constructor(
 		@Inject(QUIZ_SESSION_REPOSITORY)
 		private readonly quizSessionRepository: IQuizSessionRepository,
+		private readonly cacheService: CacheService,
 	) {}
 
 	async getQuizSessions(userId: string): Promise<GetQuizSessionLiteResponse[]> {
+		const cached = await this.cacheService.get<GetQuizSessionLiteResponse[]>(
+			CACHE_KEYS.quizSessions.allByUserId(userId),
+		);
+		if (cached !== undefined) return cached;
+
 		const quizSessions =
 			await this.quizSessionRepository.getQuizSessions(userId);
-		return quizSessions.map(toGetQuizSessionLiteResponse);
+		const response = quizSessions.map(toGetQuizSessionLiteResponse);
+
+		await this.cacheService.set(
+			CACHE_KEYS.quizSessions.allByUserId(userId),
+			response,
+			CACHE_TTL.quizSessions.allByUserId,
+		);
+
+		return response;
 	}
 
 	async getQuizSession(
@@ -52,6 +68,8 @@ export class QuizSessionService {
 
 	async createQuizSession(userId: string): Promise<GetQuizSessionLiteResponse> {
 		const session = await this.quizSessionRepository.createQuizSession(userId);
+		await this.cacheService.del(CACHE_KEYS.quizSessions.allByUserId(userId));
+
 		return toGetQuizSessionLiteResponse(session);
 	}
 
@@ -86,6 +104,8 @@ export class QuizSessionService {
 				sessionStatus,
 				userId,
 			);
+		await this.cacheService.del(CACHE_KEYS.quizSessions.allByUserId(userId));
+
 		return toGetQuizSessionResponse(updatedSession);
 	}
 

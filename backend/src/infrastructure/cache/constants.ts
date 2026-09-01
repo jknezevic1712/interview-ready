@@ -7,6 +7,9 @@ export const CACHE_KEYS = {
 	questions: {
 		bySession: (sessionId: string) => `questions:session:${sessionId}`,
 	},
+	quizSessions: {
+		allByUserId: (userId: string) => `quizSessions:userId:${userId}`,
+	},
 } as const;
 
 export const CACHE_TTL = {
@@ -15,5 +18,8 @@ export const CACHE_TTL = {
 	},
 	questions: {
 		bySession: minutes(1),
+	},
+	quizSessions: {
+		allByUserId: minutes(30),
 	},
 } as const;

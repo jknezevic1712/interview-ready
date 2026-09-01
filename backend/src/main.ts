@@ -5,8 +5,6 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
-// import { GlobalExceptionFilter } from './common/filters/globalException.filter';
-
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
@@ -31,7 +29,6 @@ async function bootstrap() {
 		SwaggerModule.createDocument(app, swaggerConfig);
 	SwaggerModule.setup('api', app, documentFactory);
 
-	// app.useGlobalFilters(new GlobalExceptionFilter());
 	app.useGlobalPipes(
 		new ValidationPipe({
 			whitelist: true,

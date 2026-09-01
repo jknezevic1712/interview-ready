@@ -1,0 +1,96 @@
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { IQuestionsRepository } from '../contracts/questions.repository.contract';
+import { CreateQuestionRequestInput } from '../types/createQuestionRequest.input';
+import { UpdateQuestionRequestInput } from '../types/updateQuestionRequest.input';
+import { extractQuestionData } from '../utilities/question.data';
+import { QuestionPayload, questionSelect } from '../utilities/question.selects';
+
+@Injectable()
+export class QuestionsRepository implements IQuestionsRepository {
+	constructor(private readonly db: PrismaService) {}
+
+	async getQuestions(
+		sessionId: string,
+		userId: string,
+	): Promise<QuestionPayload[]> {
+		const sessionQuestions = await this.db.quizSessionQuestion.findMany({
+			where: {
+				sessionId,
+				question: {
+					isArchived: false,
+				},
+				session: {
+					userId,
+				},
+			},
+			select: {
+				question: {
+					select: questionSelect,
+				},
+			},
+		});
+
+		return sessionQuestions.map(({ question }) => question);
+	}
+
+	createQuestionRequest(
+		data: CreateQuestionRequestInput,
+	): Promise<QuestionPayload> {
+		return this.db.question.create({
+			data: extractQuestionData(data),
+			select: questionSelect,
+		});
+	}
+
+	updateQuestion(data: UpdateQuestionRequestInput): Promise<QuestionPayload> {
+		return this.db.question.update({
+			where: {
+				id: data.questionId,
+			},
+			data: extractQuestionData(data),
+			select: questionSelect,
+		});
+	}
+
+	async linkQuestion(sessionId: string, questionId: string): Promise<void> {
+		await this.db.quizSessionQuestion.create({
+			data: {
+				sessionId,
+				questionId,
+			},
+		});
+	}
+
+	async unlinkQuestion(sessionId: string, questionId: string): Promise<void> {
+		await this.db.quizSessionQuestion.delete({
+			where: {
+				sessionId_questionId: { sessionId, questionId },
+			},
+		});
+	}
+
+	async canArchiveQuestion(questionId: string): Promise<boolean> {
+		const isLinkedToSession = await this.db.quizSessionQuestion.findFirst({
+			where: {
+				questionId,
+			},
+			select: {
+				questionId: true,
+			},
+		});
+
+		return !isLinkedToSession;
+	}
+
+	async archiveQuestion(questionId: string): Promise<void> {
+		await this.db.question.update({
+			where: {
+				id: questionId,
+			},
+			data: {
+				isArchived: true,
+			},
+		});
+	}
+}

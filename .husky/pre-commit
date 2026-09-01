@@ -1,0 +1,7 @@
+npm run check:backend
+# npm run check:frontend
+
+if [ $? -ne 0 ]; then
+	echo "Checks failed. Commit aborted."
+	exit 1
+fi

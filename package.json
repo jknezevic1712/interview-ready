@@ -1,0 +1,11 @@
+{
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.10",
+		"husky": "^9.1.7"
+	},
+	"scripts": {
+		"prepare": "husky",
+		"check:backend": "biome check --write --staged backend",
+		"check:frontend": "biome check --write --staged frontend"
+	}
+}

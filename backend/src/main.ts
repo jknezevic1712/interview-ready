@@ -1,9 +1,10 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { createSwaggerDocument } from './swagger/createSwaggerDocument';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -12,22 +13,8 @@ async function bootstrap() {
 	app.enableCors();
 
 	// ? Swagger
-	const swaggerConfig = new DocumentBuilder()
-		.setTitle('Interview Ready')
-		.setVersion('1.0')
-		.addBearerAuth(
-			{
-				type: 'http',
-				scheme: 'bearer',
-				bearerFormat: 'JWT',
-				description: 'JWT access token',
-			},
-			'access-token',
-		)
-		.build();
-	const documentFactory = () =>
-		SwaggerModule.createDocument(app, swaggerConfig);
-	SwaggerModule.setup('api', app, documentFactory);
+	const document = createSwaggerDocument(app);
+	SwaggerModule.setup('api', app, document);
 
 	app.useGlobalPipes(
 		new ValidationPipe({

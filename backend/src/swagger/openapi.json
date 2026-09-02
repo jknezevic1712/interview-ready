@@ -1,0 +1,1193 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/categories": {
+      "get": {
+        "operationId": "CategoriesController_getCategories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Categories"
+        ]
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "operationId": "CategoriesController_getCategoryById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Categories"
+        ]
+      }
+    },
+    "/quiz-sessions": {
+      "get": {
+        "operationId": "QuizSessionController_getQuizSessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetQuizSessionLiteResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quiz-sessions"
+        ]
+      }
+    },
+    "/quiz-sessions/{sessionId}": {
+      "get": {
+        "operationId": "QuizSessionController_getQuizSession",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizSessionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quiz-sessions"
+        ]
+      },
+      "patch": {
+        "operationId": "QuizSessionController_updateQuizSessionStatus",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuizSessionStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizSessionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quiz-sessions"
+        ]
+      }
+    },
+    "/quiz-sessions/create": {
+      "post": {
+        "operationId": "QuizSessionController_createQuizSession",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizSessionLiteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quiz-sessions"
+        ]
+      }
+    },
+    "/quiz-sessions/response": {
+      "post": {
+        "operationId": "QuizSessionController_createQuizResponse",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuizResponseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuizResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quiz-sessions"
+        ]
+      }
+    },
+    "/questions": {
+      "get": {
+        "operationId": "QuestionsController_getQuestions",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetQuestionResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      },
+      "post": {
+        "operationId": "QuestionsController_createQuestionRequest",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuestionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuestionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      },
+      "patch": {
+        "operationId": "QuestionsController_updateQuestion",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuestionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQuestionResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      }
+    },
+    "/questions/link": {
+      "post": {
+        "operationId": "QuestionsController_linkQuestion",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "questionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      }
+    },
+    "/questions/unlink": {
+      "delete": {
+        "operationId": "QuestionsController_unlinkQuestion",
+        "parameters": [
+          {
+            "name": "sessionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "questionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      }
+    },
+    "/questions/archive": {
+      "patch": {
+        "operationId": "QuestionsController_archiveQuestion",
+        "parameters": [
+          {
+            "name": "questionId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Questions"
+        ]
+      }
+    },
+    "/authentication/register": {
+      "post": {
+        "operationId": "AuthenticationController_registerViaEmailAndPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/authentication/login": {
+      "post": {
+        "operationId": "AuthenticationController_loginViaEmailAndPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/authentication/refresh": {
+      "post": {
+        "operationId": "AuthenticationController_refreshAccessToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshAccessTokenResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    },
+    "/authentication/logout": {
+      "post": {
+        "operationId": "AuthenticationController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Interview Ready",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "access-token": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "description": "JWT access token"
+      }
+    },
+    "schemas": {
+      "HealthResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "CategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "GetQuizSessionLiteResponse": {
+        "type": "object",
+        "properties": {
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "ABANDONED"
+            ],
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        "required": [
+          "completedAt",
+          "id",
+          "status",
+          "startedAt",
+          "user"
+        ]
+      },
+      "GetQuizResponseItemQuestionCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug"
+        ]
+      },
+      "GetQuizResponseItemQuestionAnswerOption": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "isCorrect",
+          "text"
+        ]
+      },
+      "GetQuizResponseItemQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "object"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "SINGLE_CHOICE",
+              "MULTIPLE_CHOICE",
+              "FREE_TEXT"
+            ]
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "JUNIOR",
+              "MID",
+              "SENIOR"
+            ]
+          },
+          "aiGenerated": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/GetQuizResponseItemQuestionCategory"
+          },
+          "answerOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetQuizResponseItemQuestionAnswerOption"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "explanation",
+          "type",
+          "difficulty",
+          "aiGenerated",
+          "createdAt",
+          "updatedAt",
+          "category",
+          "answerOptions"
+        ]
+      },
+      "GetQuizResponseItem": {
+        "type": "object",
+        "properties": {
+          "textAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "feedback": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "score": {
+            "type": "number",
+            "nullable": true
+          },
+          "answeredAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "question": {
+            "$ref": "#/components/schemas/GetQuizResponseItemQuestion"
+          },
+          "answersIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "textAnswer",
+          "feedback",
+          "id",
+          "isCorrect",
+          "score",
+          "answeredAt",
+          "question",
+          "answersIds"
+        ]
+      },
+      "GetQuizSessionResponse": {
+        "type": "object",
+        "properties": {
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "responses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetQuizResponseItem"
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "ABANDONED"
+            ],
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name"
+            ]
+          }
+        },
+        "required": [
+          "completedAt",
+          "responses",
+          "id",
+          "status",
+          "startedAt",
+          "user"
+        ]
+      },
+      "UpdateQuizSessionStatusRequest": {
+        "type": "object",
+        "properties": {
+          "sessionStatus": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "COMPLETED",
+              "ABANDONED"
+            ]
+          }
+        },
+        "required": [
+          "sessionStatus"
+        ]
+      },
+      "CreateQuizResponseAnswerRequest": {
+        "type": "object",
+        "properties": {
+          "answerOptionId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          }
+        },
+        "required": [
+          "answerOptionId"
+        ]
+      },
+      "CreateQuizResponseRequest": {
+        "type": "object",
+        "properties": {
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateQuizResponseAnswerRequest"
+            }
+          },
+          "sessionId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          },
+          "questionId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          },
+          "textAnswer": {
+            "type": "string",
+            "nullable": true
+          },
+          "feedback": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "answers",
+          "sessionId",
+          "questionId",
+          "textAnswer",
+          "feedback"
+        ]
+      },
+      "GetQuizResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "object"
+          },
+          "score": {
+            "type": "object"
+          },
+          "answeredAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "isCorrect",
+          "score",
+          "answeredAt"
+        ]
+      },
+      "GetQuestionResponse": {
+        "type": "object",
+        "properties": {
+          "explanation": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "SINGLE_CHOICE",
+              "MULTIPLE_CHOICE",
+              "FREE_TEXT"
+            ],
+            "type": "string"
+          },
+          "difficulty": {
+            "enum": [
+              "JUNIOR",
+              "MID",
+              "SENIOR"
+            ],
+            "type": "string"
+          },
+          "aiGenerated": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "slug"
+            ]
+          },
+          "answerOptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "isCorrect": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "text",
+                "isCorrect"
+              ]
+            }
+          }
+        },
+        "required": [
+          "explanation",
+          "id",
+          "text",
+          "type",
+          "difficulty",
+          "aiGenerated",
+          "category",
+          "answerOptions"
+        ]
+      },
+      "CreateAnswerOptionRequest": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "text",
+          "isCorrect"
+        ]
+      },
+      "CreateQuestionRequest": {
+        "type": "object",
+        "properties": {
+          "answerOptions": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateAnswerOptionRequest"
+            }
+          },
+          "categoryId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          },
+          "text": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "SINGLE_CHOICE",
+              "MULTIPLE_CHOICE",
+              "FREE_TEXT"
+            ]
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "JUNIOR",
+              "MID",
+              "SENIOR"
+            ]
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "aiGenerated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "answerOptions",
+          "categoryId",
+          "text",
+          "type",
+          "difficulty"
+        ]
+      },
+      "UpdateQuestionRequest": {
+        "type": "object",
+        "properties": {
+          "answerOptions": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateAnswerOptionRequest"
+            }
+          },
+          "categoryId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          },
+          "text": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "SINGLE_CHOICE",
+              "MULTIPLE_CHOICE",
+              "FREE_TEXT"
+            ],
+            "type": "string"
+          },
+          "difficulty": {
+            "enum": [
+              "JUNIOR",
+              "MID",
+              "SENIOR"
+            ],
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "aiGenerated": {
+            "type": "boolean"
+          },
+          "questionId": {
+            "type": "string",
+            "pattern": "^[a-z0-9]{24,}$"
+          }
+        },
+        "required": [
+          "answerOptions",
+          "categoryId",
+          "text",
+          "type",
+          "difficulty",
+          "questionId"
+        ]
+      },
+      "CreateUserRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "name",
+          "password"
+        ]
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          }
+        },
+        "required": [
+          "sessionId",
+          "id",
+          "email",
+          "name",
+          "role"
+        ]
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/GetUserResponse"
+          },
+          "sessionId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "user",
+          "sessionId"
+        ]
+      },
+      "LoginUserRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RefreshAccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accessToken"
+        ]
+      }
+    }
+  }
+}

@@ -42,7 +42,6 @@ export function toGetQuizSessionLiteResponse(
 			id: session.user.id,
 			name: session.user.name,
 		},
-		responses: null,
 	};
 }
 

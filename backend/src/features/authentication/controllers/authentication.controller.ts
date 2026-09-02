@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	HttpCode,
+	HttpStatus,
+	Post,
+	Req,
+	Res,
+} from '@nestjs/common';
+import { ApiCreatedResponse,  ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
@@ -10,10 +19,12 @@ import { AuthenticationService } from '../services/authentication.service';
 
 import type { Request, Response } from 'express';
 
+@ApiTags('Authentication')
 @Controller('authentication')
 export class AuthenticationController {
 	constructor(private readonly authenticationService: AuthenticationService) {}
 
+	@ApiCreatedResponse({ type: AuthenticationResponse })
 	@Throttle({
 		default: {
 			limit: 5,
@@ -22,12 +33,14 @@ export class AuthenticationController {
 	})
 	@Public()
 	@Post('register')
+	@HttpCode(HttpStatus.CREATED)
 	registerViaEmailAndPassword(
 		@Body() data: CreateUserRequest,
 	): Promise<AuthenticationResponse> {
 		return this.authenticationService.registerViaEmailAndPassword(data);
 	}
 
+	@ApiCreatedResponse({ type: AuthenticationResponse })
 	@Throttle({
 		default: {
 			limit: 5,
@@ -36,12 +49,14 @@ export class AuthenticationController {
 	})
 	@Public()
 	@Post('login')
+	@HttpCode(HttpStatus.CREATED)
 	loginViaEmailAndPassword(
 		@Body() data: LoginUserRequest,
 	): Promise<AuthenticationResponse> {
 		return this.authenticationService.loginViaEmailAndPassword(data);
 	}
 
+	@ApiCreatedResponse({ type: RefreshAccessTokenResponse })
 	@Throttle({
 		default: {
 			limit: 15,

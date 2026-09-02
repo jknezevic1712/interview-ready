@@ -9,6 +9,7 @@ import {
 	Post,
 	Query,
 } from '@nestjs/common';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
@@ -20,10 +21,12 @@ import { QuestionsService } from '../services/questions.service';
 
 import type { ValidatedAccessTokenPayload } from 'src/common/interfaces/authentication/validatedAccessTokenPayload.interface';
 
+@ApiTags('Questions')
 @Controller('questions')
 export class QuestionsController {
 	constructor(private readonly questionsService: QuestionsService) {}
 
+	@ApiOkResponse({ type: [GetQuestionResponse] })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
 	getQuestions(
@@ -33,14 +36,17 @@ export class QuestionsController {
 		return this.questionsService.getQuestions(sessionId, user.sub);
 	}
 
+	@ApiCreatedResponse({ type: GetQuestionResponse })
 	@Authorize([Role.ADMIN])
 	@Post()
+	@HttpCode(HttpStatus.CREATED)
 	createQuestionRequest(
 		@Body() body: CreateQuestionRequest,
 	): Promise<GetQuestionResponse> {
 		return this.questionsService.createQuestionRequest(body);
 	}
 
+	@ApiCreatedResponse({ type: GetQuestionResponse })
 	@Authorize([Role.ADMIN])
 	@Patch()
 	updateQuestion(
@@ -49,6 +55,7 @@ export class QuestionsController {
 		return this.questionsService.updateQuestion(body);
 	}
 
+	@ApiNoContentResponse()
 	@Authorize([Role.ADMIN])
 	@Post('link')
 	@HttpCode(HttpStatus.NO_CONTENT)
@@ -59,6 +66,7 @@ export class QuestionsController {
 		await this.questionsService.linkQuestion(sessionId, questionId);
 	}
 
+	@ApiNoContentResponse()
 	@Authorize([Role.ADMIN])
 	@Delete('unlink')
 	@HttpCode(HttpStatus.NO_CONTENT)
@@ -69,6 +77,7 @@ export class QuestionsController {
 		await this.questionsService.unlinkQuestion(sessionId, questionId);
 	}
 
+	@ApiNoContentResponse()
 	@Authorize([Role.ADMIN])
 	@Patch('archive')
 	@HttpCode(HttpStatus.NO_CONTENT)

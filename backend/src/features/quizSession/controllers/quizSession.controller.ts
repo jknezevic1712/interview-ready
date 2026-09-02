@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	HttpStatus,
+	Param,
+	Patch,
+	Post,
+} from '@nestjs/common';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
@@ -12,10 +22,12 @@ import { QuizSessionService } from '../services/quizSession.service';
 
 import type { AccessTokenPayload } from 'src/common/interfaces/authentication/accessTokenPayload.interface';
 
+@ApiTags('Quiz-sessions')
 @Controller('quiz-sessions')
 export class QuizSessionController {
 	constructor(private readonly quizSessionService: QuizSessionService) {}
 
+	@ApiOkResponse({ type: [GetQuizSessionLiteResponse] })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Get()
 	async getQuizSessions(
@@ -24,6 +36,7 @@ export class QuizSessionController {
 		return this.quizSessionService.getQuizSessions(user.sub);
 	}
 
+	@ApiOkResponse({ type: GetQuizSessionResponse })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Get(':sessionId')
 	getQuizSession(
@@ -33,14 +46,17 @@ export class QuizSessionController {
 		return this.quizSessionService.getQuizSession(sessionId, user.sub);
 	}
 
+	@ApiCreatedResponse({ type: GetQuizSessionLiteResponse })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Post('/create')
+	@HttpCode(HttpStatus.CREATED)
 	createQuizSession(
 		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionLiteResponse> {
 		return this.quizSessionService.createQuizSession(user.sub);
 	}
 
+	@ApiCreatedResponse({ type: GetQuizSessionResponse })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Patch(':sessionId')
 	updateQuizSessionStatus(
@@ -55,8 +71,10 @@ export class QuizSessionController {
 		);
 	}
 
+	@ApiCreatedResponse({ type: GetQuizResponse })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Post('/response')
+	@HttpCode(HttpStatus.CREATED)
 	createQuizResponse(
 		@Body() body: CreateQuizResponseRequest,
 		@CurrentUser() user: AccessTokenPayload,

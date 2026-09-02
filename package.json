@@ -1,11 +1,16 @@
 {
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.10",
-		"husky": "^9.1.7"
+		"husky": "^9.1.7",
+		"orval": "^8.27.0"
 	},
 	"scripts": {
 		"prepare": "husky",
 		"check:backend": "biome check --write --staged backend",
-		"check:frontend": "biome check --write --staged frontend"
+		"check:frontend": "biome check --write --staged frontend",
+		"generate:openapi": "cd backend && npm run generate:openapi",
+		"generate:models": "orval",
+		"generate": "npm run generate:openapi && npm run generate:models",
+		"setup": "npm ci && cd backend && npm ci && cd .. && cd frontend && npm ci && cd .. && npm run generate"
 	}
 }

@@ -6,12 +6,10 @@ export class GetQuizSessionLiteResponseBuilder
 	extends GetQuizSessionBaseResponseBuilder
 	implements GetQuizSessionLiteResponse
 {
-	responses: GetQuizSessionLiteResponse['responses'] = null;
 
 	build(): GetQuizSessionLiteResponse {
 		return {
 			...super.build(),
-			responses: this.responses,
 		};
 	}
 }

@@ -76,6 +76,16 @@
 			"selfCloseVoidElements": "always"
 		}
 	},
+	"css": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab",
+			"indentWidth": 2
+		},
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
@@ -83,8 +93,7 @@
 			"**/.vscode/**/*",
 			"**/index.html",
 			"**/vite.config.ts",
-			"!**/src/routeTree.gen.ts",
-			"!**/src/styles.css"
+			"!**/src/routeTree.gen.ts"
 		]
 	}
 }

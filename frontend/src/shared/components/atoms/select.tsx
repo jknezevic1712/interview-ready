@@ -1,7 +1,7 @@
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { Select as SelectPrimitive } from 'radix-ui';
 import * as React from 'react';
-import { mergeClasses } from '#/lib/utils.ts';
+import { mergeClasses } from '#/shared/helpers/css-classes.helper.ts';
 
 function Select({
 	...props

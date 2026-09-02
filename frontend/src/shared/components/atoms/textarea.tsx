@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mergeClasses } from '#/lib/utils.ts';
+import { mergeClasses } from '#/shared/helpers/css-classes.helper.ts';
 
 function Textarea({ className, ...props }: React.ComponentProps<'textarea'>) {
 	return (

@@ -1,6 +1,6 @@
 import { Switch as SwitchPrimitive } from 'radix-ui';
 import * as React from 'react';
-import { mergeClasses } from '#/lib/utils.ts';
+import { mergeClasses } from '#/shared/helpers/css-classes.helper.ts';
 
 function Switch({
 	className,

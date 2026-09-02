@@ -37,6 +37,7 @@ export * from './getQuizSessionResponseStatus';
 export * from './getQuizSessionResponseUser';
 export * from './getUserResponse';
 export * from './getUserResponseRole';
+export * from './healthResponse';
 export * from './loginUserRequest';
 export * from './questionsControllerArchiveQuestionParams';
 export * from './questionsControllerGetQuestionsParams';

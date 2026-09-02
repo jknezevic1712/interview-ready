@@ -14,6 +14,7 @@ import type {
   GetQuizResponse,
   GetQuizSessionLiteResponse,
   GetQuizSessionResponse,
+  HealthResponse,
   LoginUserRequest,
   QuestionsControllerArchiveQuestionParams,
   QuestionsControllerGetQuestionsParams,
@@ -25,7 +26,7 @@ import type {
 } from './models';
 
 export type healthControllerCheckResponse200 = {
-  data: void
+  data: HealthResponse
   status: 200
 }
 
@@ -58,7 +59,7 @@ export const healthControllerCheck = async ( options?: RequestInit): Promise<hea
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: healthControllerCheckResponse['data'] = body ? JSON.parse(body) : undefined
+  const data: healthControllerCheckResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as healthControllerCheckResponse
 }
 

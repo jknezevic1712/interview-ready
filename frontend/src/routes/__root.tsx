@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import TanStackQueryDevtools from '../shared/providers/tanstack-query/devtools';
-import appCss from '../styles.css?url';
+import appCss from '../shared/styles/styles.css?url';
 
 import type { QueryClient } from '@tanstack/react-query';
 

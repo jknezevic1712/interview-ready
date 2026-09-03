@@ -1,14 +1,29 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
+import { renderServerComponent } from '@tanstack/react-start/rsc';
+import { QuizSessionsTable } from '@/features/quiz-sessions/pages/quiz-sessions.page';
 
-export const Route = createFileRoute('/')({ component: Home })
+export const getQuizSessionsTable = createServerFn().handler(async () => {
+	return await renderServerComponent(<QuizSessionsTable />);
+});
 
-function Home() {
-  return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold">Welcome to TanStack Start</h1>
-      <p className="mt-4 text-lg">
-        Edit <code>src/routes/index.tsx</code> to get started.
-      </p>
-    </div>
-  )
+export const Route = createFileRoute('/')({
+	loader: async () => {
+		const [QuizSessionsTable] = await Promise.all([getQuizSessionsTable()]);
+
+		return { QuizSessionsTable };
+	},
+	component: QuizSessionPage,
+});
+
+function QuizSessionPage() {
+	const { QuizSessionsTable } = Route.useLoaderData();
+
+	return (
+		<section>
+			<h1 className="text-2xl font-bold mb-8">Quiz sessions</h1>
+
+			{QuizSessionsTable}
+		</section>
+	);
 }

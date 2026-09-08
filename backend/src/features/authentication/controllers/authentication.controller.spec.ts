@@ -1,7 +1,12 @@
-import { HttpStatus, type INestApplication } from '@nestjs/common';
+import {
+	HttpStatus,
+	ValidationPipe,
+	type INestApplication,
+} from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
+import { createId } from '@paralleldrive/cuid2';
 import cookieParser from 'cookie-parser';
 import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
@@ -30,11 +35,11 @@ describe('AuthenticationController', () => {
 	let tokenService: TokenService;
 
 	const user = buildGetUserResponse()
-		.withId('user-1')
+		.withId(createId())
 		.withName('Test User')
 		.withEmail('test@test.com')
 		.withRole(Role.USER)
-		.withSessionId('session-1')
+		.withSessionId(createId())
 		.build();
 
 	const getSessionMock = vi.fn();
@@ -77,6 +82,14 @@ describe('AuthenticationController', () => {
 
 		app = moduleRef.createNestApplication();
 		app.use(cookieParser());
+
+		app.useGlobalPipes(
+			new ValidationPipe({
+				whitelist: true,
+				forbidNonWhitelisted: true,
+				transform: true,
+			}),
+		);
 
 		await app.init();
 

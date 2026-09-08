@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { buildCreateQuizResponseAnswerRequest } from './createQuizResponseAnswerRequest.builder';
 
 import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
@@ -6,8 +7,8 @@ import type { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/crea
 export class CreateQuizResponseRequestBuilder
 	implements CreateQuizResponseRequest
 {
-	sessionId = '12345678';
-	questionId = 'qwertzuiop';
+	sessionId = createId();
+	questionId = createId();
 	textAnswer: CreateQuizResponseRequest['textAnswer'] = null;
 	answers: CreateQuizResponseAnswerRequest[] = [
 		buildCreateQuizResponseAnswerRequest().build(),

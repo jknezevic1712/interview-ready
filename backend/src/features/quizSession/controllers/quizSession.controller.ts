@@ -12,6 +12,7 @@ import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { CurrentUser } from 'src/common/decorators/currentUser.decorator';
 import { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQuizResponseRequest.dto';
+import { CreateQuizSessionRequest } from 'src/common/dtos/quizSession/createQuizSessionRequest.dto';
 import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
 import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
@@ -51,9 +52,10 @@ export class QuizSessionController {
 	@Post('/create')
 	@HttpCode(HttpStatus.CREATED)
 	createQuizSession(
+		@Body() body: CreateQuizSessionRequest,
 		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionLiteResponse> {
-		return this.quizSessionService.createQuizSession(user.sub);
+		return this.quizSessionService.createQuizSession(body, user.sub);
 	}
 
 	@ApiCreatedResponse({ type: GetQuizSessionResponse })

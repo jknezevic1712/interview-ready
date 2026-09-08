@@ -7,13 +7,18 @@ import {
 	QuizSessionQuestionLitePayload,
 } from '../utilities/quizSession.selects';
 
+import type { QuizSessionCreateInput } from 'src/common/types/models';
+
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;
 	getQuizSession(
 		sessionId: string,
 		userId: string,
 	): Promise<QuizSessionPayload | null>;
-	createQuizSession(userId: string): Promise<QuizSessionLitePayload>;
+	createQuizSession(
+		data: Pick<QuizSessionCreateInput, 'title'>,
+		userId: string,
+	): Promise<QuizSessionLitePayload>;
 	updateQuizSessionStatus(
 		sessionId: string,
 		sessionStatus: QuizSessionStatus,

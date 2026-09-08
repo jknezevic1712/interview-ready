@@ -13,6 +13,8 @@ import {
 	quizSessionSelect,
 } from '../utilities/quizSession.selects';
 
+import type { QuizSessionCreateInput } from 'src/common/types/models';
+
 @Injectable()
 export class QuizSessionRepository implements IQuizSessionRepository {
 	constructor(private readonly db: PrismaService) {}
@@ -39,10 +41,14 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		});
 	}
 
-	createQuizSession(userId: string): Promise<QuizSessionLitePayload> {
+	createQuizSession(
+		data: Pick<QuizSessionCreateInput, 'title'>,
+		userId: string,
+	): Promise<QuizSessionLitePayload> {
 		return this.db.quizSession.create({
 			data: {
 				userId,
+				title: data.title,
 			},
 			select: quizSessionLiteSelect,
 		});

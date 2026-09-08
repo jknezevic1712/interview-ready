@@ -22,6 +22,7 @@ import { QUIZ_SESSION_REPOSITORY } from '../tokens/quizSession.token';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import { QuizSessionQuestionLitePayload } from '../utilities/quizSession.selects';
 
+import type { CreateQuizSessionRequest } from 'src/common/dtos/quizSession/createQuizSessionRequest.dto';
 import type { IQuizSessionRepository } from '../contracts/quizSession.repository.contract';
 
 @Injectable()
@@ -66,8 +67,14 @@ export class QuizSessionService {
 		return toGetQuizSessionResponse(session);
 	}
 
-	async createQuizSession(userId: string): Promise<GetQuizSessionLiteResponse> {
-		const session = await this.quizSessionRepository.createQuizSession(userId);
+	async createQuizSession(
+		data: CreateQuizSessionRequest,
+		userId: string,
+	): Promise<GetQuizSessionLiteResponse> {
+		const session = await this.quizSessionRepository.createQuizSession(
+			data,
+			userId,
+		);
 		await this.cacheService.del(CACHE_KEYS.quizSessions.allByUserId(userId));
 
 		return toGetQuizSessionLiteResponse(session);

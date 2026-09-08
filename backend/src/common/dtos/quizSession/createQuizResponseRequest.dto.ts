@@ -7,6 +7,7 @@ import {
 	Matches,
 	ValidateNested,
 } from 'class-validator';
+import { IsStringOrNull } from 'src/common/decorators/isStringOrNull.decorator';
 import { CreateQuizResponseAnswerRequest } from './createQuizResponseAnswerRequest.dto';
 
 export class CreateQuizResponseRequest {
@@ -33,9 +34,9 @@ export class CreateQuizResponseRequest {
 	@Type(() => CreateQuizResponseAnswerRequest)
 	answers!: CreateQuizResponseAnswerRequest[];
 
-	@IsString()
+	@IsStringOrNull()
 	textAnswer!: string | null;
 
-	@IsString()
+	@IsStringOrNull()
 	feedback!: string | null;
 }

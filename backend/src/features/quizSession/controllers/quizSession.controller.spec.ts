@@ -42,13 +42,11 @@ describe('QuizSessionController', () => {
 	const standardUser = buildGetUserResponse()
 		.withId('user-1')
 		.withRole(Role.USER)
-		.withSessionId('session-1')
 		.build();
 
 	const adminUser = buildGetUserResponse()
 		.withId('admin-1')
 		.withRole(Role.ADMIN)
-		.withSessionId('session-2')
 		.build();
 
 	const sessionId = 'clh7g4x1m0000q8z1p2r3s4t';

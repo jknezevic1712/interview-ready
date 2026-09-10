@@ -1,7 +1,9 @@
+import { createId } from '@paralleldrive/cuid2';
+
 import type { CategoryResponse } from 'src/common/dtos/categories/categoryResponse.dto';
 
 class CategoryResponseBuilder implements CategoryResponse {
-	id = 'category-1';
+	id = createId();
 	name = 'Cat 1';
 	slug = 'cat-1';
 	createdAt = new Date(Date.now());

@@ -1,4 +1,8 @@
-import { HttpStatus, type INestApplication } from '@nestjs/common';
+import {
+	HttpStatus,
+	ValidationPipe,
+	type INestApplication,
+} from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
@@ -25,16 +29,8 @@ describe('CategoriesController', () => {
 	>;
 
 	const categoriesMockData = [
-		buildCategoryResponse()
-			.withId('1')
-			.withName('Cat 1')
-			.withSlug('cat-1')
-			.build(),
-		buildCategoryResponse()
-			.withId('2')
-			.withName('Cat 2')
-			.withSlug('cat-2')
-			.build(),
+		buildCategoryResponse().withName('Cat 1').withSlug('cat-1').build(),
+		buildCategoryResponse().withName('Cat 2').withSlug('cat-2').build(),
 	];
 
 	const standardUser = buildGetUserResponse().withRole(Role.USER).build();
@@ -107,6 +103,14 @@ describe('CategoriesController', () => {
 
 		app = moduleRef.createNestApplication();
 		app.use(cookieParser());
+
+		app.useGlobalPipes(
+			new ValidationPipe({
+				whitelist: true,
+				forbidNonWhitelisted: true,
+				transform: true,
+			}),
+		);
 
 		await app.init();
 

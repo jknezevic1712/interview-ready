@@ -1,9 +1,10 @@
+import { createId } from '@paralleldrive/cuid2';
 import { Role } from 'src/common/types/enums';
 
 import type { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
 
 export class GetUserLiteResponseBuilder implements GetUserLiteResponse {
-	id = 'user-1';
+	id = createId();
 	email = 'test@test.com';
 	name = 'Test user 1';
 	role: Role = Role.USER;

@@ -13,7 +13,10 @@ import {
 	quizSessionSelect,
 } from '../utilities/quizSession.selects';
 
-import type { QuizSessionCreateInput } from 'src/common/types/models';
+import type {
+	QuizSessionCreateInput,
+	QuizSessionUpdateInput,
+} from 'src/common/types/models';
 
 @Injectable()
 export class QuizSessionRepository implements IQuizSessionRepository {
@@ -54,9 +57,9 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 		});
 	}
 
-	updateQuizSessionStatus(
+	updateQuizSession(
 		sessionId: string,
-		sessionStatus: QuizSessionStatus,
+		data: Pick<QuizSessionUpdateInput, 'title' | 'status'>,
 		userId: string,
 	): Promise<QuizSessionPayload> {
 		return this.db.quizSession.update({
@@ -65,7 +68,8 @@ export class QuizSessionRepository implements IQuizSessionRepository {
 				userId,
 			},
 			data: {
-				status: sessionStatus,
+				title: data.title,
+				status: data.status,
 			},
 			select: quizSessionSelect,
 		});

@@ -130,7 +130,7 @@
         ]
       },
       "patch": {
-        "operationId": "QuizSessionController_updateQuizSessionStatus",
+        "operationId": "QuizSessionController_updateQuizSession",
         "parameters": [
           {
             "name": "sessionId",
@@ -146,7 +146,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateQuizSessionStatusRequest"
+                "$ref": "#/components/schemas/UpdateQuizSessionRequest"
               }
             }
           }
@@ -172,6 +172,16 @@
       "post": {
         "operationId": "QuizSessionController_createQuizSession",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuizSessionRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "",
@@ -800,10 +810,24 @@
           "user"
         ]
       },
-      "UpdateQuizSessionStatusRequest": {
+      "CreateQuizSessionRequest": {
         "type": "object",
         "properties": {
-          "sessionStatus": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "UpdateQuizSessionRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "status": {
             "type": "string",
             "enum": [
               "IN_PROGRESS",
@@ -813,7 +837,8 @@
           }
         },
         "required": [
-          "sessionStatus"
+          "title",
+          "status"
         ]
       },
       "CreateQuizResponseAnswerRequest": {

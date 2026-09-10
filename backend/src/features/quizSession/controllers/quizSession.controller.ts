@@ -16,7 +16,7 @@ import { CreateQuizSessionRequest } from 'src/common/dtos/quizSession/createQuiz
 import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
 import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
-import { UpdateQuizSessionStatusRequest } from 'src/common/dtos/quizSession/updateQuizSessionStatusRequest.dto';
+import { UpdateQuizSessionRequest } from 'src/common/dtos/quizSession/updateQuizSessionRequest.dto';
 import { ParseCuid2Pipe } from 'src/common/pipes/parseCuid2.pipe';
 import { Role } from 'src/common/types/enums';
 import { QuizSessionService } from '../services/quizSession.service';
@@ -61,16 +61,12 @@ export class QuizSessionController {
 	@ApiCreatedResponse({ type: GetQuizSessionResponse })
 	@Authorize([Role.ADMIN, Role.USER])
 	@Patch(':sessionId')
-	updateQuizSessionStatus(
+	updateQuizSession(
 		@Param('sessionId', ParseCuid2Pipe) sessionId: string,
-		@Body() body: UpdateQuizSessionStatusRequest,
+		@Body() body: UpdateQuizSessionRequest,
 		@CurrentUser() user: AccessTokenPayload,
 	): Promise<GetQuizSessionResponse> {
-		return this.quizSessionService.updateQuizSessionStatus(
-			sessionId,
-			user.sub,
-			body.sessionStatus,
-		);
+		return this.quizSessionService.updateQuizSession(sessionId, user.sub, body);
 	}
 
 	@ApiCreatedResponse({ type: GetQuizResponse })

@@ -10,7 +10,7 @@ import { buildCreateQuizResponseRequest } from 'src/common/builders/quizSession/
 import { buildCreateQuizSessionRequest } from 'src/common/builders/quizSession/createQuizSessionRequest.builder';
 import { buildGetQuizSessionLiteResponse } from 'src/common/builders/quizSession/getQuizSessionLiteResponse.builder';
 import { buildGetQuizSessionResponse } from 'src/common/builders/quizSession/getQuizSessionResponse.builder';
-import { buildUpdateQuizSessionStatusRequest } from 'src/common/builders/quizSession/updateQuizSessionStatusRequest.builder';
+import { buildUpdateQuizSessionRequest } from 'src/common/builders/quizSession/updateQuizSessionRequest.builder';
 import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
@@ -69,8 +69,8 @@ describe('QuizSessionController', () => {
 		})
 		.build();
 	const createQuizResponseData = buildCreateQuizResponseRequest().build();
-	const updateQuizSessionStatusData = buildUpdateQuizSessionStatusRequest()
-		.withSessionStatus(QuizSessionStatus.COMPLETED)
+	const updateQuizSessionData = buildUpdateQuizSessionRequest()
+		.withStatus(QuizSessionStatus.COMPLETED)
 		.build();
 
 	async function createTokens() {
@@ -115,11 +115,11 @@ describe('QuizSessionController', () => {
 					>,
 				),
 
-			updateQuizSessionStatus: vi
+			updateQuizSession: vi
 				.fn()
 				.mockResolvedValue(
 					quizSession satisfies Awaited<
-						ReturnType<typeof quizSessionService.updateQuizSessionStatus>
+						ReturnType<typeof quizSessionService.updateQuizSession>
 					>,
 				),
 
@@ -250,15 +250,15 @@ describe('QuizSessionController', () => {
 			await request(app.getHttpServer())
 				.patch(`/quiz-sessions/${sessionId}`)
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.OK);
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledOnce();
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledOnce();
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledWith(
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledWith(
 				sessionId,
 				standardUser.id,
-				updateQuizSessionStatusData.sessionStatus,
+				updateQuizSessionData,
 			);
 		});
 
@@ -345,15 +345,15 @@ describe('QuizSessionController', () => {
 			await request(app.getHttpServer())
 				.patch(`/quiz-sessions/${sessionId}`)
 				.set('Authorization', `Bearer ${adminUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.OK);
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledOnce();
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledOnce();
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledWith(
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledWith(
 				sessionId,
 				adminUser.id,
-				updateQuizSessionStatusData.sessionStatus,
+				updateQuizSessionData,
 			);
 		});
 
@@ -397,10 +397,10 @@ describe('QuizSessionController', () => {
 			await request(app.getHttpServer())
 				.patch('/quiz-sessions/not-a-cuid')
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.BAD_REQUEST);
 
-			expect(quizSessionService.updateQuizSessionStatus).not.toHaveBeenCalled();
+			expect(quizSessionService.updateQuizSession).not.toHaveBeenCalled();
 		});
 	});
 });

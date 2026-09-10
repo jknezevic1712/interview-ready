@@ -9,6 +9,7 @@ import { CreateQuizResponseRequest } from 'src/common/dtos/quizSession/createQui
 import { GetQuizResponse } from 'src/common/dtos/quizSession/getQuizResponse.dto';
 import { GetQuizSessionLiteResponse } from 'src/common/dtos/quizSession/getQuizSessionLiteResponse.dto';
 import { GetQuizSessionResponse } from 'src/common/dtos/quizSession/getQuizSessionResponse.dto';
+import { UpdateQuizSessionRequest } from 'src/common/dtos/quizSession/updateQuizSessionRequest.dto';
 import { Difficulty, QuizSessionStatus } from 'src/common/types/client';
 import { CacheService } from 'src/infrastructure/cache/cache.service';
 import { CACHE_KEYS, CACHE_TTL } from 'src/infrastructure/cache/constants';
@@ -80,10 +81,10 @@ export class QuizSessionService {
 		return toGetQuizSessionLiteResponse(session);
 	}
 
-	async updateQuizSessionStatus(
+	async updateQuizSession(
 		sessionId: string,
 		userId: string,
-		sessionStatus: QuizSessionStatus,
+		data: UpdateQuizSessionRequest,
 	): Promise<GetQuizSessionResponse> {
 		const quizSession = await this.quizSessionRepository.getQuizSession(
 			sessionId,
@@ -99,18 +100,17 @@ export class QuizSessionService {
 		}
 
 		// ? Validate that the new quiz session status is allowed
-		if (!COMPLETION_STATUSES.includes(sessionStatus)) {
+		if (!COMPLETION_STATUSES.includes(data.status)) {
 			throw new BadRequestException(
 				'Quiz session can only be completed or abandoned',
 			);
 		}
 
-		const updatedSession =
-			await this.quizSessionRepository.updateQuizSessionStatus(
-				sessionId,
-				sessionStatus,
-				userId,
-			);
+		const updatedSession = await this.quizSessionRepository.updateQuizSession(
+			sessionId,
+			data,
+			userId,
+		);
 		await this.cacheService.del(CACHE_KEYS.quizSessions.allByUserId(userId));
 
 		return toGetQuizSessionResponse(updatedSession);

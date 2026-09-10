@@ -1,5 +1,4 @@
 import { QuizResponse } from 'src/common/types/client';
-import { QuizSessionStatus } from 'src/common/types/enums';
 import { CreateQuizResponseInput } from '../types/createQuizResponse.input';
 import {
 	QuizSessionLitePayload,
@@ -7,7 +6,10 @@ import {
 	QuizSessionQuestionLitePayload,
 } from '../utilities/quizSession.selects';
 
-import type { QuizSessionCreateInput } from 'src/common/types/models';
+import type {
+	QuizSessionCreateInput,
+	QuizSessionUpdateInput,
+} from 'src/common/types/models';
 
 export interface IQuizSessionRepository {
 	getQuizSessions(userId: string): Promise<QuizSessionLitePayload[]>;
@@ -19,9 +21,9 @@ export interface IQuizSessionRepository {
 		data: Pick<QuizSessionCreateInput, 'title'>,
 		userId: string,
 	): Promise<QuizSessionLitePayload>;
-	updateQuizSessionStatus(
+	updateQuizSession(
 		sessionId: string,
-		sessionStatus: QuizSessionStatus,
+		data: Pick<QuizSessionUpdateInput, 'title' | 'status'>,
 		userId: string,
 	): Promise<QuizSessionPayload>;
 	getQuizSessionQuestionRecordLite(

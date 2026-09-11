@@ -2,6 +2,7 @@ import { Prisma } from 'src/common/types/client';
 
 export const quizSessionLiteSelect = {
 	id: true,
+	title: true,
 	status: true,
 	startedAt: true,
 	completedAt: true,
@@ -19,6 +20,7 @@ export type QuizSessionLitePayload = Prisma.QuizSessionGetPayload<{
 
 export const quizSessionSelect = {
 	id: true,
+	title: true,
 	status: true,
 	startedAt: true,
 	completedAt: true,

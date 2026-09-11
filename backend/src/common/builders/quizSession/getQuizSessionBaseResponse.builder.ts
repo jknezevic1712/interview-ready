@@ -7,6 +7,7 @@ export abstract class GetQuizSessionBaseResponseBuilder
 	implements GetQuizSessionBaseResponse
 {
 	id = 'quiz-session-1';
+	title = 'Quiz session 1';
 	status: QuizSessionStatus = QuizSessionStatus.IN_PROGRESS;
 	startedAt = new Date(Date.now());
 	completedAt: GetQuizSessionBaseResponse['completedAt'] = null;
@@ -14,6 +15,11 @@ export abstract class GetQuizSessionBaseResponseBuilder
 
 	withId(id: GetQuizSessionBaseResponse['id']) {
 		this.id = id;
+		return this;
+	}
+
+	withTitle(title: GetQuizSessionBaseResponse['title']) {
+		this.title = title;
 		return this;
 	}
 
@@ -40,6 +46,7 @@ export abstract class GetQuizSessionBaseResponseBuilder
 	protected build(): GetQuizSessionBaseResponse {
 		return {
 			id: this.id,
+			title: this.title,
 			status: this.status,
 			startedAt: this.startedAt,
 			completedAt: this.completedAt,

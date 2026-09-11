@@ -12,6 +12,7 @@ export function toGetQuizSessionResponse(
 ): GetQuizSessionResponse {
 	return {
 		id: session.id,
+		title: session.title,
 		status: session.status,
 		startedAt: session.startedAt,
 		completedAt: session.completedAt,
@@ -35,6 +36,7 @@ export function toGetQuizSessionLiteResponse(
 ): GetQuizSessionLiteResponse {
 	return {
 		id: session.id,
+		title: session.title,
 		status: session.status,
 		startedAt: session.startedAt,
 		completedAt: session.completedAt,

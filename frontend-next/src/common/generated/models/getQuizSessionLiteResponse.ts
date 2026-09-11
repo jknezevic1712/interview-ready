@@ -11,6 +11,7 @@ export interface GetQuizSessionLiteResponse {
   /** @nullable */
   completedAt: string | null;
   id: string;
+  title: string;
   status: GetQuizSessionLiteResponseStatus;
   startedAt: string;
   user: GetQuizSessionLiteResponseUser;

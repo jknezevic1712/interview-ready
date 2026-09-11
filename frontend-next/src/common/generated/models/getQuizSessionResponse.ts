@@ -13,6 +13,7 @@ export interface GetQuizSessionResponse {
   completedAt: string | null;
   responses: GetQuizResponseItem[];
   id: string;
+  title: string;
   status: GetQuizSessionResponseStatus;
   startedAt: string;
   user: GetQuizSessionResponseUser;

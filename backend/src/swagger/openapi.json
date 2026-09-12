@@ -573,6 +573,9 @@
           "id": {
             "type": "string"
           },
+          "title": {
+            "type": "string"
+          },
           "status": {
             "enum": [
               "IN_PROGRESS",
@@ -604,6 +607,7 @@
         "required": [
           "completedAt",
           "id",
+          "title",
           "status",
           "startedAt",
           "user"
@@ -773,6 +777,9 @@
           "id": {
             "type": "string"
           },
+          "title": {
+            "type": "string"
+          },
           "status": {
             "enum": [
               "IN_PROGRESS",
@@ -805,6 +812,7 @@
           "completedAt",
           "responses",
           "id",
+          "title",
           "status",
           "startedAt",
           "user"

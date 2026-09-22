@@ -32,6 +32,10 @@ export function Table<TFeatures extends TableFeatures, TData extends RowData>({
 										| undefined;
 									const columnStyle = getColumnStyle(meta);
 
+									if (shouldHideColumn(meta, viewportWidth)) {
+										return null;
+									}
+
 									return (
 										<th
 											key={header.id}
@@ -43,11 +47,7 @@ export function Table<TFeatures extends TableFeatures, TData extends RowData>({
 												.join(' ')}
 											style={columnStyle}
 										>
-											{shouldHideColumn(
-												header.isPlaceholder,
-												meta,
-												viewportWidth,
-											) ? null : (
+											{header.isPlaceholder ? null : (
 												<HeaderCell
 													header={header}
 													FlexRenderCmp={FlexRenderCmp}
@@ -70,6 +70,10 @@ export function Table<TFeatures extends TableFeatures, TData extends RowData>({
 									const meta = cell.column.columnDef.meta as
 										| TableColumnMeta
 										| undefined;
+
+									if (shouldHideColumn(meta, viewportWidth)) {
+										return null;
+									}
 
 									return (
 										<td

@@ -32,11 +32,9 @@ export function getColumnStyle(meta?: TableColumnMeta) {
 }
 
 export function shouldHideColumn(
-	isPlaceholder: boolean,
 	meta: TableColumnMeta | undefined,
 	viewportWidth: number | null,
 ) {
-	if (isPlaceholder) return true;
 	if (!meta) return false;
 
 	if (meta.hideForViewport && viewportWidth !== null) {

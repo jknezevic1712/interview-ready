@@ -20,7 +20,7 @@ export function Table<TFeatures extends TableFeatures, TData extends RowData>({
 	const viewportWidth = useViewportWidth();
 
 	return (
-		<div className="w-full max-w-3xl justify-self-center overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+		<div className="w-full max-w-3xl justify-self-center overflow-hidden rounded-none border border-border bg-surface shadow-sm">
 			<div className="overflow-x-auto">
 				<table className="w-full table-fixed border-collapse text-sm">
 					<thead className="bg-surface-muted">

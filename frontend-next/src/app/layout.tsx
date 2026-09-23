@@ -1,8 +1,14 @@
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Roboto_Slab } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import '../styles/globals.css';
 import { Header } from '@/features/header/header';
+import { concatenateClassnames } from '@/shared/helpers/styles.helper';
+
+const robotoSlab = Roboto_Slab({
+	subsets: ['latin'],
+	variable: '--font-serif',
+});
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -22,7 +28,14 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 	return (
 		<html
 			lang="en"
-			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+			className={concatenateClassnames(
+				'h-full',
+				'antialiased',
+				geistSans.variable,
+				geistMono.variable,
+				'font-serif',
+				robotoSlab.variable,
+			)}
 		>
 			<body className="min-h-full flex flex-col">
 				<Header />

@@ -1,3 +1,6 @@
+import { concatenateClassnames } from '@/shared/helpers/styles.helper';
+import { Button } from '../../atoms/button';
+
 import type {
 	Column_RowSorting,
 	RowData,
@@ -19,7 +22,7 @@ export function HeaderCell<
 	const toggleSorting = sortableColumn.getToggleSortingHandler();
 
 	return (
-		<button
+		<Button
 			type="button"
 			disabled={!canSort}
 			onClick={canSort ? toggleSorting : undefined}
@@ -32,16 +35,17 @@ export function HeaderCell<
 							: 'Sort ascending'
 					: undefined
 			}
-			className={[
-				'group/header inline-flex min-h-8 w-full items-center gap-2',
-				'rounded-md px-2 py-1.5',
+			className={concatenateClassnames(
+				'group/header inline-flex min-h-8 w-full items-center gap-2 justify-start',
+				'px-2 py-1.5',
 				'text-left text-xs font-bold uppercase tracking-[0.08em]',
 				'transition-colors',
 				canSort
-					? 'cursor-pointer text-muted hover:bg-primary/5 hover:text-foreground'
-					: 'cursor-default text-muted',
+					? 'cursor-pointer text-foreground hover:bg-transparent hover:text-primary'
+					: 'cursor-default text-foreground',
 				sorted ? 'text-primary' : '',
-			].join(' ')}
+			)}
+			variant="ghost"
 		>
 			<span className="truncate">
 				<FlexRenderCmp header={header} />
@@ -54,7 +58,7 @@ export function HeaderCell<
 						'flex size-3.5 shrink-0 items-center justify-center',
 						sorted
 							? 'text-primary'
-							: 'text-muted/40 opacity-0 transition-opacity group-hover/header:opacity-100',
+							: 'text-foreground/40 opacity-0 transition-opacity group-hover/header:opacity-100',
 					].join(' ')}
 				>
 					{sorted === 'asc' ? (
@@ -84,6 +88,6 @@ export function HeaderCell<
 					)}
 				</span>
 			)}
-		</button>
+		</Button>
 	);
 }

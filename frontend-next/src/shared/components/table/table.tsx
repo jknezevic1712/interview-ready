@@ -64,7 +64,7 @@ export function Table<TFeatures extends TableFeatures, TData extends RowData>({
 						{rowModel().rows.map((row) => (
 							<tr
 								key={row.id}
-								className="group transition-colors hover:bg-primary/5"
+								className="group transition-colors hover:bg-primary/[0.07]"
 							>
 								{row.getAllCells().map((cell) => {
 									const meta = cell.column.columnDef.meta as

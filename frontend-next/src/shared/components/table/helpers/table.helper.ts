@@ -7,10 +7,10 @@ export const MOBILE_VIEWPORT_WIDTH = 500;
 export function getStickyClass(sticky?: TableColumnMeta['sticky']) {
 	switch (sticky) {
 		case 'left':
-			return 'sticky left-0 z-20 bg-surface';
+			return 'sticky left-0 z-20 bg-surface shadow-[4px_0_8px_-8px_rgba(0,0,0,0.6)]';
 
 		case 'right':
-			return 'sticky right-0 z-20 bg-surface';
+			return 'sticky right-0 z-20 bg-surface shadow-[-4px_0_8px_-8px_rgba(0,0,0,0.6)]';
 
 		default:
 			return undefined;

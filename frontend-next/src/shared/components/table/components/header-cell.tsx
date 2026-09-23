@@ -41,8 +41,8 @@ export function HeaderCell<
 				'text-left text-xs font-bold uppercase tracking-[0.08em]',
 				'transition-colors',
 				canSort
-					? 'cursor-pointer text-foreground hover:bg-transparent hover:text-primary'
-					: 'cursor-default text-foreground',
+					? 'cursor-pointer text-muted-foreground hover:bg-transparent dark:hover:bg-transparent hover:text-foreground'
+					: 'cursor-default text-muted-foreground',
 				sorted ? 'text-primary' : '',
 			)}
 			variant="ghost"
@@ -58,7 +58,7 @@ export function HeaderCell<
 						'flex size-3.5 shrink-0 items-center justify-center',
 						sorted
 							? 'text-primary'
-							: 'text-foreground/40 opacity-0 transition-opacity group-hover/header:opacity-100',
+							: 'text-muted-foreground/60 opacity-0 transition-opacity group-hover/header:opacity-100',
 					].join(' ')}
 				>
 					{sorted === 'asc' ? (

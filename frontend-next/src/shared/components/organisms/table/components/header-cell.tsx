@@ -1,5 +1,5 @@
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
-import { Button } from '../../atoms/button';
+import { Button } from '../../../atoms/button';
 
 import type {
 	Column_RowSorting,

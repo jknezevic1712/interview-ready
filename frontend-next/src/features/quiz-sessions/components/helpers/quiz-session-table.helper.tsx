@@ -5,7 +5,7 @@ import {
 	sortFn_textCaseSensitive,
 	tableFeatures,
 } from '@tanstack/react-table';
-import { MOBILE_VIEWPORT_WIDTH } from '@/shared/components/table/helpers/table.helper';
+import { MOBILE_VIEWPORT_WIDTH } from '@/shared/components/organisms/table/helpers/table.helper';
 
 import type { QuizSessionsTableData } from '@/common/interfaces/quiz-sessions/quiz-sessions-table.model';
 import type { TableColumnMeta } from '@/common/types/table/table.model';

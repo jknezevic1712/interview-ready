@@ -1,7 +1,7 @@
 'use client';
 
 import { useTable } from '@tanstack/react-table';
-import { Table } from '@/shared/components/table/table';
+import { Table } from '@/shared/components/organisms/table/table';
 import { columns, data, features } from './helpers/quiz-session-table.helper';
 
 export function QuizSessionsTable() {

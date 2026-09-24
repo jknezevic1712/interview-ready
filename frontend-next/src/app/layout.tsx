@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Roboto_Slab } from 'next/font/google';
 import type { Metadata } from 'next';
 import '../styles/globals.css';
 import { Header } from '@/features/header/header';
+import { AuthWrapper } from '@/shared/components/organisms/auth-provider/auth-wrapper';
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
 
 const robotoSlab = Roboto_Slab({
@@ -35,13 +36,16 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 				geistMono.variable,
 				'font-serif',
 				robotoSlab.variable,
+				'dark',
 			)}
 		>
-			<body className="min-h-full flex flex-col">
-				<Header />
+			<AuthWrapper>
+				<body className="min-h-full flex flex-col">
+					<Header />
 
-				<main className="px-4">{children}</main>
-			</body>
+					<main className="px-4">{children}</main>
+				</body>
+			</AuthWrapper>
 		</html>
 	);
 }

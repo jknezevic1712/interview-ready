@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../components/organisms/auth-provider/auth-provider';
 
 export function useAuth() {
-	const [user, setUser] = useState(null); // TODO move to context
+	const authContext = useContext(AuthContext);
+	if (!authContext)
+		throw new Error('AuthContext must be used within AuthProvider');
 
 	const login = () => {
 		console.log('LOGIN');
@@ -14,7 +17,7 @@ export function useAuth() {
 	};
 
 	return {
-		user,
+		user: authContext.user,
 		login,
 		logout,
 	};

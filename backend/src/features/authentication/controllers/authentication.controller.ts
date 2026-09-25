@@ -1,19 +1,23 @@
 import {
 	Body,
 	Controller,
+	Get,
 	HttpCode,
 	HttpStatus,
 	Post,
 	Req,
 	Res,
 } from '@nestjs/common';
-import { ApiCreatedResponse,  ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import { Authorize } from 'src/common/decorators/authorize.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import { AuthenticationResponse } from 'src/common/dtos/authentication/authenticationResponse.dto';
 import { LoginUserRequest } from 'src/common/dtos/authentication/loginUserRequest.dto';
 import { RefreshAccessTokenResponse } from 'src/common/dtos/authentication/refreshAccessTokenResponse.dto';
 import { CreateUserRequest } from 'src/common/dtos/users/createUserRequest.dto';
+import { GetUserLiteResponse } from 'src/common/dtos/users/getUserLiteResponse.dto';
+import { Role } from 'src/common/types/enums';
 import { env } from 'src/env';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -99,5 +103,12 @@ export class AuthenticationController {
 			sameSite: 'lax',
 			path: '/authentication',
 		});
+	}
+
+	@Authorize([Role.ADMIN, Role.USER])
+	@Get('user')
+	async getUser(@Req() request: Request): Promise<GetUserLiteResponse> {
+		const refreshToken = request.cookies.refresh_token;
+		return this.authenticationService.getUserData(refreshToken);
 	}
 }

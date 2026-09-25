@@ -36,6 +36,8 @@ export * from './getQuizSessionLiteResponseUser';
 export * from './getQuizSessionResponse';
 export * from './getQuizSessionResponseStatus';
 export * from './getQuizSessionResponseUser';
+export * from './getUserLiteResponse';
+export * from './getUserLiteResponseRole';
 export * from './getUserResponse';
 export * from './getUserResponseRole';
 export * from './healthResponse';

@@ -502,6 +502,27 @@
           "Authentication"
         ]
       }
+    },
+    "/authentication/user": {
+      "get": {
+        "operationId": "AuthenticationController_getUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserLiteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
     }
   },
   "info": {
@@ -1219,6 +1240,33 @@
         },
         "required": [
           "accessToken"
+        ]
+      },
+      "GetUserLiteResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role"
         ]
       }
     }

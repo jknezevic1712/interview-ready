@@ -15,6 +15,7 @@ import type {
   GetQuizResponse,
   GetQuizSessionLiteResponse,
   GetQuizSessionResponse,
+  GetUserLiteResponse,
   HealthResponse,
   LoginUserRequest,
   QuestionsControllerArchiveQuestionParams,
@@ -813,4 +814,44 @@ export const authenticationControllerLogout = async ( options?: RequestInit): Pr
 
   const data: authenticationControllerLogoutResponse['data'] = body ? JSON.parse(body) : undefined
   return { data, status: res.status, headers: res.headers } as authenticationControllerLogoutResponse
+}
+
+
+
+export type authenticationControllerGetUserResponse200 = {
+  data: GetUserLiteResponse
+  status: 200
+}
+
+export type authenticationControllerGetUserResponseSuccess = (authenticationControllerGetUserResponse200) & {
+  headers: Headers;
+};
+;
+
+export type authenticationControllerGetUserResponse = (authenticationControllerGetUserResponseSuccess)
+
+export const getAuthenticationControllerGetUserUrl = () => {
+
+
+
+
+  return `/authentication/user`
+}
+
+export const authenticationControllerGetUser = async ( options?: RequestInit): Promise<authenticationControllerGetUserResponse> => {
+
+  const res = await fetch(getAuthenticationControllerGetUserUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: authenticationControllerGetUserResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as authenticationControllerGetUserResponse
 }

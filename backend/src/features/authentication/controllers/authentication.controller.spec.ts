@@ -1,7 +1,7 @@
 import {
 	HttpStatus,
-	ValidationPipe,
 	type INestApplication,
+	ValidationPipe,
 } from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -157,6 +157,21 @@ describe('AuthenticationController', () => {
 		return cookie.split(';')[0].replace('refresh_token=', '');
 	}
 
+	async function createAuthenticatedSession(): Promise<{
+		accessToken: string;
+		refreshToken: string;
+	}> {
+		const tokens = await tokenService.generateTokens({
+			sub: user.id,
+			role: user.role,
+			sessionId: session.id,
+		});
+
+		session.refreshTokenHash = await toStringHash(tokens.refreshToken);
+
+		return tokens;
+	}
+
 	describe('Refresh token', () => {
 		it('should refresh and rotate the refresh token', async () => {
 			const oldRefreshToken = await createRefreshToken();
@@ -265,6 +280,29 @@ describe('AuthenticationController', () => {
 				.expect(HttpStatus.UNAUTHORIZED);
 
 			expect(logoutUserMock).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('Get user', () => {
+		it('should return the authenticated user', async () => {
+			const { accessToken, refreshToken } = await createAuthenticatedSession();
+
+			const response = await request(app.getHttpServer())
+				.get('/authentication/user')
+				.set('Authorization', `Bearer ${accessToken}`)
+				.set('Cookie', `refresh_token=${refreshToken}`)
+				.expect(HttpStatus.OK);
+
+			expect(response.body).toEqual(
+				expect.objectContaining({
+					id: user.id,
+					name: user.name,
+					email: user.email,
+					role: user.role,
+				}),
+			);
+
+			expect(getUserByIdMock).toHaveBeenCalledWith(user.id);
 		});
 	});
 });

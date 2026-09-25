@@ -1,7 +1,9 @@
+import { type ReactNode, use } from 'react';
+import { getUser } from '@/shared/api/auth/auth';
 import { AuthProvider } from './auth-provider';
 
-import type { ReactNode } from 'react';
-
 export function AuthWrapper({ children }: { children: ReactNode }) {
-	return <AuthProvider user={null}>{children}</AuthProvider>;
+	const user = use(getUser());
+
+	return <AuthProvider user={user}>{children}</AuthProvider>;
 }

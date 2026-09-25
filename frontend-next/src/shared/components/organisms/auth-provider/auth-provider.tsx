@@ -2,14 +2,14 @@
 
 import { createContext, type ReactNode } from 'react';
 
-import type { GetUserResponse } from '@/common/generated/models';
+import type { GetUserLiteResponse } from '@/common/generated/models';
 
 interface AuthContextType {
-	user: GetUserResponse | null;
+	user: GetUserLiteResponse | null;
 }
 interface AuthProviderProps {
 	children: ReactNode;
-	user: GetUserResponse | null;
+	user: GetUserLiteResponse | null;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);

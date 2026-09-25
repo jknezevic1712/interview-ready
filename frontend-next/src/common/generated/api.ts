@@ -27,6 +27,7 @@ import type {
   UpdateQuizSessionRequest
 } from './models';
 
+import { safeFetch } from '../../shared/api/helpers/safe-fetch';
 export type healthControllerCheckResponse200 = {
   data: HealthResponse
   status: 200
@@ -44,26 +45,19 @@ export const getHealthControllerCheckUrl = () => {
 
 
 
-  return `/health`
+  return `${process.env.API_URL}/health`
 }
 
-export const healthControllerCheck = async ( options?: RequestInit): Promise<healthControllerCheckResponse> => {
+export const healthControllerCheck = async ( options?: Parameters<typeof safeFetch>[1]): Promise<healthControllerCheckResponse> => {
 
-  const res = await fetch(getHealthControllerCheckUrl(),
+  return safeFetch<healthControllerCheckResponse>(getHealthControllerCheckUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: healthControllerCheckResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as healthControllerCheckResponse
-}
+);}
 
 
 
@@ -84,26 +78,19 @@ export const getCategoriesControllerGetCategoriesUrl = () => {
 
 
 
-  return `/categories`
+  return `${process.env.API_URL}/categories`
 }
 
-export const categoriesControllerGetCategories = async ( options?: RequestInit): Promise<categoriesControllerGetCategoriesResponse> => {
+export const categoriesControllerGetCategories = async ( options?: Parameters<typeof safeFetch>[1]): Promise<categoriesControllerGetCategoriesResponse> => {
 
-  const res = await fetch(getCategoriesControllerGetCategoriesUrl(),
+  return safeFetch<categoriesControllerGetCategoriesResponse>(getCategoriesControllerGetCategoriesUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: categoriesControllerGetCategoriesResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as categoriesControllerGetCategoriesResponse
-}
+);}
 
 
 
@@ -124,26 +111,19 @@ export const getCategoriesControllerGetCategoryByIdUrl = (id: string,) => {
 
 
 
-  return `/categories/${id}`
+  return `${process.env.API_URL}/categories/${id}`
 }
 
-export const categoriesControllerGetCategoryById = async (id: string, options?: RequestInit): Promise<categoriesControllerGetCategoryByIdResponse> => {
+export const categoriesControllerGetCategoryById = async (id: string, options?: Parameters<typeof safeFetch>[1]): Promise<categoriesControllerGetCategoryByIdResponse> => {
 
-  const res = await fetch(getCategoriesControllerGetCategoryByIdUrl(id),
+  return safeFetch<categoriesControllerGetCategoryByIdResponse>(getCategoriesControllerGetCategoryByIdUrl(id),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: categoriesControllerGetCategoryByIdResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as categoriesControllerGetCategoryByIdResponse
-}
+);}
 
 
 
@@ -164,26 +144,19 @@ export const getQuizSessionControllerGetQuizSessionsUrl = () => {
 
 
 
-  return `/quiz-sessions`
+  return `${process.env.API_URL}/quiz-sessions`
 }
 
-export const quizSessionControllerGetQuizSessions = async ( options?: RequestInit): Promise<quizSessionControllerGetQuizSessionsResponse> => {
+export const quizSessionControllerGetQuizSessions = async ( options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerGetQuizSessionsResponse> => {
 
-  const res = await fetch(getQuizSessionControllerGetQuizSessionsUrl(),
+  return safeFetch<quizSessionControllerGetQuizSessionsResponse>(getQuizSessionControllerGetQuizSessionsUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: quizSessionControllerGetQuizSessionsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerGetQuizSessionsResponse
-}
+);}
 
 
 
@@ -204,26 +177,19 @@ export const getQuizSessionControllerGetQuizSessionUrl = (sessionId: string,) =>
 
 
 
-  return `/quiz-sessions/${sessionId}`
+  return `${process.env.API_URL}/quiz-sessions/${sessionId}`
 }
 
-export const quizSessionControllerGetQuizSession = async (sessionId: string, options?: RequestInit): Promise<quizSessionControllerGetQuizSessionResponse> => {
+export const quizSessionControllerGetQuizSession = async (sessionId: string, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerGetQuizSessionResponse> => {
 
-  const res = await fetch(getQuizSessionControllerGetQuizSessionUrl(sessionId),
+  return safeFetch<quizSessionControllerGetQuizSessionResponse>(getQuizSessionControllerGetQuizSessionUrl(sessionId),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: quizSessionControllerGetQuizSessionResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerGetQuizSessionResponse
-}
+);}
 
 
 
@@ -244,11 +210,11 @@ export const getQuizSessionControllerUpdateQuizSessionUrl = (sessionId: string,)
 
 
 
-  return `/quiz-sessions/${sessionId}`
+  return `${process.env.API_URL}/quiz-sessions/${sessionId}`
 }
 
 export const quizSessionControllerUpdateQuizSession = async (sessionId: string,
-    updateQuizSessionRequest: UpdateQuizSessionRequest, options?: RequestInit): Promise<quizSessionControllerUpdateQuizSessionResponse> => {
+    updateQuizSessionRequest: UpdateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerUpdateQuizSessionResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -256,21 +222,14 @@ export const quizSessionControllerUpdateQuizSession = async (sessionId: string,
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuizSessionControllerUpdateQuizSessionUrl(sessionId),
+return safeFetch<quizSessionControllerUpdateQuizSessionResponse>(getQuizSessionControllerUpdateQuizSessionUrl(sessionId),
   {
     ...options,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(updateQuizSessionRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: quizSessionControllerUpdateQuizSessionResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerUpdateQuizSessionResponse
-}
+);}
 
 
 
@@ -291,10 +250,10 @@ export const getQuizSessionControllerCreateQuizSessionUrl = () => {
 
 
 
-  return `/quiz-sessions/create`
+  return `${process.env.API_URL}/quiz-sessions/create`
 }
 
-export const quizSessionControllerCreateQuizSession = async (createQuizSessionRequest: CreateQuizSessionRequest, options?: RequestInit): Promise<quizSessionControllerCreateQuizSessionResponse> => {
+export const quizSessionControllerCreateQuizSession = async (createQuizSessionRequest: CreateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerCreateQuizSessionResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -302,21 +261,14 @@ export const quizSessionControllerCreateQuizSession = async (createQuizSessionRe
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuizSessionControllerCreateQuizSessionUrl(),
+return safeFetch<quizSessionControllerCreateQuizSessionResponse>(getQuizSessionControllerCreateQuizSessionUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(createQuizSessionRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: quizSessionControllerCreateQuizSessionResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerCreateQuizSessionResponse
-}
+);}
 
 
 
@@ -337,10 +289,10 @@ export const getQuizSessionControllerCreateQuizResponseUrl = () => {
 
 
 
-  return `/quiz-sessions/response`
+  return `${process.env.API_URL}/quiz-sessions/response`
 }
 
-export const quizSessionControllerCreateQuizResponse = async (createQuizResponseRequest: CreateQuizResponseRequest, options?: RequestInit): Promise<quizSessionControllerCreateQuizResponseResponse> => {
+export const quizSessionControllerCreateQuizResponse = async (createQuizResponseRequest: CreateQuizResponseRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerCreateQuizResponseResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -348,21 +300,14 @@ export const quizSessionControllerCreateQuizResponse = async (createQuizResponse
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuizSessionControllerCreateQuizResponseUrl(),
+return safeFetch<quizSessionControllerCreateQuizResponseResponse>(getQuizSessionControllerCreateQuizResponseUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(createQuizResponseRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: quizSessionControllerCreateQuizResponseResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerCreateQuizResponseResponse
-}
+);}
 
 
 
@@ -390,26 +335,19 @@ export const getQuestionsControllerGetQuestionsUrl = (params: QuestionsControlle
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/questions?${stringifiedParams}` : `/questions`
+  return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions?${stringifiedParams}` : `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerGetQuestions = async (params: QuestionsControllerGetQuestionsParams, options?: RequestInit): Promise<questionsControllerGetQuestionsResponse> => {
+export const questionsControllerGetQuestions = async (params: QuestionsControllerGetQuestionsParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerGetQuestionsResponse> => {
 
-  const res = await fetch(getQuestionsControllerGetQuestionsUrl(params),
+  return safeFetch<questionsControllerGetQuestionsResponse>(getQuestionsControllerGetQuestionsUrl(params),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerGetQuestionsResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as questionsControllerGetQuestionsResponse
-}
+);}
 
 
 
@@ -430,10 +368,10 @@ export const getQuestionsControllerCreateQuestionRequestUrl = () => {
 
 
 
-  return `/questions`
+  return `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerCreateQuestionRequest = async (createQuestionRequest: CreateQuestionRequest, options?: RequestInit): Promise<questionsControllerCreateQuestionRequestResponse> => {
+export const questionsControllerCreateQuestionRequest = async (createQuestionRequest: CreateQuestionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerCreateQuestionRequestResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -441,21 +379,14 @@ export const questionsControllerCreateQuestionRequest = async (createQuestionReq
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuestionsControllerCreateQuestionRequestUrl(),
+return safeFetch<questionsControllerCreateQuestionRequestResponse>(getQuestionsControllerCreateQuestionRequestUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(createQuestionRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerCreateQuestionRequestResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as questionsControllerCreateQuestionRequestResponse
-}
+);}
 
 
 
@@ -476,10 +407,10 @@ export const getQuestionsControllerUpdateQuestionUrl = () => {
 
 
 
-  return `/questions`
+  return `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerUpdateQuestion = async (updateQuestionRequest: UpdateQuestionRequest, options?: RequestInit): Promise<questionsControllerUpdateQuestionResponse> => {
+export const questionsControllerUpdateQuestion = async (updateQuestionRequest: UpdateQuestionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerUpdateQuestionResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -487,21 +418,14 @@ export const questionsControllerUpdateQuestion = async (updateQuestionRequest: U
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuestionsControllerUpdateQuestionUrl(),
+return safeFetch<questionsControllerUpdateQuestionResponse>(getQuestionsControllerUpdateQuestionUrl(),
   {
     ...options,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(updateQuestionRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerUpdateQuestionResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as questionsControllerUpdateQuestionResponse
-}
+);}
 
 
 
@@ -529,26 +453,19 @@ export const getQuestionsControllerLinkQuestionUrl = (params: QuestionsControlle
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/questions/link?${stringifiedParams}` : `/questions/link`
+  return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/link?${stringifiedParams}` : `${process.env.API_URL}/questions/link`
 }
 
-export const questionsControllerLinkQuestion = async (params: QuestionsControllerLinkQuestionParams, options?: RequestInit): Promise<questionsControllerLinkQuestionResponse> => {
+export const questionsControllerLinkQuestion = async (params: QuestionsControllerLinkQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerLinkQuestionResponse> => {
 
-  const res = await fetch(getQuestionsControllerLinkQuestionUrl(params),
+  return safeFetch<questionsControllerLinkQuestionResponse>(getQuestionsControllerLinkQuestionUrl(params),
   {
     ...options,
     method: 'POST'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerLinkQuestionResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as questionsControllerLinkQuestionResponse
-}
+);}
 
 
 
@@ -576,26 +493,19 @@ export const getQuestionsControllerUnlinkQuestionUrl = (params: QuestionsControl
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/questions/unlink?${stringifiedParams}` : `/questions/unlink`
+  return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/unlink?${stringifiedParams}` : `${process.env.API_URL}/questions/unlink`
 }
 
-export const questionsControllerUnlinkQuestion = async (params: QuestionsControllerUnlinkQuestionParams, options?: RequestInit): Promise<questionsControllerUnlinkQuestionResponse> => {
+export const questionsControllerUnlinkQuestion = async (params: QuestionsControllerUnlinkQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerUnlinkQuestionResponse> => {
 
-  const res = await fetch(getQuestionsControllerUnlinkQuestionUrl(params),
+  return safeFetch<questionsControllerUnlinkQuestionResponse>(getQuestionsControllerUnlinkQuestionUrl(params),
   {
     ...options,
     method: 'DELETE'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerUnlinkQuestionResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as questionsControllerUnlinkQuestionResponse
-}
+);}
 
 
 
@@ -623,26 +533,19 @@ export const getQuestionsControllerArchiveQuestionUrl = (params: QuestionsContro
 
   const stringifiedParams = normalizedParams.toString();
 
-  return stringifiedParams.length > 0 ? `/questions/archive?${stringifiedParams}` : `/questions/archive`
+  return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/archive?${stringifiedParams}` : `${process.env.API_URL}/questions/archive`
 }
 
-export const questionsControllerArchiveQuestion = async (params: QuestionsControllerArchiveQuestionParams, options?: RequestInit): Promise<questionsControllerArchiveQuestionResponse> => {
+export const questionsControllerArchiveQuestion = async (params: QuestionsControllerArchiveQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerArchiveQuestionResponse> => {
 
-  const res = await fetch(getQuestionsControllerArchiveQuestionUrl(params),
+  return safeFetch<questionsControllerArchiveQuestionResponse>(getQuestionsControllerArchiveQuestionUrl(params),
   {
     ...options,
     method: 'PATCH'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: questionsControllerArchiveQuestionResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as questionsControllerArchiveQuestionResponse
-}
+);}
 
 
 
@@ -663,10 +566,10 @@ export const getAuthenticationControllerRegisterViaEmailAndPasswordUrl = () => {
 
 
 
-  return `/authentication/register`
+  return `${process.env.API_URL}/authentication/register`
 }
 
-export const authenticationControllerRegisterViaEmailAndPassword = async (createUserRequest: CreateUserRequest, options?: RequestInit): Promise<authenticationControllerRegisterViaEmailAndPasswordResponse> => {
+export const authenticationControllerRegisterViaEmailAndPassword = async (createUserRequest: CreateUserRequest, options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerRegisterViaEmailAndPasswordResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -674,21 +577,14 @@ export const authenticationControllerRegisterViaEmailAndPassword = async (create
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getAuthenticationControllerRegisterViaEmailAndPasswordUrl(),
+return safeFetch<authenticationControllerRegisterViaEmailAndPasswordResponse>(getAuthenticationControllerRegisterViaEmailAndPasswordUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(createUserRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authenticationControllerRegisterViaEmailAndPasswordResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as authenticationControllerRegisterViaEmailAndPasswordResponse
-}
+);}
 
 
 
@@ -709,10 +605,10 @@ export const getAuthenticationControllerLoginViaEmailAndPasswordUrl = () => {
 
 
 
-  return `/authentication/login`
+  return `${process.env.API_URL}/authentication/login`
 }
 
-export const authenticationControllerLoginViaEmailAndPassword = async (loginUserRequest: LoginUserRequest, options?: RequestInit): Promise<authenticationControllerLoginViaEmailAndPasswordResponse> => {
+export const authenticationControllerLoginViaEmailAndPassword = async (loginUserRequest: LoginUserRequest, options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerLoginViaEmailAndPasswordResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -720,21 +616,14 @@ export const authenticationControllerLoginViaEmailAndPassword = async (loginUser
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getAuthenticationControllerLoginViaEmailAndPasswordUrl(),
+return safeFetch<authenticationControllerLoginViaEmailAndPasswordResponse>(getAuthenticationControllerLoginViaEmailAndPasswordUrl(),
   {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(loginUserRequest)
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authenticationControllerLoginViaEmailAndPasswordResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as authenticationControllerLoginViaEmailAndPasswordResponse
-}
+);}
 
 
 
@@ -755,26 +644,19 @@ export const getAuthenticationControllerRefreshAccessTokenUrl = () => {
 
 
 
-  return `/authentication/refresh`
+  return `${process.env.API_URL}/authentication/refresh`
 }
 
-export const authenticationControllerRefreshAccessToken = async ( options?: RequestInit): Promise<authenticationControllerRefreshAccessTokenResponse> => {
+export const authenticationControllerRefreshAccessToken = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerRefreshAccessTokenResponse> => {
 
-  const res = await fetch(getAuthenticationControllerRefreshAccessTokenUrl(),
+  return safeFetch<authenticationControllerRefreshAccessTokenResponse>(getAuthenticationControllerRefreshAccessTokenUrl(),
   {
     ...options,
     method: 'POST'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authenticationControllerRefreshAccessTokenResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as authenticationControllerRefreshAccessTokenResponse
-}
+);}
 
 
 
@@ -795,26 +677,19 @@ export const getAuthenticationControllerLogoutUrl = () => {
 
 
 
-  return `/authentication/logout`
+  return `${process.env.API_URL}/authentication/logout`
 }
 
-export const authenticationControllerLogout = async ( options?: RequestInit): Promise<authenticationControllerLogoutResponse> => {
+export const authenticationControllerLogout = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerLogoutResponse> => {
 
-  const res = await fetch(getAuthenticationControllerLogoutUrl(),
+  return safeFetch<authenticationControllerLogoutResponse>(getAuthenticationControllerLogoutUrl(),
   {
     ...options,
     method: 'POST'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authenticationControllerLogoutResponse['data'] = body ? JSON.parse(body) : undefined
-  return { data, status: res.status, headers: res.headers } as authenticationControllerLogoutResponse
-}
+);}
 
 
 
@@ -835,23 +710,16 @@ export const getAuthenticationControllerGetUserUrl = () => {
 
 
 
-  return `/authentication/user`
+  return `${process.env.API_URL}/authentication/user`
 }
 
-export const authenticationControllerGetUser = async ( options?: RequestInit): Promise<authenticationControllerGetUserResponse> => {
+export const authenticationControllerGetUser = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerGetUserResponse> => {
 
-  const res = await fetch(getAuthenticationControllerGetUserUrl(),
+  return safeFetch<authenticationControllerGetUserResponse>(getAuthenticationControllerGetUserUrl(),
   {
     ...options,
     method: 'GET'
 
 
   }
-)
-
-
-  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-
-  const data: authenticationControllerGetUserResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as authenticationControllerGetUserResponse
-}
+);}

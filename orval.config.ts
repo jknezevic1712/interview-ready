@@ -8,6 +8,15 @@ export default defineConfig({
       target: "./frontend-next/src/common/generated/api.ts",
       schemas: "./frontend-next/src/common/generated/models",
       client: "fetch",
+      baseUrl: {
+        runtime: "process.env.API_URL",
+      },
+      override: {
+        mutator: {
+          path: "./frontend-next/src/shared/api/helpers/safe-fetch.ts",
+          name: "safeFetch",
+        },
+      },
     },
   },
 });

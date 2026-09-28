@@ -5,10 +5,9 @@ import { AuthProvider } from './auth-provider';
 export function AuthWrapper({ children }: { children: ReactNode }) {
 	const response = use(getUser());
 
-	if (response.error) {
-		console.log('ERROR: ', response.error);
-		// TODO: show toast
-	}
-
-	return <AuthProvider user={response.data}>{children}</AuthProvider>;
+	return (
+		<AuthProvider user={response.data} error={response.error}>
+			{children}
+		</AuthProvider>
+	);
 }

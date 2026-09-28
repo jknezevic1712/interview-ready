@@ -3,7 +3,12 @@ import { getUser } from '@/shared/api/auth/auth';
 import { AuthProvider } from './auth-provider';
 
 export function AuthWrapper({ children }: { children: ReactNode }) {
-	const user = use(getUser());
+	const response = use(getUser());
 
-	return <AuthProvider user={user}>{children}</AuthProvider>;
+	if (response.error) {
+		console.log('ERROR: ', response.error);
+	}
+	console.log('USER WRAPPER: ', response);
+
+	return <AuthProvider user={response.data}>{children}</AuthProvider>;
 }

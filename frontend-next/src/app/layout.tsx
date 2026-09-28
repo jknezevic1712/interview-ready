@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import '../styles/globals.css';
 import { Header } from '@/features/header/header';
 import { AuthWrapper } from '@/shared/components/organisms/auth-provider/auth-wrapper';
+import { Toaster } from '@/shared/components/organisms/toast/toast';
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
 
 const robotoSlab = Roboto_Slab({
@@ -39,13 +40,15 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 				'dark',
 			)}
 		>
-			<AuthWrapper>
-				<body className="min-h-full flex flex-col">
-					<Header />
+			<body className="min-h-full flex flex-col">
+				<Toaster>
+					<AuthWrapper>
+						<Header />
 
-					<main className="px-4">{children}</main>
-				</body>
-			</AuthWrapper>
+						<main className="px-4">{children}</main>
+					</AuthWrapper>
+				</Toaster>
+			</body>
 		</html>
 	);
 }

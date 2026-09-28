@@ -15,6 +15,7 @@ export default defineConfig({
         mutator: {
           path: "./frontend-next/src/shared/api/helpers/safe-fetch.ts",
           name: "safeFetch",
+          inferred: true,
         },
       },
     },

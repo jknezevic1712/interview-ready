@@ -7,8 +7,8 @@ export function AuthWrapper({ children }: { children: ReactNode }) {
 
 	if (response.error) {
 		console.log('ERROR: ', response.error);
+		// TODO: show toast
 	}
-	console.log('USER WRAPPER: ', response);
 
 	return <AuthProvider user={response.data}>{children}</AuthProvider>;
 }

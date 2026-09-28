@@ -48,7 +48,7 @@ export const getHealthControllerCheckUrl = () => {
   return `${process.env.API_URL}/health`
 }
 
-export const healthControllerCheck = async ( options?: Parameters<typeof safeFetch>[1]): Promise<healthControllerCheckResponse> => {
+export const healthControllerCheck = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<healthControllerCheckResponse>(getHealthControllerCheckUrl(),
   {
@@ -81,7 +81,7 @@ export const getCategoriesControllerGetCategoriesUrl = () => {
   return `${process.env.API_URL}/categories`
 }
 
-export const categoriesControllerGetCategories = async ( options?: Parameters<typeof safeFetch>[1]): Promise<categoriesControllerGetCategoriesResponse> => {
+export const categoriesControllerGetCategories = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<categoriesControllerGetCategoriesResponse>(getCategoriesControllerGetCategoriesUrl(),
   {
@@ -114,7 +114,7 @@ export const getCategoriesControllerGetCategoryByIdUrl = (id: string,) => {
   return `${process.env.API_URL}/categories/${id}`
 }
 
-export const categoriesControllerGetCategoryById = async (id: string, options?: Parameters<typeof safeFetch>[1]): Promise<categoriesControllerGetCategoryByIdResponse> => {
+export const categoriesControllerGetCategoryById = (id: string, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<categoriesControllerGetCategoryByIdResponse>(getCategoriesControllerGetCategoryByIdUrl(id),
   {
@@ -147,7 +147,7 @@ export const getQuizSessionControllerGetQuizSessionsUrl = () => {
   return `${process.env.API_URL}/quiz-sessions`
 }
 
-export const quizSessionControllerGetQuizSessions = async ( options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerGetQuizSessionsResponse> => {
+export const quizSessionControllerGetQuizSessions = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<quizSessionControllerGetQuizSessionsResponse>(getQuizSessionControllerGetQuizSessionsUrl(),
   {
@@ -180,7 +180,7 @@ export const getQuizSessionControllerGetQuizSessionUrl = (sessionId: string,) =>
   return `${process.env.API_URL}/quiz-sessions/${sessionId}`
 }
 
-export const quizSessionControllerGetQuizSession = async (sessionId: string, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerGetQuizSessionResponse> => {
+export const quizSessionControllerGetQuizSession = (sessionId: string, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<quizSessionControllerGetQuizSessionResponse>(getQuizSessionControllerGetQuizSessionUrl(sessionId),
   {
@@ -213,14 +213,22 @@ export const getQuizSessionControllerUpdateQuizSessionUrl = (sessionId: string,)
   return `${process.env.API_URL}/quiz-sessions/${sessionId}`
 }
 
-export const quizSessionControllerUpdateQuizSession = async (sessionId: string,
-    updateQuizSessionRequest: UpdateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerUpdateQuizSessionResponse> => {
+export const quizSessionControllerUpdateQuizSession = (sessionId: string,
+    updateQuizSessionRequest: UpdateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<quizSessionControllerUpdateQuizSessionResponse>(getQuizSessionControllerUpdateQuizSessionUrl(sessionId),
   {
@@ -253,13 +261,21 @@ export const getQuizSessionControllerCreateQuizSessionUrl = () => {
   return `${process.env.API_URL}/quiz-sessions/create`
 }
 
-export const quizSessionControllerCreateQuizSession = async (createQuizSessionRequest: CreateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerCreateQuizSessionResponse> => {
+export const quizSessionControllerCreateQuizSession = (createQuizSessionRequest: CreateQuizSessionRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<quizSessionControllerCreateQuizSessionResponse>(getQuizSessionControllerCreateQuizSessionUrl(),
   {
@@ -292,13 +308,21 @@ export const getQuizSessionControllerCreateQuizResponseUrl = () => {
   return `${process.env.API_URL}/quiz-sessions/response`
 }
 
-export const quizSessionControllerCreateQuizResponse = async (createQuizResponseRequest: CreateQuizResponseRequest, options?: Parameters<typeof safeFetch>[1]): Promise<quizSessionControllerCreateQuizResponseResponse> => {
+export const quizSessionControllerCreateQuizResponse = (createQuizResponseRequest: CreateQuizResponseRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<quizSessionControllerCreateQuizResponseResponse>(getQuizSessionControllerCreateQuizResponseUrl(),
   {
@@ -338,7 +362,7 @@ export const getQuestionsControllerGetQuestionsUrl = (params: QuestionsControlle
   return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions?${stringifiedParams}` : `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerGetQuestions = async (params: QuestionsControllerGetQuestionsParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerGetQuestionsResponse> => {
+export const questionsControllerGetQuestions = (params: QuestionsControllerGetQuestionsParams, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<questionsControllerGetQuestionsResponse>(getQuestionsControllerGetQuestionsUrl(params),
   {
@@ -371,13 +395,21 @@ export const getQuestionsControllerCreateQuestionRequestUrl = () => {
   return `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerCreateQuestionRequest = async (createQuestionRequest: CreateQuestionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerCreateQuestionRequestResponse> => {
+export const questionsControllerCreateQuestionRequest = (createQuestionRequest: CreateQuestionRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<questionsControllerCreateQuestionRequestResponse>(getQuestionsControllerCreateQuestionRequestUrl(),
   {
@@ -410,13 +442,21 @@ export const getQuestionsControllerUpdateQuestionUrl = () => {
   return `${process.env.API_URL}/questions`
 }
 
-export const questionsControllerUpdateQuestion = async (updateQuestionRequest: UpdateQuestionRequest, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerUpdateQuestionResponse> => {
+export const questionsControllerUpdateQuestion = (updateQuestionRequest: UpdateQuestionRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<questionsControllerUpdateQuestionResponse>(getQuestionsControllerUpdateQuestionUrl(),
   {
@@ -456,7 +496,7 @@ export const getQuestionsControllerLinkQuestionUrl = (params: QuestionsControlle
   return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/link?${stringifiedParams}` : `${process.env.API_URL}/questions/link`
 }
 
-export const questionsControllerLinkQuestion = async (params: QuestionsControllerLinkQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerLinkQuestionResponse> => {
+export const questionsControllerLinkQuestion = (params: QuestionsControllerLinkQuestionParams, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<questionsControllerLinkQuestionResponse>(getQuestionsControllerLinkQuestionUrl(params),
   {
@@ -496,7 +536,7 @@ export const getQuestionsControllerUnlinkQuestionUrl = (params: QuestionsControl
   return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/unlink?${stringifiedParams}` : `${process.env.API_URL}/questions/unlink`
 }
 
-export const questionsControllerUnlinkQuestion = async (params: QuestionsControllerUnlinkQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerUnlinkQuestionResponse> => {
+export const questionsControllerUnlinkQuestion = (params: QuestionsControllerUnlinkQuestionParams, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<questionsControllerUnlinkQuestionResponse>(getQuestionsControllerUnlinkQuestionUrl(params),
   {
@@ -536,7 +576,7 @@ export const getQuestionsControllerArchiveQuestionUrl = (params: QuestionsContro
   return stringifiedParams.length > 0 ? `${process.env.API_URL}/questions/archive?${stringifiedParams}` : `${process.env.API_URL}/questions/archive`
 }
 
-export const questionsControllerArchiveQuestion = async (params: QuestionsControllerArchiveQuestionParams, options?: Parameters<typeof safeFetch>[1]): Promise<questionsControllerArchiveQuestionResponse> => {
+export const questionsControllerArchiveQuestion = (params: QuestionsControllerArchiveQuestionParams, options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<questionsControllerArchiveQuestionResponse>(getQuestionsControllerArchiveQuestionUrl(params),
   {
@@ -569,13 +609,21 @@ export const getAuthenticationControllerRegisterViaEmailAndPasswordUrl = () => {
   return `${process.env.API_URL}/authentication/register`
 }
 
-export const authenticationControllerRegisterViaEmailAndPassword = async (createUserRequest: CreateUserRequest, options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerRegisterViaEmailAndPasswordResponse> => {
+export const authenticationControllerRegisterViaEmailAndPassword = (createUserRequest: CreateUserRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<authenticationControllerRegisterViaEmailAndPasswordResponse>(getAuthenticationControllerRegisterViaEmailAndPasswordUrl(),
   {
@@ -608,13 +656,21 @@ export const getAuthenticationControllerLoginViaEmailAndPasswordUrl = () => {
   return `${process.env.API_URL}/authentication/login`
 }
 
-export const authenticationControllerLoginViaEmailAndPassword = async (loginUserRequest: LoginUserRequest, options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerLoginViaEmailAndPasswordResponse> => {
+export const authenticationControllerLoginViaEmailAndPassword = (loginUserRequest: LoginUserRequest, options?: Parameters<typeof safeFetch>[1]) => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
     if (h instanceof Headers) return Object.fromEntries(h.entries());
-    if (Array.isArray(h)) return Object.fromEntries(h);
-    return h;
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
   };
 return safeFetch<authenticationControllerLoginViaEmailAndPasswordResponse>(getAuthenticationControllerLoginViaEmailAndPasswordUrl(),
   {
@@ -647,7 +703,7 @@ export const getAuthenticationControllerRefreshAccessTokenUrl = () => {
   return `${process.env.API_URL}/authentication/refresh`
 }
 
-export const authenticationControllerRefreshAccessToken = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerRefreshAccessTokenResponse> => {
+export const authenticationControllerRefreshAccessToken = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<authenticationControllerRefreshAccessTokenResponse>(getAuthenticationControllerRefreshAccessTokenUrl(),
   {
@@ -680,7 +736,7 @@ export const getAuthenticationControllerLogoutUrl = () => {
   return `${process.env.API_URL}/authentication/logout`
 }
 
-export const authenticationControllerLogout = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerLogoutResponse> => {
+export const authenticationControllerLogout = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<authenticationControllerLogoutResponse>(getAuthenticationControllerLogoutUrl(),
   {
@@ -713,7 +769,7 @@ export const getAuthenticationControllerGetUserUrl = () => {
   return `${process.env.API_URL}/authentication/user`
 }
 
-export const authenticationControllerGetUser = async ( options?: Parameters<typeof safeFetch>[1]): Promise<authenticationControllerGetUserResponse> => {
+export const authenticationControllerGetUser = ( options?: Parameters<typeof safeFetch>[1]) => {
 
   return safeFetch<authenticationControllerGetUserResponse>(getAuthenticationControllerGetUserUrl(),
   {

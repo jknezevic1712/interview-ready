@@ -1,9 +1,15 @@
-import { ApiError } from '@/common/objects/api-error';
+import { NormalizedPayload } from '@/common/interfaces/api/normalized-payload.model';
 
-export async function safeFetch<T>(
+type OrvalResponse<T> = {
+	data: T;
+	status: number;
+	headers: Headers;
+};
+
+export async function safeFetch<T extends OrvalResponse<unknown>>(
 	url: string,
 	options?: RequestInit,
-): Promise<T> {
+): Promise<NormalizedPayload<T['data']>> {
 	const response = await fetch(url, {
 		...options,
 		credentials: 'include',
@@ -13,24 +19,40 @@ export async function safeFetch<T>(
 
 	const body =
 		response.status === 204
-			? undefined
+			? null
 			: contentType?.includes('application/json')
 				? await response.json()
 				: await response.text();
 
 	if (!response.ok) {
-		throw new ApiError(
-			response.status,
-			typeof body === 'object' && body !== null ? body.code : undefined,
-			body,
-			typeof body === 'object' &&
-				body !== null &&
-				'message' in body &&
-				typeof body.message === 'string'
-				? body.message
-				: `Request failed with status ${response.status}`,
-		);
+		return {
+			data: null,
+			error: getErrorMessage(body),
+		};
 	}
 
-	return body as T;
+	return {
+		data: body,
+		error: null,
+	};
+}
+
+function getErrorMessage(body: unknown): string {
+	if (typeof body === 'string') {
+		return body;
+	}
+
+	if (body && typeof body === 'object' && 'message' in body) {
+		const message = body.message;
+
+		if (typeof message === 'string') {
+			return message;
+		}
+
+		if (Array.isArray(message)) {
+			return message.join(', ');
+		}
+	}
+
+	return 'Something went wrong';
 }

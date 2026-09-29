@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Roboto_Slab } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import '../styles/globals.css';
@@ -7,18 +7,13 @@ import { AuthWrapper } from '@/shared/components/organisms/auth-provider/auth-wr
 import { Toaster } from '@/shared/components/organisms/toast/toast';
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
 
-const robotoSlab = Roboto_Slab({
-	subsets: ['latin'],
-	variable: '--font-serif',
-});
-
 const geistSans = Geist({
-	variable: '--font-geist-sans',
+	variable: '--font-type-heading',
 	subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-	variable: '--font-geist-mono',
+	variable: '--font-type-body',
 	subsets: ['latin'],
 });
 
@@ -35,8 +30,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 				'antialiased',
 				geistSans.variable,
 				geistMono.variable,
-				'font-serif',
-				robotoSlab.variable,
 				'dark',
 			)}
 		>

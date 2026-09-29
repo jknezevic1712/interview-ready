@@ -1,24 +1,17 @@
-import { Geist, Geist_Mono } from 'next/font/google';
-
 import type { Metadata } from 'next';
 import '../styles/globals.css';
 import { Header } from '@/features/header/header';
 import { AuthWrapper } from '@/shared/components/organisms/auth-provider/auth-wrapper';
 import { Toaster } from '@/shared/components/organisms/toast/toast';
+import {
+	geistMono,
+	geistSans,
+	metadataProps,
+} from '@/shared/helpers/layout.helper';
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
 
-const geistSans = Geist({
-	variable: '--font-type-heading',
-	subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-	variable: '--font-type-body',
-	subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
-	title: 'Interview Ready',
+	...metadataProps,
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { ErrorPageTemplate } from '@/shared/components/templates/error-page';
+import { ErrorPageTemplate } from '@/shared/components/templates/error-page-template';
 
 export default function ErrorPage({
 	error,

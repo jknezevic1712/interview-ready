@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ROUTES } from '@/common/constants/routes';
-import { Button } from '@/shared/components/atoms/button';
+import { Button } from '@/shared/components/atoms/button/button';
 import { useAuth } from '@/shared/hooks/useAuth';
 
 export function Auth() {

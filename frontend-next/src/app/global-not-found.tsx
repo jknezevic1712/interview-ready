@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import '../styles/globals.css';
-import { NotFoundPageTemplate } from '@/shared/components/templates/not-found-page-template';
+import { GlobalNotFoundPageTemplate } from '@/shared/components/templates/global-not-found-page-template/global-not-found-page-template';
 import {
 	geistMono,
 	geistSans,
@@ -26,7 +26,7 @@ export default function GlobalNotFound() {
 		>
 			<body className="min-h-full flex flex-col">
 				<main className="px-4 my-auto">
-					<NotFoundPageTemplate />
+					<GlobalNotFoundPageTemplate />
 				</main>
 			</body>
 		</html>

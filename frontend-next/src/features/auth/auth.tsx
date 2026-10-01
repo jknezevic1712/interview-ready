@@ -3,7 +3,7 @@ import {
 	TabsContent,
 	TabsList,
 	TabsTrigger,
-} from '@/shared/components/organisms/tabs/tabs';
+} from '@/shared/components/molecules/tabs/tabs';
 
 enum AuthTabs {
 	Login = 'login',

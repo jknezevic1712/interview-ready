@@ -11,7 +11,7 @@ import {
 	XIcon,
 } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '@/shared/components/atoms/button';
+import { Button } from '@/shared/components/atoms/button/button';
 
 const toast = ToastPrimitive.createToastManager();
 

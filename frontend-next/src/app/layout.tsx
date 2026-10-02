@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import '../styles/globals.css';
-import { Header } from '@/features/header/header';
-import { AuthWrapper } from '@/shared/components/organisms/auth-provider/auth-wrapper';
 import { Toaster } from '@/shared/components/organisms/toast/toast';
 import {
 	geistMono,
@@ -26,13 +24,9 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
 				'dark',
 			)}
 		>
-			<body className="min-h-full flex flex-col">
+			<body className="flex flex-col">
 				<Toaster>
-					<AuthWrapper>
-						<Header />
-
-						<main className="px-4">{children}</main>
-					</AuthWrapper>
+					<main className="px-4">{children}</main>
 				</Toaster>
 			</body>
 		</html>

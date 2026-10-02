@@ -6,6 +6,7 @@ import {
 	TabsTrigger,
 } from '@/shared/components/molecules/tabs/tabs';
 import { LoginForm } from './components/login-form';
+import { RegistrationForm } from './components/registration-form';
 
 export async function AuthFeature() {
 	return (
@@ -18,7 +19,9 @@ export async function AuthFeature() {
 				<TabsContent value={AuthTabs.Login}>
 					<LoginForm />
 				</TabsContent>
-				<TabsContent value={AuthTabs.Register}>Registration form</TabsContent>
+				<TabsContent value={AuthTabs.Register}>
+					<RegistrationForm />
+				</TabsContent>
 			</Tabs>
 		</div>
 	);

@@ -1,16 +1,13 @@
+import { AuthTabs } from '@/common/enums/auth-tabs';
 import {
 	Tabs,
 	TabsContent,
 	TabsList,
 	TabsTrigger,
 } from '@/shared/components/molecules/tabs/tabs';
+import { LoginForm } from './components/login-form';
 
-enum AuthTabs {
-	Login = 'login',
-	Register = 'register',
-}
-
-export function AuthFeature() {
+export async function AuthFeature() {
 	return (
 		<div className="w-full flex justify-center">
 			<Tabs defaultValue={AuthTabs.Login} className="w-md">
@@ -18,13 +15,11 @@ export function AuthFeature() {
 					<TabsTrigger value={AuthTabs.Login}>Login</TabsTrigger>
 					<TabsTrigger value={AuthTabs.Register}>Register</TabsTrigger>
 				</TabsList>
-				<TabsContent value={AuthTabs.Login}>Login form</TabsContent>
+				<TabsContent value={AuthTabs.Login}>
+					<LoginForm />
+				</TabsContent>
 				<TabsContent value={AuthTabs.Register}>Registration form</TabsContent>
 			</Tabs>
 		</div>
 	);
-}
-
-export function LoginForm() {
-	return <div>TODO</div>;
 }

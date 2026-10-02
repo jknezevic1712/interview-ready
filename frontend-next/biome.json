@@ -50,6 +50,9 @@
 				"noExplicitAny": "off",
 				"noArrayIndexKey": "warn",
 				"noDoubleEquals": "warn"
+			},
+			"correctness": {
+				"noChildrenProp": "warn"
 			}
 		},
 		"domains": {

@@ -6,6 +6,13 @@ import { Label } from '@/shared/components/atoms/label/label';
 import { Separator } from '@/shared/components/atoms/separator/separator';
 import { concatenateClassnames } from '@/shared/helpers/styles.helper';
 
+interface FieldProps
+	extends React.ComponentProps<'div'>,
+		VariantProps<typeof fieldVariants> {
+	invalid?: boolean;
+	disabled?: boolean;
+}
+
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
 	return (
 		<fieldset
@@ -71,14 +78,18 @@ const fieldVariants = cva(
 function Field({
 	className,
 	orientation = 'vertical',
+	invalid = false,
+	disabled = false,
 	...props
-}: React.ComponentProps<'div'> & VariantProps<typeof fieldVariants>) {
+}: FieldProps) {
 	return (
 		// biome-ignore lint/a11y/useSemanticElements: `Field` represents a single form field; <fieldset> is reserved for grouping related fields via FieldSet.
 		<div
 			role="group"
 			data-slot="field"
 			data-orientation={orientation}
+			data-invalid={invalid}
+			data-disabled={disabled}
 			className={concatenateClassnames(
 				fieldVariants({ orientation }),
 				className,

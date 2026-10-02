@@ -57,6 +57,7 @@ export function LoginForm() {
 
 	return (
 		<form
+			className="flex flex-col gap-4 my-8"
 			onSubmit={(e) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -81,7 +82,7 @@ export function LoginForm() {
 			/>
 
 			<form.AppForm>
-				<form.SubscribeButton label="Submit" />
+				<form.SubscribeButton label="Submit" className="mt-6" />
 			</form.AppForm>
 		</form>
 	);

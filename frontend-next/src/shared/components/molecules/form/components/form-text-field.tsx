@@ -67,6 +67,7 @@ export default function FormTextField({
 						errors={errors.map((error) => ({
 							message: error instanceof Error ? error.message : String(error),
 						}))}
+						className="mt-1"
 					/>
 				)}
 			</FieldContent>

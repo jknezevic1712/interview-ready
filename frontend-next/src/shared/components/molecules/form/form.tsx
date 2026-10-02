@@ -231,7 +231,7 @@ function FieldError({
 			role="alert"
 			data-slot="field-error"
 			className={concatenateClassnames(
-				'text-sm font-normal text-destructive',
+				'text-xs font-normal text-destructive',
 				className,
 			)}
 			{...props}

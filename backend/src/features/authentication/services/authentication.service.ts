@@ -65,7 +65,7 @@ export class AuthenticationService {
 
 		if (!userCredentials?.passwordHash) {
 			throw new NotFoundException(
-				`User (${data.email}) is not registered via this authentication method. Please register or use other methods of authentication`,
+				`User (${data.email}) is not registered via this authentication method, please register or use other methods of authentication`,
 			);
 		}
 

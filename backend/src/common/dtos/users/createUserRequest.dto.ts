@@ -13,6 +13,11 @@ export class CreateUserRequest {
 	@IsNotEmpty()
 	name!: string;
 
-	@IsStrongPassword()
+	@IsStrongPassword(
+		{},
+		{
+			message: 'Password must contain uppercase, lowercase, number, and symbol',
+		},
+	)
 	password!: string;
 }

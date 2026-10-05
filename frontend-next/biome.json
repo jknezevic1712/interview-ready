@@ -52,7 +52,8 @@
 				"noDoubleEquals": "warn"
 			},
 			"correctness": {
-				"noChildrenProp": "warn"
+				"noChildrenProp": "warn",
+				"useExhaustiveDependencies": "warn"
 			}
 		},
 		"domains": {

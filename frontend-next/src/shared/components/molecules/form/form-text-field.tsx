@@ -7,7 +7,7 @@ import {
 	FieldContent,
 	FieldError,
 	FieldLabel,
-} from '@/shared/components/molecules/form/form';
+} from '@/shared/components/molecules/form/form-layout';
 import { useFieldContext } from '@/shared/hooks/use-form';
 
 import type { InputHTMLAttributes } from 'react';

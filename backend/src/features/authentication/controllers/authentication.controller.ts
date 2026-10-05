@@ -38,10 +38,21 @@ export class AuthenticationController {
 	@Public()
 	@Post('register')
 	@HttpCode(HttpStatus.CREATED)
-	registerViaEmailAndPassword(
+	async registerViaEmailAndPassword(
 		@Body() data: CreateUserRequest,
+		@Res({ passthrough: true }) response: Response,
 	): Promise<AuthenticationResponse> {
-		return this.authenticationService.registerViaEmailAndPassword(data);
+		const responsePayload =
+			await this.authenticationService.registerViaEmailAndPassword(data);
+
+		response.cookie('refresh_token', responsePayload.refreshToken, {
+			httpOnly: true,
+			secure: env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			path: '/authentication',
+		});
+
+		return responsePayload;
 	}
 
 	@ApiCreatedResponse({ type: AuthenticationResponse })
@@ -54,10 +65,21 @@ export class AuthenticationController {
 	@Public()
 	@Post('login')
 	@HttpCode(HttpStatus.CREATED)
-	loginViaEmailAndPassword(
+	async loginViaEmailAndPassword(
 		@Body() data: LoginUserRequest,
+		@Res({ passthrough: true }) response: Response,
 	): Promise<AuthenticationResponse> {
-		return this.authenticationService.loginViaEmailAndPassword(data);
+		const responsePayload =
+			await this.authenticationService.loginViaEmailAndPassword(data);
+
+		response.cookie('refresh_token', responsePayload.refreshToken, {
+			httpOnly: true,
+			secure: env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			path: '/authentication',
+		});
+
+		return responsePayload;
 	}
 
 	@ApiCreatedResponse({ type: RefreshAccessTokenResponse })

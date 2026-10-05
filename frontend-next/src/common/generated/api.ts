@@ -27,7 +27,7 @@ import type {
   UpdateQuizSessionRequest
 } from './models';
 
-import { safeFetch } from '../../shared/api/helpers/safe-fetch';
+import { safeFetch } from '../../shared/api/helpers/safe-fetch/safe-fetch';
 export type healthControllerCheckResponse200 = {
   data: HealthResponse
   status: 200

@@ -8,6 +8,7 @@ import {
 	authenticationControllerRegisterViaEmailAndPassword,
 } from '@/common/generated/api';
 import { CreateUserRequest, LoginUserRequest } from '@/common/generated/models';
+import { clearAuthCookies } from './helpers/helpers';
 
 export async function getUser() {
 	const response = await authenticationControllerGetUser();
@@ -30,6 +31,11 @@ export async function registerUserViaEmailAndPassword(
 
 export async function logoutUser() {
 	const response = await authenticationControllerLogout();
+
+	if (!response.error) {
+		await clearAuthCookies();
+	}
+
 	return response;
 }
 

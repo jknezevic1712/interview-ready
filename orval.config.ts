@@ -13,7 +13,7 @@ export default defineConfig({
       },
       override: {
         mutator: {
-          path: "./frontend-next/src/shared/api/helpers/safe-fetch.ts",
+          path: "./frontend-next/src/shared/api/helpers/safe-fetch/safe-fetch.ts",
           name: "safeFetch",
           inferred: true,
         },

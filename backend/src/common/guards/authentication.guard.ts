@@ -27,23 +27,23 @@ export class AuthenticationGuard implements CanActivate {
 		}
 
 		const request = context.switchToHttp().getRequest();
-		const token = this.extractTokenFromHeader(request);
+		const accessToken = this.extractAccessTokenFromHeader(request);
 
-		if (!token) {
+		if (!accessToken) {
 			throw new UnauthorizedException('Unauthorized access, please log in');
 		}
 
 		request.user =
 			await this.tokenService.validateToken<ValidatedAccessTokenPayload>(
-				token,
+				accessToken,
 				env.JWT_ACCESS_TOKEN_SECRET,
 			);
 
 		return true;
 	}
 
-	private extractTokenFromHeader(request: Request): string | undefined {
-		const [type, token] = request.headers.authorization?.split(' ') ?? [];
-		return type === 'Bearer' ? token : undefined;
+	private extractAccessTokenFromHeader(request: Request): string | undefined {
+		const [type, accessToken] = request.headers.authorization?.split(' ') ?? [];
+		return type === 'Bearer' ? accessToken : undefined;
 	}
 }

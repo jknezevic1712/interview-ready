@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { cookies } from 'next/headers';
+import { type AuthTokenPayload, isAuthTokenPayload } from '../cookies';
 
 export type OrvalResponse<T> = {
 	data: T;
@@ -8,9 +8,8 @@ export type OrvalResponse<T> = {
 	headers: Headers;
 };
 
-type AuthTokenPayload = {
-	accessToken?: string;
-	refreshToken?: string;
+export type SafeFetchOptions = RequestInit & {
+	prohibitAuthCookieMutation?: boolean;
 };
 
 export type ClientSafeData<T> = T extends readonly unknown[]
@@ -19,33 +18,7 @@ export type ClientSafeData<T> = T extends readonly unknown[]
 		? Omit<T, keyof AuthTokenPayload>
 		: T;
 
-export async function persistAuthTokens(body: unknown): Promise<void> {
-	if (!isAuthTokenPayload(body)) {
-		return;
-	}
-
-	const cookieStore = await cookies();
-
-	if (body.accessToken) {
-		cookieStore.set('access_token', body.accessToken, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
-			path: '/',
-		});
-	}
-
-	if (body.refreshToken) {
-		cookieStore.set('refresh_token', body.refreshToken, {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax',
-			path: '/',
-		});
-	}
-}
-
-export function removeAuthTokens(body: unknown): unknown {
+export function stripAuthTokens(body: unknown): unknown {
 	if (!isAuthTokenPayload(body)) {
 		return body;
 	}
@@ -57,15 +30,6 @@ export function removeAuthTokens(body: unknown): unknown {
 	} = body;
 
 	return safeBody;
-}
-
-function isAuthTokenPayload(body: unknown): body is AuthTokenPayload {
-	return (
-		body !== null &&
-		typeof body === 'object' &&
-		!Array.isArray(body) &&
-		('accessToken' in body || 'refreshToken' in body)
-	);
 }
 
 export function getErrorMessage(body: unknown): string {
@@ -86,4 +50,21 @@ export function getErrorMessage(body: unknown): string {
 	}
 
 	return 'Something went wrong';
+}
+
+export function getRefreshTokenFromResponse(response: Response): string | null {
+	const setCookies = response.headers.getSetCookie();
+
+	const refreshCookie = setCookies.find((cookie) =>
+		cookie.startsWith('refresh_token='),
+	);
+
+	if (!refreshCookie) {
+		return null;
+	}
+
+	const cookieValue = refreshCookie.split(';', 1)[0];
+	const [, refreshToken] = cookieValue.split('=');
+
+	return refreshToken ? decodeURIComponent(refreshToken) : null;
 }

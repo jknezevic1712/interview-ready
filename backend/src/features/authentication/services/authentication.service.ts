@@ -164,7 +164,18 @@ export class AuthenticationService {
 				toAccessTokenPayload(extendedUser),
 			);
 
-		await this.usersService.updateSession(session.id, refreshToken);
+		const expiresAt = (
+			await this.tokenService.validateToken<ValidatedRefreshTokenPayload>(
+				refreshToken,
+				env.JWT_REFRESH_TOKEN_SECRET,
+			)
+		).exp;
+
+		await this.usersService.updateSession(
+			session.id,
+			refreshToken,
+			new Date(expiresAt * 1000),
+		);
 
 		return {
 			accessToken,

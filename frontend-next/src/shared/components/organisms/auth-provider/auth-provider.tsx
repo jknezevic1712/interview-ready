@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { createContext, type ReactNode, useEffect, useRef } from 'react';
 import { refreshUserToken } from '@/shared/api/server-actions/auth';
 import { useToastManager } from '@/shared/components/organisms/toast/toast';
@@ -49,6 +49,8 @@ export function AuthProvider({
 				title: 'Authentication error',
 				description: response.error,
 			});
+
+			redirect('/auth');
 		});
 	}, [user, statusCode]);
 

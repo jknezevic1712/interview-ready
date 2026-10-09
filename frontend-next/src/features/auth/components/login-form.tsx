@@ -1,6 +1,7 @@
 'use client';
 
 import { formOptions } from '@tanstack/react-form';
+import { redirect } from 'next/navigation';
 import { loginUserViaEmailAndPassword } from '@/shared/api/server-actions/auth';
 import { useToastManager } from '@/shared/components/organisms/toast/toast';
 import { useAppForm } from '@/shared/hooks/use-form';
@@ -53,6 +54,8 @@ export function LoginForm() {
 			});
 			return;
 		}
+
+		redirect('/');
 	};
 
 	return (

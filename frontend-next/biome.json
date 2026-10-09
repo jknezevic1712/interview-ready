@@ -47,7 +47,13 @@
 				"useImportType": "off"
 			},
 			"suspicious": {
-				"noExplicitAny": "off"
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "warn",
+				"noDoubleEquals": "warn"
+			},
+			"correctness": {
+				"noChildrenProp": "warn",
+				"useExhaustiveDependencies": "warn"
 			}
 		},
 		"domains": {

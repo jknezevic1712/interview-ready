@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { ROUTES } from '@/common/constants/routes';
-import { Button } from '@/shared/components/atoms/button';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { Button } from '@/shared/components/atoms/button/button';
+import { useAuth } from '@/shared/hooks/use-auth';
 
 export function Auth() {
 	const { user, logout } = useAuth();

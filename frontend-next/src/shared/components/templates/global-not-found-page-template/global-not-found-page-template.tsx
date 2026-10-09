@@ -1,7 +1,7 @@
-import { BackButton } from '../organisms/back-button/back-button';
-import { RedirectButton } from '../organisms/redirect-button/redirect-button';
+import { BackButton } from '../../atoms/back-button/back-button';
+import { GlobalNotFoundPageRedirectButton } from '../../atoms/global-not-found-page-redirect-button/global-not-found-page-redirect-button';
 
-export function NotFoundPageTemplate() {
+export function GlobalNotFoundPageTemplate() {
 	return (
 		<div className="w-full max-w-md mx-auto gap-8 flex flex-col justify-center">
 			<div className="flex flex-col gap-2 text-center">
@@ -14,9 +14,9 @@ export function NotFoundPageTemplate() {
 
 			<div className="flex gap-3 justify-center items-center">
 				<BackButton />
-				<RedirectButton redirectUrl={'/'} isGlobalNotFoundPage={true}>
+				<GlobalNotFoundPageRedirectButton redirectUrl={'/'}>
 					Go home
-				</RedirectButton>
+				</GlobalNotFoundPageRedirectButton>
 			</div>
 		</div>
 	);

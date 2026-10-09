@@ -1,5 +1,5 @@
-import { QuizSessionsTable } from '@/features/quiz-sessions/components/quiz-session-table';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-	return <QuizSessionsTable />;
+	redirect('/quiz-sessions');
 }

@@ -4,13 +4,16 @@ import {
 	authenticationControllerGetUser,
 	authenticationControllerLoginViaEmailAndPassword,
 	authenticationControllerLogout,
-	authenticationControllerRefreshAccessToken,
 	authenticationControllerRegisterViaEmailAndPassword,
 } from '@/common/generated/api';
 import { CreateUserRequest, LoginUserRequest } from '@/common/generated/models';
+import { clearAuthCookies, setAuthCookies } from '../helpers/cookies';
+import { refreshAuthTokensDeduped } from '../helpers/safe-fetch/refresh-token-helper';
 
 export async function getUser() {
-	const response = await authenticationControllerGetUser();
+	const response = await authenticationControllerGetUser({
+		prohibitAuthCookieMutation: true,
+	});
 	return response;
 }
 
@@ -29,11 +32,33 @@ export async function registerUserViaEmailAndPassword(
 }
 
 export async function logoutUser() {
-	const response = await authenticationControllerLogout();
+	const response = await authenticationControllerLogout({
+		prohibitAuthCookieMutation: true,
+	});
+
+	if (!response.error) {
+		await clearAuthCookies();
+	}
+
 	return response;
 }
 
 export async function refreshUserToken() {
-	const response = await authenticationControllerRefreshAccessToken();
-	return response;
+	const response = await refreshAuthTokensDeduped();
+
+	if (!response.success) {
+		if (response.clearCookies) {
+			await clearAuthCookies();
+		}
+
+		return {
+			error: 'Token refresh failed',
+		};
+	}
+
+	await setAuthCookies(response.tokens);
+
+	return {
+		error: null,
+	};
 }

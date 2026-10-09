@@ -1,6 +1,8 @@
 'use client';
 
-import { createContext, type ReactNode, useEffect } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import { createContext, type ReactNode, useEffect, useRef } from 'react';
+import { refreshUserToken } from '@/shared/api/server-actions/auth';
 import { useToastManager } from '@/shared/components/organisms/toast/toast';
 
 import type { GetUserLiteResponse } from '@/common/generated/models';
@@ -13,25 +15,44 @@ interface AuthProviderProps {
 	children: ReactNode;
 	user: GetUserLiteResponse | null;
 	error: string | null;
+	statusCode: number;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-export function AuthProvider({ children, user, error }: AuthProviderProps) {
-	const toastManager = useToastManager();
+export function AuthProvider({
+	children,
+	user,
+	error,
+	statusCode,
+}: AuthProviderProps) {
+	const toast = useToastManager();
+	const router = useRouter();
+	const refreshAttemptRef = useRef(false);
 
 	useEffect(() => {
-		if (!error) {
+		if (user || statusCode !== 401 || refreshAttemptRef.current) {
 			return;
 		}
 
-		toastManager.add({
-			id: 'auth-error',
-			type: 'error',
-			title: 'Authentication error',
-			description: error,
+		refreshAttemptRef.current = true;
+
+		void refreshUserToken().then((response) => {
+			if (!response.error) {
+				router.refresh();
+				return;
+			}
+
+			toast.add({
+				id: 'auth-error',
+				type: 'error',
+				title: 'Authentication error',
+				description: response.error,
+			});
+
+			redirect('/auth');
 		});
-	}, [error]);
+	}, [user, statusCode]);
 
 	return (
 		<AuthContext.Provider value={{ user, error }}>

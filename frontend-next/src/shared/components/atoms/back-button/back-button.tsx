@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Button } from '../../atoms/button';
+import { Button } from '../button/button';
 
 export function BackButton() {
 	const router = useRouter();

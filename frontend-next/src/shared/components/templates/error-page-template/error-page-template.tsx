@@ -1,5 +1,5 @@
 import { RedirectType, redirect } from 'next/navigation';
-import { Button } from '../atoms/button';
+import { Button } from '../../atoms/button/button';
 
 interface ErrorPageTemplateProps {
 	retry: () => void;

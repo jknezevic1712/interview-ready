@@ -34,7 +34,7 @@ export default function FormTextField({
 	const errors = useSelector(field.store, (state) => state.meta.errors);
 
 	const fieldId = field.name;
-	const hasErrors = errors.length > 0;
+	const hasErrors = !!errors.length;
 
 	return (
 		<Field invalid={hasErrors} disabled={disabled}>

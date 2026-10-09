@@ -38,7 +38,7 @@ const formConfig = formOptions({
 });
 
 export function RegistrationForm() {
-	const toastManager = useToastManager();
+	const toast = useToastManager();
 	const form = useAppForm({
 		...formConfig,
 		onSubmit: async ({ value }) => {
@@ -51,7 +51,7 @@ export function RegistrationForm() {
 		const response = await registerUserViaEmailAndPassword(request);
 
 		if (response.error) {
-			toastManager.add({
+			toast.add({
 				id: 'registration-error',
 				type: 'error',
 				title: 'Authentication error',
@@ -59,6 +59,12 @@ export function RegistrationForm() {
 			});
 			return;
 		}
+
+		toast.add({
+			id: 'registration-success',
+			type: 'success',
+			title: 'Registered successfully',
+		});
 
 		redirect('/');
 	};

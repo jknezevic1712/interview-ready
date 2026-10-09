@@ -26,7 +26,7 @@ export function AuthProvider({
 	error,
 	statusCode,
 }: AuthProviderProps) {
-	const toastManager = useToastManager();
+	const toast = useToastManager();
 	const router = useRouter();
 	const refreshAttemptRef = useRef(false);
 
@@ -43,7 +43,7 @@ export function AuthProvider({
 				return;
 			}
 
-			toastManager.add({
+			toast.add({
 				id: 'auth-error',
 				type: 'error',
 				title: 'Authentication error',

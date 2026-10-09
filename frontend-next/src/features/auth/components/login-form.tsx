@@ -33,7 +33,7 @@ const formConfig = formOptions({
 });
 
 export function LoginForm() {
-	const toastManager = useToastManager();
+	const toast = useToastManager();
 	const form = useAppForm({
 		...formConfig,
 		onSubmit: async ({ value }) => {
@@ -46,7 +46,7 @@ export function LoginForm() {
 		const response = await loginUserViaEmailAndPassword(request);
 
 		if (response.error) {
-			toastManager.add({
+			toast.add({
 				id: 'login-error',
 				type: 'error',
 				title: 'Authentication error',
@@ -55,6 +55,11 @@ export function LoginForm() {
 			return;
 		}
 
+		toast.add({
+			id: 'login-success',
+			type: 'success',
+			title: 'Logged in',
+		});
 		redirect('/');
 	};
 

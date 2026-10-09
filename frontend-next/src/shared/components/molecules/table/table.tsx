@@ -1,6 +1,6 @@
 'use client';
 
-import { useViewportWidth } from '@/shared/hooks/useViewportWidth';
+import { useViewportWidth } from '@/shared/hooks/use-viewport-width';
 import { HeaderCell } from './components/header-cell';
 import {
 	getColumnClassName,

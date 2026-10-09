@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { CreateQuestionRequest } from 'src/common/dtos/questions/createQuestionRequest.dto';
 import { Difficulty, QuestionType } from 'src/common/types/enums';
 import { buildCreateAnswerOptionRequest } from './createAnswerOptionRequest.builder';
@@ -5,7 +6,7 @@ import { buildCreateAnswerOptionRequest } from './createAnswerOptionRequest.buil
 export class CreateQuestionRequestBuilder implements CreateQuestionRequest {
 	text = 'Question 1';
 	type: CreateQuestionRequest['type'] = QuestionType.SINGLE_CHOICE;
-	categoryId = 'category-id-1';
+	categoryId = createId();
 	difficulty: CreateQuestionRequest['difficulty'] = Difficulty.MID;
 	answerOptions = [buildCreateAnswerOptionRequest().build()];
 	aiGenerated: CreateQuestionRequest['aiGenerated'] = false;

@@ -1,7 +1,12 @@
-import { HttpStatus, type INestApplication } from '@nestjs/common';
+import {
+	HttpStatus,
+	type INestApplication,
+	ValidationPipe,
+} from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test, type TestingModule } from '@nestjs/testing';
+import { createId } from '@paralleldrive/cuid2';
 import cookieParser from 'cookie-parser';
 import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
@@ -30,11 +35,11 @@ describe('AuthenticationController', () => {
 	let tokenService: TokenService;
 
 	const user = buildGetUserResponse()
-		.withId('user-1')
+		.withId(createId())
 		.withName('Test User')
 		.withEmail('test@test.com')
 		.withRole(Role.USER)
-		.withSessionId('session-1')
+		.withSessionId(createId())
 		.build();
 
 	const getSessionMock = vi.fn();
@@ -77,6 +82,14 @@ describe('AuthenticationController', () => {
 
 		app = moduleRef.createNestApplication();
 		app.use(cookieParser());
+
+		app.useGlobalPipes(
+			new ValidationPipe({
+				whitelist: true,
+				forbidNonWhitelisted: true,
+				transform: true,
+			}),
+		);
 
 		await app.init();
 
@@ -142,6 +155,21 @@ describe('AuthenticationController', () => {
 
 	function extractRefreshToken(cookie: string): string {
 		return cookie.split(';')[0].replace('refresh_token=', '');
+	}
+
+	async function createAuthenticatedSession(): Promise<{
+		accessToken: string;
+		refreshToken: string;
+	}> {
+		const tokens = await tokenService.generateTokens({
+			sub: user.id,
+			role: user.role,
+			sessionId: session.id,
+		});
+
+		session.refreshTokenHash = await toStringHash(tokens.refreshToken);
+
+		return tokens;
 	}
 
 	describe('Refresh token', () => {
@@ -252,6 +280,29 @@ describe('AuthenticationController', () => {
 				.expect(HttpStatus.UNAUTHORIZED);
 
 			expect(logoutUserMock).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('Get user', () => {
+		it('should return the authenticated user', async () => {
+			const { accessToken, refreshToken } = await createAuthenticatedSession();
+
+			const response = await request(app.getHttpServer())
+				.get('/authentication/user')
+				.set('Authorization', `Bearer ${accessToken}`)
+				.set('Cookie', `refresh_token=${refreshToken}`)
+				.expect(HttpStatus.OK);
+
+			expect(response.body).toEqual(
+				expect.objectContaining({
+					id: user.id,
+					name: user.name,
+					email: user.email,
+					role: user.role,
+				}),
+			);
+
+			expect(getUserByIdMock).toHaveBeenCalledWith(user.id);
 		});
 	});
 });

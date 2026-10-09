@@ -26,6 +26,7 @@ export type AggregateQuizSession = {
 
 export type QuizSessionMinAggregateOutputType = {
   id: string | null
+  title: string | null
   userId: string | null
   status: $Enums.QuizSessionStatus | null
   startedAt: Date | null
@@ -34,6 +35,7 @@ export type QuizSessionMinAggregateOutputType = {
 
 export type QuizSessionMaxAggregateOutputType = {
   id: string | null
+  title: string | null
   userId: string | null
   status: $Enums.QuizSessionStatus | null
   startedAt: Date | null
@@ -42,6 +44,7 @@ export type QuizSessionMaxAggregateOutputType = {
 
 export type QuizSessionCountAggregateOutputType = {
   id: number
+  title: number
   userId: number
   status: number
   startedAt: number
@@ -52,6 +55,7 @@ export type QuizSessionCountAggregateOutputType = {
 
 export type QuizSessionMinAggregateInputType = {
   id?: true
+  title?: true
   userId?: true
   status?: true
   startedAt?: true
@@ -60,6 +64,7 @@ export type QuizSessionMinAggregateInputType = {
 
 export type QuizSessionMaxAggregateInputType = {
   id?: true
+  title?: true
   userId?: true
   status?: true
   startedAt?: true
@@ -68,6 +73,7 @@ export type QuizSessionMaxAggregateInputType = {
 
 export type QuizSessionCountAggregateInputType = {
   id?: true
+  title?: true
   userId?: true
   status?: true
   startedAt?: true
@@ -149,6 +155,7 @@ export type QuizSessionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 
 export type QuizSessionGroupByOutputType = {
   id: string
+  title: string
   userId: string
   status: $Enums.QuizSessionStatus
   startedAt: Date
@@ -178,6 +185,7 @@ export type QuizSessionWhereInput = {
   OR?: Prisma.QuizSessionWhereInput[]
   NOT?: Prisma.QuizSessionWhereInput | Prisma.QuizSessionWhereInput[]
   id?: Prisma.StringFilter<"QuizSession"> | string
+  title?: Prisma.StringFilter<"QuizSession"> | string
   userId?: Prisma.StringFilter<"QuizSession"> | string
   status?: Prisma.EnumQuizSessionStatusFilter<"QuizSession"> | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFilter<"QuizSession"> | Date | string
@@ -189,6 +197,7 @@ export type QuizSessionWhereInput = {
 
 export type QuizSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -203,6 +212,7 @@ export type QuizSessionWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.QuizSessionWhereInput | Prisma.QuizSessionWhereInput[]
   OR?: Prisma.QuizSessionWhereInput[]
   NOT?: Prisma.QuizSessionWhereInput | Prisma.QuizSessionWhereInput[]
+  title?: Prisma.StringFilter<"QuizSession"> | string
   userId?: Prisma.StringFilter<"QuizSession"> | string
   status?: Prisma.EnumQuizSessionStatusFilter<"QuizSession"> | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFilter<"QuizSession"> | Date | string
@@ -214,6 +224,7 @@ export type QuizSessionWhereUniqueInput = Prisma.AtLeast<{
 
 export type QuizSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -228,6 +239,7 @@ export type QuizSessionScalarWhereWithAggregatesInput = {
   OR?: Prisma.QuizSessionScalarWhereWithAggregatesInput[]
   NOT?: Prisma.QuizSessionScalarWhereWithAggregatesInput | Prisma.QuizSessionScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"QuizSession"> | string
+  title?: Prisma.StringWithAggregatesFilter<"QuizSession"> | string
   userId?: Prisma.StringWithAggregatesFilter<"QuizSession"> | string
   status?: Prisma.EnumQuizSessionStatusWithAggregatesFilter<"QuizSession"> | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeWithAggregatesFilter<"QuizSession"> | Date | string
@@ -236,6 +248,7 @@ export type QuizSessionScalarWhereWithAggregatesInput = {
 
 export type QuizSessionCreateInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -246,6 +259,7 @@ export type QuizSessionCreateInput = {
 
 export type QuizSessionUncheckedCreateInput = {
   id?: string
+  title: string
   userId: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
@@ -256,6 +270,7 @@ export type QuizSessionUncheckedCreateInput = {
 
 export type QuizSessionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -266,6 +281,7 @@ export type QuizSessionUpdateInput = {
 
 export type QuizSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -276,6 +292,7 @@ export type QuizSessionUncheckedUpdateInput = {
 
 export type QuizSessionCreateManyInput = {
   id?: string
+  title: string
   userId: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
@@ -284,6 +301,7 @@ export type QuizSessionCreateManyInput = {
 
 export type QuizSessionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -291,6 +309,7 @@ export type QuizSessionUpdateManyMutationInput = {
 
 export type QuizSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -314,6 +333,7 @@ export type QuizSessionScalarRelationFilter = {
 
 export type QuizSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -322,6 +342,7 @@ export type QuizSessionCountOrderByAggregateInput = {
 
 export type QuizSessionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -330,6 +351,7 @@ export type QuizSessionMaxOrderByAggregateInput = {
 
 export type QuizSessionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  title?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   startedAt?: Prisma.SortOrder
@@ -416,6 +438,7 @@ export type QuizSessionUpdateOneRequiredWithoutQuizSessionQuestionsNestedInput =
 
 export type QuizSessionCreateWithoutUserInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -425,6 +448,7 @@ export type QuizSessionCreateWithoutUserInput = {
 
 export type QuizSessionUncheckedCreateWithoutUserInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -463,6 +487,7 @@ export type QuizSessionScalarWhereInput = {
   OR?: Prisma.QuizSessionScalarWhereInput[]
   NOT?: Prisma.QuizSessionScalarWhereInput | Prisma.QuizSessionScalarWhereInput[]
   id?: Prisma.StringFilter<"QuizSession"> | string
+  title?: Prisma.StringFilter<"QuizSession"> | string
   userId?: Prisma.StringFilter<"QuizSession"> | string
   status?: Prisma.EnumQuizSessionStatusFilter<"QuizSession"> | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFilter<"QuizSession"> | Date | string
@@ -471,6 +496,7 @@ export type QuizSessionScalarWhereInput = {
 
 export type QuizSessionCreateWithoutResponsesInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -480,6 +506,7 @@ export type QuizSessionCreateWithoutResponsesInput = {
 
 export type QuizSessionUncheckedCreateWithoutResponsesInput = {
   id?: string
+  title: string
   userId: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
@@ -505,6 +532,7 @@ export type QuizSessionUpdateToOneWithWhereWithoutResponsesInput = {
 
 export type QuizSessionUpdateWithoutResponsesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -514,6 +542,7 @@ export type QuizSessionUpdateWithoutResponsesInput = {
 
 export type QuizSessionUncheckedUpdateWithoutResponsesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -523,6 +552,7 @@ export type QuizSessionUncheckedUpdateWithoutResponsesInput = {
 
 export type QuizSessionCreateWithoutQuizSessionQuestionsInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -532,6 +562,7 @@ export type QuizSessionCreateWithoutQuizSessionQuestionsInput = {
 
 export type QuizSessionUncheckedCreateWithoutQuizSessionQuestionsInput = {
   id?: string
+  title: string
   userId: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
@@ -557,6 +588,7 @@ export type QuizSessionUpdateToOneWithWhereWithoutQuizSessionQuestionsInput = {
 
 export type QuizSessionUpdateWithoutQuizSessionQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -566,6 +598,7 @@ export type QuizSessionUpdateWithoutQuizSessionQuestionsInput = {
 
 export type QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -575,6 +608,7 @@ export type QuizSessionUncheckedUpdateWithoutQuizSessionQuestionsInput = {
 
 export type QuizSessionCreateManyUserInput = {
   id?: string
+  title: string
   status?: $Enums.QuizSessionStatus
   startedAt?: Date | string
   completedAt?: Date | string | null
@@ -582,6 +616,7 @@ export type QuizSessionCreateManyUserInput = {
 
 export type QuizSessionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -591,6 +626,7 @@ export type QuizSessionUpdateWithoutUserInput = {
 
 export type QuizSessionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -600,6 +636,7 @@ export type QuizSessionUncheckedUpdateWithoutUserInput = {
 
 export type QuizSessionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumQuizSessionStatusFieldUpdateOperationsInput | $Enums.QuizSessionStatus
   startedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -647,6 +684,7 @@ export type QuizSessionCountOutputTypeCountResponsesArgs<ExtArgs extends runtime
 
 export type QuizSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   userId?: boolean
   status?: boolean
   startedAt?: boolean
@@ -659,6 +697,7 @@ export type QuizSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 
 export type QuizSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   userId?: boolean
   status?: boolean
   startedAt?: boolean
@@ -668,6 +707,7 @@ export type QuizSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type QuizSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  title?: boolean
   userId?: boolean
   status?: boolean
   startedAt?: boolean
@@ -677,13 +717,14 @@ export type QuizSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 
 export type QuizSessionSelectScalar = {
   id?: boolean
+  title?: boolean
   userId?: boolean
   status?: boolean
   startedAt?: boolean
   completedAt?: boolean
 }
 
-export type QuizSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "startedAt" | "completedAt", ExtArgs["result"]["quizSession"]>
+export type QuizSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "userId" | "status" | "startedAt" | "completedAt", ExtArgs["result"]["quizSession"]>
 export type QuizSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   quizSessionQuestions?: boolean | Prisma.QuizSession$quizSessionQuestionsArgs<ExtArgs>
@@ -706,6 +747,7 @@ export type $QuizSessionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    title: string
     userId: string
     status: $Enums.QuizSessionStatus
     startedAt: Date
@@ -1137,6 +1179,7 @@ export interface Prisma__QuizSessionClient<T, Null = never, ExtArgs extends runt
  */
 export interface QuizSessionFieldRefs {
   readonly id: Prisma.FieldRef<"QuizSession", 'String'>
+  readonly title: Prisma.FieldRef<"QuizSession", 'String'>
   readonly userId: Prisma.FieldRef<"QuizSession", 'String'>
   readonly status: Prisma.FieldRef<"QuizSession", 'QuizSessionStatus'>
   readonly startedAt: Prisma.FieldRef<"QuizSession", 'DateTime'>

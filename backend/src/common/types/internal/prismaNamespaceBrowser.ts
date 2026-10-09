@@ -178,6 +178,7 @@ export type QuizResponseAnswerScalarFieldEnum = (typeof QuizResponseAnswerScalar
 
 export const QuizSessionScalarFieldEnum = {
   id: 'id',
+  title: 'title',
   userId: 'userId',
   status: 'status',
   startedAt: 'startedAt',

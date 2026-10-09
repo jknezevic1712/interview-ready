@@ -9,6 +9,7 @@ import type {
   CategoryResponse,
   CreateQuestionRequest,
   CreateQuizResponseRequest,
+  CreateQuizSessionRequest,
   CreateUserRequest,
   GetQuestionResponse,
   GetQuizResponse,
@@ -22,7 +23,7 @@ import type {
   QuestionsControllerUnlinkQuestionParams,
   RefreshAccessTokenResponse,
   UpdateQuestionRequest,
-  UpdateQuizSessionStatusRequest
+  UpdateQuizSessionRequest
 } from './models';
 
 export type healthControllerCheckResponse200 = {
@@ -225,19 +226,19 @@ export const quizSessionControllerGetQuizSession = async (sessionId: string, opt
 
 
 
-export type quizSessionControllerUpdateQuizSessionStatusResponse201 = {
+export type quizSessionControllerUpdateQuizSessionResponse201 = {
   data: GetQuizSessionResponse
   status: 201
 }
 
-export type quizSessionControllerUpdateQuizSessionStatusResponseSuccess = (quizSessionControllerUpdateQuizSessionStatusResponse201) & {
+export type quizSessionControllerUpdateQuizSessionResponseSuccess = (quizSessionControllerUpdateQuizSessionResponse201) & {
   headers: Headers;
 };
 ;
 
-export type quizSessionControllerUpdateQuizSessionStatusResponse = (quizSessionControllerUpdateQuizSessionStatusResponseSuccess)
+export type quizSessionControllerUpdateQuizSessionResponse = (quizSessionControllerUpdateQuizSessionResponseSuccess)
 
-export const getQuizSessionControllerUpdateQuizSessionStatusUrl = (sessionId: string,) => {
+export const getQuizSessionControllerUpdateQuizSessionUrl = (sessionId: string,) => {
 
 
 
@@ -245,8 +246,8 @@ export const getQuizSessionControllerUpdateQuizSessionStatusUrl = (sessionId: st
   return `/quiz-sessions/${sessionId}`
 }
 
-export const quizSessionControllerUpdateQuizSessionStatus = async (sessionId: string,
-    updateQuizSessionStatusRequest: UpdateQuizSessionStatusRequest, options?: RequestInit): Promise<quizSessionControllerUpdateQuizSessionStatusResponse> => {
+export const quizSessionControllerUpdateQuizSession = async (sessionId: string,
+    updateQuizSessionRequest: UpdateQuizSessionRequest, options?: RequestInit): Promise<quizSessionControllerUpdateQuizSessionResponse> => {
 
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
     if (!h) return {};
@@ -254,20 +255,20 @@ export const quizSessionControllerUpdateQuizSessionStatus = async (sessionId: st
     if (Array.isArray(h)) return Object.fromEntries(h);
     return h;
   };
-const res = await fetch(getQuizSessionControllerUpdateQuizSessionStatusUrl(sessionId),
+const res = await fetch(getQuizSessionControllerUpdateQuizSessionUrl(sessionId),
   {
     ...options,
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-    body: JSON.stringify(updateQuizSessionStatusRequest)
+    body: JSON.stringify(updateQuizSessionRequest)
   }
 )
 
 
   const body = [204, 205, 304].includes(res.status) ? null : await res.text();
 
-  const data: quizSessionControllerUpdateQuizSessionStatusResponse['data'] = body ? JSON.parse(body) : {}
-  return { data, status: res.status, headers: res.headers } as quizSessionControllerUpdateQuizSessionStatusResponse
+  const data: quizSessionControllerUpdateQuizSessionResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as quizSessionControllerUpdateQuizSessionResponse
 }
 
 
@@ -292,14 +293,20 @@ export const getQuizSessionControllerCreateQuizSessionUrl = () => {
   return `/quiz-sessions/create`
 }
 
-export const quizSessionControllerCreateQuizSession = async ( options?: RequestInit): Promise<quizSessionControllerCreateQuizSessionResponse> => {
+export const quizSessionControllerCreateQuizSession = async (createQuizSessionRequest: CreateQuizSessionRequest, options?: RequestInit): Promise<quizSessionControllerCreateQuizSessionResponse> => {
 
-  const res = await fetch(getQuizSessionControllerCreateQuizSessionUrl(),
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Array.isArray(h)) return Object.fromEntries(h);
+    return h;
+  };
+const res = await fetch(getQuizSessionControllerCreateQuizSessionUrl(),
   {
     ...options,
-    method: 'POST'
-
-
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(createQuizSessionRequest)
   }
 )
 

@@ -1,11 +1,16 @@
-import { HttpStatus, type INestApplication } from '@nestjs/common';
+import {
+	HttpStatus,
+	type INestApplication,
+	ValidationPipe,
+} from '@nestjs/common';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { buildCreateQuizResponseRequest } from 'src/common/builders/quizSession/createQuizResponseRequest.builder';
+import { buildCreateQuizSessionRequest } from 'src/common/builders/quizSession/createQuizSessionRequest.builder';
 import { buildGetQuizSessionLiteResponse } from 'src/common/builders/quizSession/getQuizSessionLiteResponse.builder';
 import { buildGetQuizSessionResponse } from 'src/common/builders/quizSession/getQuizSessionResponse.builder';
-import { buildUpdateQuizSessionStatusRequest } from 'src/common/builders/quizSession/updateQuizSessionStatusRequest.builder';
+import { buildUpdateQuizSessionRequest } from 'src/common/builders/quizSession/updateQuizSessionRequest.builder';
 import { buildGetUserResponse } from 'src/common/builders/users/getUserResponse.builder';
 import { AuthenticationGuard } from 'src/common/guards/authentication.guard';
 import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
@@ -37,13 +42,11 @@ describe('QuizSessionController', () => {
 	const standardUser = buildGetUserResponse()
 		.withId('user-1')
 		.withRole(Role.USER)
-		.withSessionId('session-1')
 		.build();
 
 	const adminUser = buildGetUserResponse()
 		.withId('admin-1')
 		.withRole(Role.ADMIN)
-		.withSessionId('session-2')
 		.build();
 
 	const sessionId = 'clh7g4x1m0000q8z1p2r3s4t';
@@ -66,8 +69,8 @@ describe('QuizSessionController', () => {
 		})
 		.build();
 	const createQuizResponseData = buildCreateQuizResponseRequest().build();
-	const updateQuizSessionStatusData = buildUpdateQuizSessionStatusRequest()
-		.withSessionStatus(QuizSessionStatus.COMPLETED)
+	const updateQuizSessionData = buildUpdateQuizSessionRequest()
+		.withStatus(QuizSessionStatus.COMPLETED)
 		.build();
 
 	async function createTokens() {
@@ -112,11 +115,11 @@ describe('QuizSessionController', () => {
 					>,
 				),
 
-			updateQuizSessionStatus: vi
+			updateQuizSession: vi
 				.fn()
 				.mockResolvedValue(
 					quizSession satisfies Awaited<
-						ReturnType<typeof quizSessionService.updateQuizSessionStatus>
+						ReturnType<typeof quizSessionService.updateQuizSession>
 					>,
 				),
 
@@ -155,6 +158,14 @@ describe('QuizSessionController', () => {
 			.compile();
 
 		app = moduleRef.createNestApplication();
+
+		app.useGlobalPipes(
+			new ValidationPipe({
+				whitelist: true,
+				forbidNonWhitelisted: true,
+				transform: true,
+			}),
+		);
 
 		await app.init();
 
@@ -199,31 +210,55 @@ describe('QuizSessionController', () => {
 		});
 
 		it('should create a quiz session', async () => {
+			const requestBody = buildCreateQuizSessionRequest().build();
+
 			await request(app.getHttpServer())
 				.post('/quiz-sessions/create')
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
+				.send(requestBody)
 				.expect(HttpStatus.CREATED);
 
 			expect(quizSessionService.createQuizSession).toHaveBeenCalledOnce();
 
 			expect(quizSessionService.createQuizSession).toHaveBeenCalledWith(
+				requestBody,
 				standardUser.id,
 			);
+		});
+
+		it('should reject an empty title when creating a quiz session', async () => {
+			await request(app.getHttpServer())
+				.post('/quiz-sessions/create')
+				.set('Authorization', `Bearer ${standardUserAccessToken}`)
+				.send({ title: '' })
+				.expect(HttpStatus.BAD_REQUEST);
+
+			expect(quizSessionService.createQuizSession).not.toHaveBeenCalled();
+		});
+
+		it('should reject a missing title when creating a quiz session', async () => {
+			await request(app.getHttpServer())
+				.post('/quiz-sessions/create')
+				.set('Authorization', `Bearer ${standardUserAccessToken}`)
+				.send({})
+				.expect(HttpStatus.BAD_REQUEST);
+
+			expect(quizSessionService.createQuizSession).not.toHaveBeenCalled();
 		});
 
 		it('should update quiz session status', async () => {
 			await request(app.getHttpServer())
 				.patch(`/quiz-sessions/${sessionId}`)
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.OK);
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledOnce();
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledOnce();
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledWith(
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledWith(
 				sessionId,
 				standardUser.id,
-				updateQuizSessionStatusData.sessionStatus,
+				updateQuizSessionData,
 			);
 		});
 
@@ -270,31 +305,55 @@ describe('QuizSessionController', () => {
 		});
 
 		it('should create a quiz session', async () => {
+			const requestBody = buildCreateQuizSessionRequest().build();
+
 			await request(app.getHttpServer())
 				.post('/quiz-sessions/create')
 				.set('Authorization', `Bearer ${adminUserAccessToken}`)
+				.send(requestBody)
 				.expect(HttpStatus.CREATED);
 
 			expect(quizSessionService.createQuizSession).toHaveBeenCalledOnce();
 
 			expect(quizSessionService.createQuizSession).toHaveBeenCalledWith(
+				requestBody,
 				adminUser.id,
 			);
+		});
+
+		it('should reject an empty title when creating a quiz session', async () => {
+			await request(app.getHttpServer())
+				.post('/quiz-sessions/create')
+				.set('Authorization', `Bearer ${adminUserAccessToken}`)
+				.send({ title: '' })
+				.expect(HttpStatus.BAD_REQUEST);
+
+			expect(quizSessionService.createQuizSession).not.toHaveBeenCalled();
+		});
+
+		it('should reject a missing title when creating a quiz session', async () => {
+			await request(app.getHttpServer())
+				.post('/quiz-sessions/create')
+				.set('Authorization', `Bearer ${adminUserAccessToken}`)
+				.send({})
+				.expect(HttpStatus.BAD_REQUEST);
+
+			expect(quizSessionService.createQuizSession).not.toHaveBeenCalled();
 		});
 
 		it('should update quiz session status', async () => {
 			await request(app.getHttpServer())
 				.patch(`/quiz-sessions/${sessionId}`)
 				.set('Authorization', `Bearer ${adminUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.OK);
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledOnce();
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledOnce();
 
-			expect(quizSessionService.updateQuizSessionStatus).toHaveBeenCalledWith(
+			expect(quizSessionService.updateQuizSession).toHaveBeenCalledWith(
 				sessionId,
 				adminUser.id,
-				updateQuizSessionStatusData.sessionStatus,
+				updateQuizSessionData,
 			);
 		});
 
@@ -338,10 +397,10 @@ describe('QuizSessionController', () => {
 			await request(app.getHttpServer())
 				.patch('/quiz-sessions/not-a-cuid')
 				.set('Authorization', `Bearer ${standardUserAccessToken}`)
-				.send(updateQuizSessionStatusData)
+				.send(updateQuizSessionData)
 				.expect(HttpStatus.BAD_REQUEST);
 
-			expect(quizSessionService.updateQuizSessionStatus).not.toHaveBeenCalled();
+			expect(quizSessionService.updateQuizSession).not.toHaveBeenCalled();
 		});
 	});
 });

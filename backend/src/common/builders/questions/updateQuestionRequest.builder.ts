@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2';
 import { CreateQuestionRequestBuilder } from './createQuestionRequest.builder';
 
 import type { UpdateQuestionRequest } from 'src/common/dtos/questions/updateQuestionRequest.dto';
@@ -6,7 +7,7 @@ class UpdateQuestionRequestBuilder
 	extends CreateQuestionRequestBuilder
 	implements UpdateQuestionRequest
 {
-	questionId = 'question-id-1';
+	questionId = createId();
 
 	withQuestionId(questionId: UpdateQuestionRequest['questionId']) {
 		this.questionId = questionId;

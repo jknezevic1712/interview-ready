@@ -130,7 +130,7 @@
         ]
       },
       "patch": {
-        "operationId": "QuizSessionController_updateQuizSessionStatus",
+        "operationId": "QuizSessionController_updateQuizSession",
         "parameters": [
           {
             "name": "sessionId",
@@ -146,7 +146,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateQuizSessionStatusRequest"
+                "$ref": "#/components/schemas/UpdateQuizSessionRequest"
               }
             }
           }
@@ -172,6 +172,16 @@
       "post": {
         "operationId": "QuizSessionController_createQuizSession",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuizSessionRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "",
@@ -492,6 +502,27 @@
           "Authentication"
         ]
       }
+    },
+    "/authentication/user": {
+      "get": {
+        "operationId": "AuthenticationController_getUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserLiteResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Authentication"
+        ]
+      }
     }
   },
   "info": {
@@ -563,6 +594,9 @@
           "id": {
             "type": "string"
           },
+          "title": {
+            "type": "string"
+          },
           "status": {
             "enum": [
               "IN_PROGRESS",
@@ -594,6 +628,7 @@
         "required": [
           "completedAt",
           "id",
+          "title",
           "status",
           "startedAt",
           "user"
@@ -763,6 +798,9 @@
           "id": {
             "type": "string"
           },
+          "title": {
+            "type": "string"
+          },
           "status": {
             "enum": [
               "IN_PROGRESS",
@@ -795,15 +833,30 @@
           "completedAt",
           "responses",
           "id",
+          "title",
           "status",
           "startedAt",
           "user"
         ]
       },
-      "UpdateQuizSessionStatusRequest": {
+      "CreateQuizSessionRequest": {
         "type": "object",
         "properties": {
-          "sessionStatus": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "UpdateQuizSessionRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "status": {
             "type": "string",
             "enum": [
               "IN_PROGRESS",
@@ -813,7 +866,8 @@
           }
         },
         "required": [
-          "sessionStatus"
+          "title",
+          "status"
         ]
       },
       "CreateQuizResponseAnswerRequest": {
@@ -1186,6 +1240,33 @@
         },
         "required": [
           "accessToken"
+        ]
+      },
+      "GetUserLiteResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "USER",
+              "ADMIN"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role"
         ]
       }
     }

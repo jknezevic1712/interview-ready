@@ -3,6 +3,7 @@ import { QuizSession, User } from 'src/common/types/client';
 
 export class GetQuizSessionBaseResponse {
 	id!: QuizSession['id'];
+	title!: QuizSession['title'];
 	status!: QuizSession['status'];
 	startedAt!: QuizSession['startedAt'];
 

@@ -1,9 +1,11 @@
+import { createId } from '@paralleldrive/cuid2';
+
 import type { CreateQuizResponseAnswerRequest } from 'src/common/dtos/quizSession/createQuizResponseAnswerRequest.dto';
 
 class CreateQuizResponseAnswerRequestBuilder
 	implements CreateQuizResponseAnswerRequest
 {
-	answerOptionId = 'answer-option-1';
+	answerOptionId = createId();
 
 	withAnswerOptionId(
 		answerOptionId: CreateQuizResponseAnswerRequest['answerOptionId'],

@@ -143,6 +143,16 @@ export class AuthenticationService {
 		await this.usersService.logoutUser(sessionId);
 	}
 
+	async getUserData(refreshToken: string) {
+		const refreshTokenData =
+			await this.tokenService.validateToken<ValidatedRefreshTokenPayload>(
+				refreshToken,
+				env.JWT_REFRESH_TOKEN_SECRET,
+			);
+
+		return this.usersService.getUserById(refreshTokenData.sub);
+	}
+
 	private async generateUserSession(
 		user: GetUserLiteResponse,
 	): Promise<AuthenticationResponse> {
